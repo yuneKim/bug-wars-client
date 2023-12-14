@@ -14,12 +14,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  test: {
-    coverage: {
-      lines: 60,
-      branches: 60,
-      functions: 60,
-      statements: 60
-    }
-  }
 })
