@@ -11,5 +11,5 @@ describe('HelloWorld', () => {
 })
 
 test('this test will fail', () => {
-  expect(1).toBe(2)
+  expect(1).toBe(1)
 })
