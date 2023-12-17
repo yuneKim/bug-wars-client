@@ -5,6 +5,6 @@ import { describe, expect, it } from 'vitest';
 describe('AboutView.vue', () => {
   it('renders text', () => {
     const wrapper = shallowMount(AboutView);
-    expect(wrapper.text()).toBe('This is an about page');
+    expect(wrapper.find('h1').text()).toBe('This is an about page');
   });
 });
