@@ -1,6 +1,6 @@
 // stores/counter.spec.ts
 import { useCounterStore } from '@/stores/counter';
-import { createPinia, setActivePinia } from 'pinia';
+import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('Counter Store', () => {
@@ -12,17 +12,21 @@ describe('Counter Store', () => {
   });
 
   it('increments', () => {
-    const counter = useCounterStore();
-    expect(counter.count).toBe(0);
-    counter.increment();
-    expect(counter.count).toBe(1);
+    const counterStore = useCounterStore();
+    const { increment } = counterStore;
+    const { count } = storeToRefs(counterStore);
+    expect(count.value).toBe(0);
+    increment();
+    expect(count.value).toBe(1);
   });
 
   it('returns doublecount', () => {
-    const counter = useCounterStore();
-    counter.increment();
-    expect(counter.doubleCount).toBe(2);
-    counter.increment();
-    expect(counter.doubleCount).toBe(4);
+    const counterStore = useCounterStore();
+    const { increment } = counterStore;
+    const { doubleCount } = storeToRefs(counterStore);
+    increment();
+    expect(doubleCount.value).toBe(2);
+    increment();
+    expect(doubleCount.value).toBe(4);
   });
 });
