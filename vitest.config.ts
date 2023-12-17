@@ -13,6 +13,7 @@ export default mergeConfig(
         exclude: ['**/*.d.ts', '**/.{eslint,mocha,prettier}rc.{?(c|m)js,yml}', 'src/router/**', 'src/main.ts'],
         provider: 'v8',
         reporter: ['text', 'json-summary', 'json'],
+        reportOnFailure: true,
         thresholds: {
           lines:80,
           functions: 80,
