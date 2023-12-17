@@ -1,15 +1,12 @@
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { mount } from '@vue/test-utils'
-import HelloWorld from '../HelloWorld.vue'
+import HomeView from '@/views/HomeView.vue'
+import { shallowMount } from '@vue/test-utils'
+import TheWelcome from '../TheWelcome.vue'
 
-describe('HelloWorld', () => {
-  it('renders properly', () => {
-    const wrapper = mount(HelloWorld, { props: { msg: 'Hello Vitest' } })
-    expect(wrapper.text()).toContain('Hello Vitest')
+describe('HomeView.vue', () => {
+  it('renders TheWelcome component', () => {
+    const wrapper = shallowMount(HomeView);
+    expect(wrapper.findComponent(TheWelcome).exists()).toBe(true)
   })
-})
-
-test('this test will fail', () => {
-  expect(1).toBe(1)
 })
