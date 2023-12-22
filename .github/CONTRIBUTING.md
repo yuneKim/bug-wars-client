@@ -43,28 +43,6 @@ Assuming you are using [VS Code](https://code.visualstudio.com/), you'll want to
 - [ESLint](vscode:extension/dbaeumer.vscode-eslint)
 - [Prettier](vscode:extension/esbenp.prettier-vscode) (I recommend setting this to [run on save](https://stackoverflow.com/a/75582834))
 
-#### Setting up the server
-
-It is assumed you have [PostgreSQL](https://www.postgresql.org/download/) installed on your machine. Create a new database for use with this project. Spring data jpa will manage creation and modification of tables. You may edit `chap-app/server/src/main/resources/data.sql` to populate the tables with test data.
-
-If you have not previously used Lombok, your IDE should prompt you to install a Lombok plugin when you open the project. Accept the install and enable live processing when it prompts you to do so.
-
-Create the file `chat-app/server/env.properties` and modify the below content with your postgres connection info.
-
-```
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=<your postgres database name>
-DB_USER=<your postgres username>
-DB_PASSWORD=<your postgres password>
-DB_DDL=create-drop
-INIT_MODE=ALWAYS
-JWT_SECRET=<a 64 character base64 encoded secret>
-JWT_EXPIRATION_MS=600000
-```
-
-You should now be able to run the server.
-
 ## How to contribute
 
 To create a new feature / bug fix / whatever, create a new branch based on the main branch:
