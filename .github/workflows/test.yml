@@ -1,14 +1,12 @@
 name: 'Tests with coverage'
-on: 
-  push:
-    branches: [main]
+on:
   pull_request:
     branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     permissions:
       # Required to checkout the code
       contents: read
@@ -16,15 +14,17 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3
-    - name: 'Install Node'
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16.x'
-    - name: 'Install Deps'
-      run: npm install
-    - name: 'Test'
-      run: npm run test:unit:coverage
-    - name: 'Report Coverage'
-      if: always() # Also generate the report if tests are failing
-      uses:  davelosert/vitest-coverage-report-action@v2
+      - uses: actions/checkout@v3
+      - name: 'Install Node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - name: 'Install Deps'
+        run: npm install
+      - name: 'Make Sure It Builds'
+        run: npm run build
+      - name: 'Run Tests'
+        run: npm run test:unit:coverage
+      - name: 'Report Coverage'
+        if: always() # Also generate the report if tests are failing
+        uses: davelosert/vitest-coverage-report-action@v2
