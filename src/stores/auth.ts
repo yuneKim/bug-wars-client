@@ -1,6 +1,6 @@
 import authService from '@/services/AuthService';
 import type { LoginDto, User } from '@/types';
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
   const user = ref<User>(getUserFromLocalStorage());
   const logoutTimer = ref<number>(0);
+  const authError = ref('');
 
   watch(
     user,
@@ -43,11 +44,43 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(loginDto: LoginDto) {
-    const response = await authService.login(loginDto);
+    let response;
+    try {
+      response = await authService.login(loginDto);
+      if (response.status === 200) {
+        successfulLoginActions(response);
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleLoginError(error);
+        return;
+      }
+      console.error(error);
+    }
+  }
+
+  function successfulLoginActions(response: AxiosResponse) {
     user.value = response.data;
     localStorage.setItem('user', JSON.stringify(response.data));
 
     router.push({ name: 'home' });
+  }
+
+  function handleLoginError(error: Error) {
+    if (!axios.isAxiosError(error)) {
+      console.error(error);
+      return;
+    }
+
+    if (error.response?.status === 400) {
+      authError.value = 'Username and Password cannot be blank.';
+    } else if (error.response?.status === 401) {
+      authError.value = 'Your login attempt failed. Please try again.';
+    } else {
+      authError.value = 'Something went wrong on our end. Try again later.';
+    }
   }
 
   function logout() {
@@ -68,8 +101,14 @@ export const useAuthStore = defineStore('auth', () => {
     }, timeUntilExpiration * 1000);
   }
 
+  function clearAuthError() {
+    authError.value = '';
+  }
+
   return {
     user,
+    authError,
+    clearAuthError,
     login,
     logout,
   };
