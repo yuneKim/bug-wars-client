@@ -56,4 +56,40 @@ describe('LoginForm.vue', () => {
     expect(store.login).toHaveBeenLastCalledWith(loginDto);
     wrapper.unmount();
   });
+
+  it('validates data on form submit', async () => {
+    const div = document.createElement('div');
+    div.id = 'root';
+    document.body.appendChild(div);
+
+    const wrapper = shallowMount(LoginForm, {
+      attachTo: '#root',
+      global: {
+        plugins: [
+          createTestingPinia({
+            createSpy: vi.fn,
+          }),
+        ],
+      },
+    });
+
+    const store = useAuthStore();
+
+    const usernameInput = wrapper.find('#username');
+    await usernameInput.setValue('');
+    await wrapper.find('button').trigger('click');
+
+    expect(store.login).toHaveBeenCalledTimes(0);
+    expect(wrapper.find('.login-error').exists()).toBe(true);
+
+    await usernameInput.setValue('test_user');
+    const passwordInput = wrapper.find('#password');
+    await passwordInput.setValue('');
+    await wrapper.find('button').trigger('click');
+
+    expect(store.login).toHaveBeenCalledTimes(0);
+    expect(wrapper.find('.login-error').exists()).toBe(true);
+
+    wrapper.unmount();
+  });
 });
