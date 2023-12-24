@@ -65,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     logoutTimer.value = window.setTimeout(() => {
       logout();
-    }, timeUntilExpiration * 3);
+    }, timeUntilExpiration * 1000);
   }
 
   return {
