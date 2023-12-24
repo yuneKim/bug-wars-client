@@ -1,20 +1,19 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
 import type { LoginDto } from '@/types';
 import { ref } from 'vue';
+
+const { login } = useAuthStore();
 
 const loginDto = ref<LoginDto>({
   username: '',
   password: '',
 });
-
-function submit() {
-  console.log(loginDto.value);
-}
 </script>
 
 <template>
   <div class="login-wrapper">
-    <form class="login-form" @submit.prevent="submit">
+    <form class="login-form" @submit.prevent="login(loginDto)">
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" v-model="loginDto.username" />

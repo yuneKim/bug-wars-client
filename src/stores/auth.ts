@@ -7,18 +7,21 @@ import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User>(JSON.parse(localStorage.getItem('user') ?? '{}'));
   const router = useRouter();
+  const emptyUser: User = {
+    token: '',
+    type: '',
+    username: '',
+    roles: [],
+  };
+  const user = ref<User>(getUserFromLocalStorage());
   const logoutTimer = ref<number>(0);
 
   watch(
     user,
     (user) => {
       axios.defaults.headers.common.Authorization = `Bearer ${user.token}`;
-
-      if (!('token' in user)) {
-        return;
-      }
+      if (user.token.length === 0) return;
 
       try {
         const decodedToken = jwtDecode(user.token);
@@ -33,16 +36,23 @@ export const useAuthStore = defineStore('auth', () => {
     { immediate: true },
   );
 
+  function getUserFromLocalStorage(): User {
+    const parsedUser = JSON.parse(localStorage.getItem('user') ?? '{}');
+    if (Object.keys(parsedUser).length === 0) return emptyUser;
+    return parsedUser;
+  }
+
   async function login(loginDto: LoginDto) {
     const response = await authService.login(loginDto);
     user.value = response.data;
-    localStorage.setItem('user', response.data);
+    localStorage.setItem('user', JSON.stringify(response.data));
 
-    router.push({ name: 'channel', params: { channelId: 1 } });
+    router.push({ name: 'home' });
   }
 
   function logout() {
-    user.value = {} as User;
+    console.log('Token expired. User logged out.');
+    user.value = emptyUser;
     localStorage.removeItem('user');
     router.push({ name: 'login' });
   }
@@ -55,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     logoutTimer.value = window.setTimeout(() => {
       logout();
-    }, timeUntilExpiration * 1000);
+    }, timeUntilExpiration * 3);
   }
 
   return {
