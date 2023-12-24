@@ -4,3 +4,8 @@ export type SampleUserType = {
   email: string;
   age: number;
 };
+
+export type LoginDto = {
+  username: string;
+  password: string;
+};
