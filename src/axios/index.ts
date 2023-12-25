@@ -1,3 +1,5 @@
+import { authService } from '@/services/authService';
+import { useAuthStore } from '@/stores/auth';
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
 interface RetryAxiosRequestConfig extends AxiosRequestConfig {
@@ -7,7 +9,6 @@ interface RetryAxiosRequestConfig extends AxiosRequestConfig {
 export function configureAxios() {
   axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API + '/api';
   axios.defaults.headers['Content-Type'] = 'application/json';
-  axios.defaults.headers.common.Authorization = '';
 
   axios.interceptors.request.use(
     (config) => {
@@ -46,31 +47,20 @@ function getLocalAccessToken() {
   return accessToken;
 }
 
-function getLocalRefreshToken() {
-  const accessToken = localStorage.getItem('refreshToken');
-  return accessToken;
-}
-
 async function attemptToRefreshToken(originalRequest: RetryAxiosRequestConfig) {
+  const { logout } = useAuthStore();
+
   try {
-    const rs = await refreshToken();
+    const rs = await authService.refreshToken();
     const { accessToken } = rs.data;
-    console.log('access token refreshed and set');
     window.localStorage.setItem('accessToken', accessToken);
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     return axios(originalRequest);
   } catch (_error) {
     if (_error instanceof AxiosError && _error.response?.status === 403) {
-      console.log('could not refresh token');
+      logout();
       return Promise.resolve();
     }
     return Promise.reject(_error);
   }
-}
-
-function refreshToken() {
-  console.log(getLocalRefreshToken());
-  return axios.post('/auth/refresh-token', {
-    refreshToken: getLocalRefreshToken(),
-  });
 }

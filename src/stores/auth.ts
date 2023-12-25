@@ -1,5 +1,6 @@
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
+import { objectsHaveSameKeys } from '@/utils/objectsHaveSameKeys';
 import axios, { type AxiosResponse } from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
@@ -12,8 +13,8 @@ export const useAuthStore = defineStore('auth', () => {
     roles: [],
   };
   const user = ref<User>(emptyUser);
+  loadUserFromLocalStorage();
   const authError = ref('');
-  const testTimer = ref<number>(0);
 
   async function login(loginDto: LoginDto) {
     let response;
@@ -29,18 +30,16 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function successfulLoginActions(response: AxiosResponse) {
-    user.value = {
+    const responseUser = {
       username: response.data.username,
       roles: response.data.roles,
     };
+    user.value = responseUser;
+    localStorage.setItem('user', JSON.stringify(responseUser));
     localStorage.setItem('accessToken', response.data.accessToken);
     localStorage.setItem('refreshToken', response.data.refreshToken);
-    window.clearTimeout(testTimer.value);
-    testTimer.value = window.setTimeout(() => {
-      console.log('accessToken expire');
-    }, 5000);
 
-    // router.push({ name: 'home' });
+    router.push({ name: 'home' });
   }
 
   function handleLoginError(error: Error) {
@@ -62,12 +61,29 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = emptyUser;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
     authService.logout();
     router.push({ name: 'home' });
   }
 
   function clearAuthError() {
     authError.value = '';
+  }
+
+  function loadUserFromLocalStorage() {
+    const localUser = localStorage.getItem('user');
+    if (localUser == null) return emptyUser;
+
+    try {
+      const parsedUser = JSON.parse(localUser);
+      if (objectsHaveSameKeys(parsedUser, emptyUser)) {
+        user.value = parsedUser;
+        return;
+      }
+      logout();
+    } catch (error) {
+      logout();
+    }
   }
 
   return {

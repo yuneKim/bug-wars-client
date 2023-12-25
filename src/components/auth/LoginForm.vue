@@ -55,7 +55,6 @@ function getStrings() {
   axios
     .get('sampleStrings')
     .then((response) => {
-      console.log(response);
       sampleStrings.value = response.data.map((d: any) => d.content);
     })
     .catch((error) => {
