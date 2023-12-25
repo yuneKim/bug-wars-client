@@ -18,7 +18,7 @@ export default mergeConfig(
           'src/main.ts',
         ],
         provider: 'v8',
-        reporter: ['text', 'json-summary', 'json'],
+        reporter: ['text', 'json-summary', 'json', 'html'],
         reportOnFailure: true,
         thresholds: {
           lines: 80,

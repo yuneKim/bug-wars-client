@@ -3,6 +3,6 @@ import axios from 'axios';
 
 export default {
   login(loginDto: loginDto) {
-    return axios.post('/auth/login', loginDto);
+    return axios.post('/auth/log', loginDto);
   },
 };

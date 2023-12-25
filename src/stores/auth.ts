@@ -1,4 +1,4 @@
-import authService from '@/services/AuthService';
+import authService from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import axios, { type AxiosResponse } from 'axios';
 import { jwtDecode } from 'jwt-decode';
@@ -49,15 +49,10 @@ export const useAuthStore = defineStore('auth', () => {
       response = await authService.login(loginDto);
       if (response.status === 200) {
         successfulLoginActions(response);
-      } else {
-        console.error(response);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        handleLoginError(error);
-        return;
-      }
-      console.error(error);
+      if (!(error instanceof Error)) return;
+      handleLoginError(error);
     }
   }
 
@@ -70,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function handleLoginError(error: Error) {
     if (!axios.isAxiosError(error)) {
-      console.error(error);
+      console.error('Non-axios error:', error);
       return;
     }
 
@@ -96,9 +91,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     window.clearTimeout(logoutTimer.value);
 
-    logoutTimer.value = window.setTimeout(() => {
-      logout();
-    }, timeUntilExpiration * 1000);
+    logoutTimer.value = window.setTimeout(
+      () => {
+        logout();
+      },
+      Math.max(timeUntilExpiration, 0) * 1000,
+    );
   }
 
   function clearAuthError() {

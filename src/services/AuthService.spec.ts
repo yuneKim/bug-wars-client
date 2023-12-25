@@ -1,11 +1,11 @@
 import type { LoginDto, User } from '@/types';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
-import AuthService from './AuthService';
+import authService from './authService';
 
 vi.mock('axios');
 
-describe('AuthService', () => {
+describe('authService', () => {
   it('makes a POST request to login', async () => {
     const loginDto: LoginDto = {
       username: 'some_user',
@@ -23,7 +23,7 @@ describe('AuthService', () => {
       data: mockResponse,
     });
 
-    const loginResponse = (await AuthService.login(loginDto)).data;
+    const loginResponse = (await authService.login(loginDto)).data;
 
     expect(axios.post).toHaveBeenCalledWith(expect.any(String), loginDto);
     expect(loginResponse).toStrictEqual(mockResponse);
