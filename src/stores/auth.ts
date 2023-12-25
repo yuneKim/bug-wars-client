@@ -1,4 +1,4 @@
-import authService from '@/services/authService';
+import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import axios, { type AxiosResponse } from 'axios';
 import { jwtDecode } from 'jwt-decode';

@@ -1,7 +1,7 @@
 import type { LoginDto, User } from '@/types';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
-import authService from './authService';
+import { authService } from './authService';
 
 vi.mock('axios');
 
