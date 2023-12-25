@@ -1,47 +1,19 @@
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import axios, { type AxiosResponse } from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
   const emptyUser: User = {
-    token: '',
-    type: '',
     username: '',
     roles: [],
   };
-  const user = ref<User>(getUserFromLocalStorage());
-  const logoutTimer = ref<number>(0);
+  const user = ref<User>(emptyUser);
   const authError = ref('');
-
-  watch(
-    user,
-    (user) => {
-      axios.defaults.headers.common.Authorization = `Bearer ${user.token}`;
-      if (user.token.length === 0) return;
-
-      try {
-        const decodedToken = jwtDecode(user.token);
-        if (decodedToken.exp == null) {
-          return;
-        }
-        autoLogout(decodedToken.exp);
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    },
-    { immediate: true },
-  );
-
-  function getUserFromLocalStorage(): User {
-    const parsedUser = JSON.parse(localStorage.getItem('user') ?? '{}');
-    if (Object.keys(parsedUser).length === 0) return emptyUser;
-    return parsedUser;
-  }
+  const testTimer = ref<number>(0);
 
   async function login(loginDto: LoginDto) {
     let response;
@@ -57,10 +29,18 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function successfulLoginActions(response: AxiosResponse) {
-    user.value = response.data;
-    localStorage.setItem('user', JSON.stringify(response.data));
+    user.value = {
+      username: response.data.username,
+      roles: response.data.roles,
+    };
+    localStorage.setItem('accessToken', response.data.accessToken);
+    localStorage.setItem('refreshToken', response.data.refreshToken);
+    window.clearTimeout(testTimer.value);
+    testTimer.value = window.setTimeout(() => {
+      console.log('accessToken expire');
+    }, 5000);
 
-    router.push({ name: 'home' });
+    // router.push({ name: 'home' });
   }
 
   function handleLoginError(error: Error) {
@@ -79,24 +59,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
-    console.log('Token expired. User logged out.');
     user.value = emptyUser;
-    localStorage.removeItem('user');
-    router.push({ name: 'login' });
-  }
-
-  function autoLogout(expirationDate: number) {
-    const currentDateInSeconds = Math.floor(Date.now() / 1000);
-    const timeUntilExpiration = expirationDate - currentDateInSeconds;
-
-    window.clearTimeout(logoutTimer.value);
-
-    logoutTimer.value = window.setTimeout(
-      () => {
-        logout();
-      },
-      Math.max(timeUntilExpiration, 0) * 1000,
-    );
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    authService.logout();
+    router.push({ name: 'home' });
   }
 
   function clearAuthError() {

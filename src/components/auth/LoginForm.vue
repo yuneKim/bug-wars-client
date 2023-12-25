@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
 import type { LoginDto } from '@/types';
+import axios from 'axios';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -8,8 +9,8 @@ const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
 
 const loginDto = ref<LoginDto>({
-  username: '',
-  password: '',
+  username: 'test_user',
+  password: 'sausages',
 });
 const loginError = ref('');
 const displayError = computed(() => authError.value || loginError.value);
@@ -36,6 +37,31 @@ function clearError() {
   loginError.value = '';
   clearAuthError();
 }
+
+function testAuth() {
+  axios
+    .post('sampleStrings', { content: 'test' })
+    .then(() => {
+      getStrings();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+const sampleStrings = ref<string[]>([]);
+
+function getStrings() {
+  axios
+    .get('sampleStrings')
+    .then((response) => {
+      console.log(response);
+      sampleStrings.value = response.data.map((d: any) => d.content);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 </script>
 
 <template>
@@ -54,6 +80,9 @@ function clearError() {
         <button type="submit">Login</button>
       </div>
     </form>
+    <button type="button" @click="testAuth">Post</button>
+    <button type="button" @click="getStrings">Get</button>
+    {{ sampleStrings }}
   </div>
 </template>
 
