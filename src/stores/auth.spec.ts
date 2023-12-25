@@ -1,6 +1,8 @@
+import type { RetryAxiosRequestConfig } from '@/axios';
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
-import { AxiosError, type AxiosResponse } from 'axios';
+import { flushPromises } from '@vue/test-utils';
+import axios, { AxiosError, type AxiosResponse } from 'axios';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAuthStore } from './auth';
@@ -186,17 +188,73 @@ describe('Auth Store', () => {
     expect(user.value).toStrictEqual(emptyUser);
   });
 
-  it('should retrieve a user from localstorage', () => {
+  it('should retrieve a user from localstorage', async () => {
     const mockUser: User = {
       username: 'some_user',
       roles: ['ROLE_USER'],
     };
 
+    const mockResponse: AxiosResponse<any, any> = {
+      status: 200,
+      data: { accessToken: 'some_token' },
+      statusText: '',
+      headers: {},
+      config: {} as any,
+    };
+
+    vi.mocked(authService.refreshToken).mockResolvedValue(mockResponse);
+
     localStorage.setItem('user', JSON.stringify(mockUser));
 
     const { user } = storeToRefs(useAuthStore());
 
+    await flushPromises();
+
     expect(user.value).toEqual(mockUser);
+  });
+
+  it('should logout if localstorage object is of different shape than emptyUser', async () => {
+    const mockUser = {
+      username: 'some_user',
+    };
+
+    const mockResponse: AxiosResponse<any, any> = {
+      status: 200,
+      data: { accessToken: 'some_token' },
+      statusText: '',
+      headers: {},
+      config: {} as any,
+    };
+
+    vi.mocked(authService.refreshToken).mockResolvedValue(mockResponse);
+
+    localStorage.setItem('user', JSON.stringify(mockUser));
+
+    const { user } = storeToRefs(useAuthStore());
+
+    await flushPromises();
+
+    expect(user.value).toEqual(emptyUser);
+  });
+
+  it('should logout if localstorage object is malformed', async () => {
+    const mockResponse: AxiosResponse<any, any> = {
+      status: 200,
+      data: { accessToken: 'some_token' },
+      statusText: '',
+      headers: {},
+      config: {} as any,
+    };
+
+    vi.mocked(authService.refreshToken).mockResolvedValue(mockResponse);
+
+    localStorage.setItem('user', '{"username": "some_user", "roles": ["ROLE_USER"], }');
+
+    const { user } = storeToRefs(useAuthStore());
+
+    await flushPromises();
+
+    expect(user.value).toEqual(emptyUser);
   });
 
   it('should generate an empty user if localstorage is empty', () => {
@@ -214,5 +272,68 @@ describe('Auth Store', () => {
     clearAuthError();
 
     expect(authError.value).toBe('');
+  });
+
+  it('should attempt to refresh token and set axios headers', async () => {
+    const mockResponse: AxiosResponse<any, any> = {
+      status: 200,
+      data: { accessToken: 'some_token' },
+      statusText: '',
+      headers: {},
+      config: {} as any,
+    };
+
+    vi.mocked(authService.refreshToken).mockResolvedValue(mockResponse);
+
+    const { attemptToRefreshToken } = useAuthStore();
+
+    const config: RetryAxiosRequestConfig = {
+      url: '/user',
+      method: 'post',
+      baseURL: 'https://some-domain.com/api/',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      timeout: 0,
+      withCredentials: false,
+      responseType: 'json',
+      maxRedirects: 0,
+    };
+
+    attemptToRefreshToken(config);
+
+    await flushPromises();
+
+    expect(axios.defaults.headers.common.Authorization).toBe('Bearer some_token');
+  });
+
+  it('should attempt to refresh token and handle 403 response', async () => {
+    const mockResponse: AxiosResponse<any, any> = {
+      status: 403,
+      data: undefined,
+      statusText: '',
+      headers: {},
+      config: {} as any,
+    };
+
+    const error = new AxiosError();
+    error.response = mockResponse;
+
+    vi.mocked(authService.refreshToken).mockRejectedValue(error);
+
+    const { attemptToRefreshToken } = useAuthStore();
+
+    const config: RetryAxiosRequestConfig = {
+      url: '/user',
+      method: 'post',
+      baseURL: 'https://some-domain.com/api/',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      timeout: 0,
+      withCredentials: false,
+      responseType: 'json',
+      maxRedirects: 0,
+    };
+
+    const response = await attemptToRefreshToken(config);
+
+    expect(response).toBe('logout successful');
   });
 });

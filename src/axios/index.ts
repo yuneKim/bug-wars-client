@@ -1,8 +1,7 @@
-import { authService } from '@/services/authService';
 import { useAuthStore } from '@/stores/auth';
-import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
-interface RetryAxiosRequestConfig extends AxiosRequestConfig {
+export interface RetryAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
@@ -24,6 +23,8 @@ export function configureAxios() {
   axios.interceptors.response.use(
     (response) => response,
     async (error) => {
+      const { attemptToRefreshToken } = useAuthStore();
+
       if (!axios.isAxiosError(error)) {
         console.error('Non-axios error: ', error);
         return Promise.reject(error);
@@ -40,22 +41,4 @@ export function configureAxios() {
       return Promise.reject(error);
     },
   );
-}
-
-async function attemptToRefreshToken(originalRequest: RetryAxiosRequestConfig) {
-  const { logout } = useAuthStore();
-
-  try {
-    const response = await authService.refreshToken();
-    const { accessToken } = response.data;
-    window.localStorage.setItem('accessToken', accessToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    return axios(originalRequest);
-  } catch (_error) {
-    if (_error instanceof AxiosError && _error.response?.status === 403) {
-      logout();
-      return Promise.resolve();
-    }
-    return Promise.reject(_error);
-  }
 }

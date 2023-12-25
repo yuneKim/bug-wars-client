@@ -1,7 +1,8 @@
+import type { RetryAxiosRequestConfig } from '@/axios';
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import { objectsHaveSameKeys } from '@/utils/objectsHaveSameKeys';
-import axios, { type AxiosResponse } from 'axios';
+import axios, { AxiosError, type AxiosResponse } from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -63,16 +64,22 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     authService.logout();
-    router.push({ name: 'home' });
+    router.push({ name: 'login' });
   }
 
   function clearAuthError() {
     authError.value = '';
   }
 
-  function loadUserFromLocalStorage() {
+  async function loadUserFromLocalStorage() {
+    try {
+      await attemptToRefreshToken();
+    } catch (error) {
+      console.error(error);
+    }
+
     const localUser = localStorage.getItem('user');
-    if (localUser == null) return emptyUser;
+    if (localUser == null) return;
 
     try {
       const parsedUser = JSON.parse(localUser);
@@ -86,11 +93,34 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function attemptToRefreshToken(
+    originalRequest: RetryAxiosRequestConfig | undefined = undefined,
+  ) {
+    try {
+      const response = await authService.refreshToken();
+      if (response == null) return;
+      const { accessToken } = response.data;
+      localStorage.setItem('accessToken', accessToken);
+
+      if (originalRequest == null) return;
+
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      return axios(originalRequest);
+    } catch (_error) {
+      if (_error instanceof AxiosError && _error.response?.status === 403) {
+        logout();
+        return Promise.resolve('logout successful');
+      }
+      return Promise.reject(_error);
+    }
+  }
+
   return {
     user,
     authError,
     clearAuthError,
     login,
     logout,
+    attemptToRefreshToken,
   };
 });

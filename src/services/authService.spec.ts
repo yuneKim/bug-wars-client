@@ -13,8 +13,6 @@ describe('authService', () => {
     };
 
     const mockResponse: User = {
-      token: 'a token',
-      type: 'Bearer',
       username: 'some_user',
       roles: ['ROLE_USER'],
     };
@@ -27,5 +25,27 @@ describe('authService', () => {
 
     expect(axios.post).toHaveBeenCalledWith(expect.any(String), loginDto);
     expect(loginResponse).toStrictEqual(mockResponse);
+  });
+
+  it('makes a POST request to logout', async () => {
+    authService.logout();
+
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String));
+  });
+
+  it('makes a POST request to refresh the token', async () => {
+    localStorage.setItem('refreshToken', 'some_token');
+
+    await authService.refreshToken();
+
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String), {
+      refreshToken: expect.any(String),
+    });
+  });
+
+  it('throws an error if no refresh token is found', async () => {
+    localStorage.removeItem('refreshToken');
+
+    await expect(authService.refreshToken()).rejects.toBe('No refresh token found.');
   });
 });
