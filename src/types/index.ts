@@ -1,10 +1,3 @@
-export type SampleUserType = {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-};
-
 export type User = {
   token: string;
   type: string;
