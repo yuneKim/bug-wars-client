@@ -12,7 +12,7 @@ export function configureAxios() {
 
   axios.interceptors.request.use(
     (config) => {
-      const accessToken = getLocalAccessToken();
+      const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -42,17 +42,12 @@ export function configureAxios() {
   );
 }
 
-function getLocalAccessToken() {
-  const accessToken = localStorage.getItem('accessToken');
-  return accessToken;
-}
-
 async function attemptToRefreshToken(originalRequest: RetryAxiosRequestConfig) {
   const { logout } = useAuthStore();
 
   try {
-    const rs = await authService.refreshToken();
-    const { accessToken } = rs.data;
+    const response = await authService.refreshToken();
+    const { accessToken } = response.data;
     window.localStorage.setItem('accessToken', accessToken);
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     return axios(originalRequest);

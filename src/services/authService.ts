@@ -11,7 +11,7 @@ export const authService = {
   },
 
   refreshToken() {
-    const token = getLocalRefreshToken();
+    const token = localStorage.getItem('refreshToken');
     if (!token) return Promise.reject('No refresh token found.');
 
     return axios.post('/auth/refresh-token', {
@@ -19,8 +19,3 @@ export const authService = {
     });
   },
 };
-
-function getLocalRefreshToken() {
-  const accessToken = localStorage.getItem('refreshToken');
-  return accessToken;
-}

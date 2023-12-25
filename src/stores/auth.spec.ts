@@ -1,10 +1,8 @@
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
-import axios, { AxiosError, type AxiosResponse } from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { AxiosError, type AxiosResponse } from 'axios';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { nextTick } from 'vue';
 import { useAuthStore } from './auth';
 
 vi.mock('@/services/authService');
@@ -15,6 +13,11 @@ vi.mock('vue-router', () => ({
   }),
 }));
 vi.mock('jwt-decode');
+
+const emptyUser: User = {
+  username: '',
+  roles: [],
+};
 
 describe('Auth Store', () => {
   beforeEach(() => {
@@ -35,8 +38,6 @@ describe('Auth Store', () => {
     };
 
     const mockUser: User = {
-      token: 'a token',
-      type: 'Bearer',
       username: 'some_user',
       roles: ['ROLE_USER'],
     };
@@ -59,7 +60,6 @@ describe('Auth Store', () => {
     expect(authService.login).toHaveBeenCalledOnce();
     expect(user.value).toStrictEqual(mockUser);
     expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual(mockUser);
-    expect(axios.defaults.headers.common.Authorization).toBe(`Bearer ${mockUser.token}`);
   });
 
   it('should handle errors: 400 response status', async () => {
@@ -87,7 +87,7 @@ describe('Auth Store', () => {
     await login(loginDto);
 
     expect(authService.login).toHaveBeenCalledOnce();
-    expect(user.value).toStrictEqual({ token: '', type: '', username: '', roles: [] });
+    expect(user.value).toStrictEqual(emptyUser);
     expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
     expect(authError.value).toBe('Username and Password cannot be blank.');
   });
@@ -117,7 +117,7 @@ describe('Auth Store', () => {
     await login(loginDto);
 
     expect(authService.login).toHaveBeenCalledOnce();
-    expect(user.value).toStrictEqual({ token: '', type: '', username: '', roles: [] });
+    expect(user.value).toStrictEqual(emptyUser);
     expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
     expect(authError.value).toBe('Your login attempt failed. Please try again.');
   });
@@ -147,7 +147,7 @@ describe('Auth Store', () => {
     await login(loginDto);
 
     expect(authService.login).toHaveBeenCalledOnce();
-    expect(user.value).toStrictEqual({ token: '', type: '', username: '', roles: [] });
+    expect(user.value).toStrictEqual(emptyUser);
     expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
     expect(authError.value).toBe('Something went wrong on our end. Try again later.');
   });
@@ -173,17 +173,8 @@ describe('Auth Store', () => {
     const { user } = storeToRefs(useAuthStore());
 
     const mockUser: User = {
-      token: 'a token',
-      type: 'Bearer',
       username: 'some_user',
       roles: ['ROLE_USER'],
-    };
-
-    const emptyUser: User = {
-      token: '',
-      type: '',
-      username: '',
-      roles: [],
     };
 
     user.value = mockUser;
@@ -197,8 +188,6 @@ describe('Auth Store', () => {
 
   it('should retrieve a user from localstorage', () => {
     const mockUser: User = {
-      token: 'a token',
-      type: 'Bearer',
       username: 'some_user',
       roles: ['ROLE_USER'],
     };
@@ -211,13 +200,6 @@ describe('Auth Store', () => {
   });
 
   it('should generate an empty user if localstorage is empty', () => {
-    const emptyUser: User = {
-      token: '',
-      type: '',
-      username: '',
-      roles: [],
-    };
-
     const { user } = storeToRefs(useAuthStore());
 
     expect(user.value).toEqual(emptyUser);
@@ -232,46 +214,5 @@ describe('Auth Store', () => {
     clearAuthError();
 
     expect(authError.value).toBe('');
-  });
-
-  it('should automatically logout a user', async () => {
-    const { user } = storeToRefs(useAuthStore());
-
-    vi.mocked(jwtDecode).mockReturnValue({ exp: Date.now() / 1000 - 1 });
-
-    const mockUser: User = {
-      token: 'a token',
-      type: 'Bearer',
-      username: 'some_user',
-      roles: ['ROLE_USER'],
-    };
-
-    const emptyUser: User = {
-      token: '',
-      type: '',
-      username: '',
-      roles: [],
-    };
-
-    user.value = mockUser;
-
-    // needed to wait for watch to update
-    await nextTick();
-    // needed to wait for setTimeout to run
-    vi.runAllTimers();
-
-    expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
-    expect(user.value).toStrictEqual(emptyUser);
-
-    vi.mocked(jwtDecode).mockReturnValue({ exp: null });
-
-    await nextTick();
-
-    user.value = mockUser;
-
-    await nextTick();
-
-    // make sure we don't try and logout if exp is null
-    expect(vi.getTimerCount()).toBe(0);
   });
 });
