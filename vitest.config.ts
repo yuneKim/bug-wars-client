@@ -14,11 +14,12 @@ export default mergeConfig(
           '**/*.d.ts',
           '**/.{eslint,mocha,prettier}rc.{?(c|m)js,yml}',
           'src/router/**',
+          'src/axios/**',
           'src/types/**',
           'src/main.ts',
         ],
         provider: 'v8',
-        reporter: ['text', 'json-summary', 'json'],
+        reporter: ['text', 'json-summary', 'json', 'html'],
         reportOnFailure: true,
         thresholds: {
           lines: 80,
