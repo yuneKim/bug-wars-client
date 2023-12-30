@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import HelloWorld from '@/components/HelloWorld.vue';
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
+import HomeView from './HomeView.vue';
 
 describe('HomeView', () => {
   it('renders properly', () => {
-    const wrapper = mount(HelloWorld, { props: { msg: 'Hello Vitest' } });
-    expect(wrapper.text()).toContain('Hello Vitest');
+    const wrapper = shallowMount(HomeView);
+    expect(wrapper.find('main').text()).toBe('Home View');
   });
 });
