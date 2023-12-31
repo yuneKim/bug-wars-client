@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import RegisterForm from './RegisterForm.vue';
 import { authService } from '@/services/authService';
-import type { AxiosResponse } from 'axios';
 
 
 vi.mock('@/services/authService');
@@ -23,13 +22,7 @@ describe('RegisterForm.vue', () => {
     });
 
     it('calls register on form submit', async () => {
-        const div = document.createElement('div');
-        div.id = 'root';
-        document.body.appendChild(div);
-
-        const wrapper = shallowMount(RegisterForm, {
-            attachTo: '#root'
-        });
+        const wrapper = shallowMount(RegisterForm);
 
         const registerDto: RegisterDto = {
             username: 'some_user',
@@ -37,19 +30,12 @@ describe('RegisterForm.vue', () => {
             email: 'some_email'
         };
 
-        const mockResponse: AxiosResponse<any, any> = {
-            data: '',
-            status: 200,
-            statusText: 'OK',
-            headers: {},
-            config: {} as any,
-          };
-
-        vi.mocked(authService.register).mockResolvedValue(mockResponse)
         const usernameInput = wrapper.find('#username');
         await usernameInput.setValue(registerDto.username);
         const passwordInput = wrapper.find('#password');
         await passwordInput.setValue(registerDto.password);
+        const confirmPasswordInput = wrapper.find('#confirm-password');
+        await confirmPasswordInput.setValue(registerDto.password);
         const emailInput = wrapper.find('#email');
         await emailInput.setValue(registerDto.email);
 
@@ -57,7 +43,7 @@ describe('RegisterForm.vue', () => {
         expect((passwordInput.element as HTMLInputElement).value).toBe(registerDto.password);
         expect((emailInput.element as HTMLInputElement).value).toBe(registerDto.email);
 
-        await wrapper.find('button').trigger('click');
+        await wrapper.find('form').trigger('submit');
 
         expect(authService.register).toHaveBeenCalledOnce();
         wrapper.unmount();
