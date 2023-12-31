@@ -7,3 +7,7 @@ export type LoginDto = {
   username: string;
   password: string;
 };
+
+export type ParseDto = {
+  code: string;
+};

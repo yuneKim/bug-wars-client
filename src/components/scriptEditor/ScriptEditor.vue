@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useScriptEditor } from '@/composables/useScriptEditor';
+import { scriptService } from '@/services/scriptService';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { offset, position } from 'caret-pos';
@@ -7,6 +8,8 @@ import { ref } from 'vue';
 
 const { editorText, overlayContent, errorMessage, errorPosition, lineNumbers, updateText } =
   useScriptEditor();
+
+const byteCode = ref<number[]>([]);
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Control') {
@@ -22,6 +25,11 @@ window.addEventListener('keydown', (e) => {
 });
 
 const intellisensePos = ref({ x: '0px', y: '0px' });
+
+async function compileScript() {
+  const response = await scriptService.parse({ code: editorText.value });
+  byteCode.value = response.data;
+}
 </script>
 
 <template>
@@ -43,10 +51,11 @@ const intellisensePos = ref({ x: '0px', y: '0px' });
         <QuillEditor theme="snow" @update:content="updateText" />
         <div class="editor-overlay" v-html="overlayContent"></div>
       </div>
-      <button type="button">Compile</button>
+      <button type="button" @click="compileScript">Compile</button>
       <button type="button">Save</button>
       <div>{{ JSON.stringify(editorText) }}</div>
       <div>{{ JSON.stringify(overlayContent) }}</div>
+      <div>{{ byteCode }}</div>
     </main>
     <!-- <Teleport to="body">
       <div class="intellisense"></div>
