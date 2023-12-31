@@ -25,7 +25,6 @@ const formData = ref <FormData>({
 
 
 function handleSubmit(){
-    console.log("worked")
     if(formData.value.username.length < 3){
         authError.value = "Username must be at least 3 characters long";
         return;
@@ -38,7 +37,6 @@ function handleSubmit(){
         authError.value = "Passwords do not match";
         return;
     };
-    console.log("validated")
     register({
         username: formData.value.username,
         password: formData.value.password,
