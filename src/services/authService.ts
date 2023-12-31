@@ -1,8 +1,13 @@
-import type { LoginDto as loginDto } from '@/types';
+import type { LoginDto, RegisterDto } from '@/types';
+
 import axios from 'axios';
 
 export const authService = {
-  login(loginDto: loginDto) {
+  register(registerDto: RegisterDto){
+    return axios.post('/auth/register', registerDto);
+  },
+
+  login(loginDto: LoginDto) {
     return axios.post('/auth/login', loginDto);
   },
 
@@ -18,4 +23,6 @@ export const authService = {
       refreshToken: token,
     });
   },
+
+
 };
