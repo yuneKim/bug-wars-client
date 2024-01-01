@@ -1,4 +1,4 @@
-import type { LoginDto, User } from '@/types';
+import type { RegisterDto, LoginDto, User } from '@/types';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
 import { authService } from './authService';
@@ -6,6 +6,28 @@ import { authService } from './authService';
 vi.mock('axios');
 
 describe('authService', () => {
+  it('makes a POST request to register', async () => {
+    const registerDto: RegisterDto = {
+      username: 'some_user',
+      password: 'some_password',
+      email: 'some_email'
+    };
+
+    const mockResponse: User = {
+      username: 'some_user',
+      roles: ['ROLE_USER'],
+    };
+
+    vi.mocked(axios.post).mockResolvedValue({
+      data: mockResponse,
+    });
+
+    const registerResponse = (await authService.register(registerDto)).data;
+
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String), registerDto);
+    expect(registerResponse).toStrictEqual(mockResponse);
+  });
+
   it('makes a POST request to login', async () => {
     const loginDto: LoginDto = {
       username: 'some_user',

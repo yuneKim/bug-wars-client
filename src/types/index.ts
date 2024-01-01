@@ -8,6 +8,12 @@ export type LoginDto = {
   password: string;
 };
 
+export type RegisterDto = {
+  username: string;
+  password: string;
+  email: string;
+};
+
 export type ParseDto = {
   code: string;
 };
