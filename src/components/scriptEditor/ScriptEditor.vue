@@ -3,13 +3,17 @@ import { useScriptEditor } from '@/composables/useScriptEditor';
 import { scriptService } from '@/services/scriptService';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import axios from 'axios';
 import { offset, position } from 'caret-pos';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const { editorText, overlayContent, errorMessage, errorPosition, lineNumbers, updateText } =
   useScriptEditor();
 
 const byteCode = ref<number[]>([]);
+const compileError = ref('');
+
+const output = computed(() => compileError.value || JSON.stringify(byteCode.value));
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Control') {
@@ -27,71 +31,73 @@ window.addEventListener('keydown', (e) => {
 const intellisensePos = ref({ x: '0px', y: '0px' });
 
 async function compileScript() {
-  const response = await scriptService.parse({ code: editorText.value });
-  byteCode.value = response.data;
+  compileError.value = '';
+  try {
+    const response = await scriptService.parse({ code: editorText.value });
+    if (response.status === 200) {
+      byteCode.value = response.data;
+    }
+  } catch (error) {
+    if (!(error instanceof Error)) return;
+    handleCompileError(error);
+  }
+}
+
+function handleCompileError(error: Error) {
+  if (!axios.isAxiosError(error)) {
+    console.error('Non-axios error:', error);
+    return;
+  }
+
+  if (error.response?.status === 422) {
+    compileError.value = error.response.data.message;
+  } else {
+    compileError.value = 'Something went wrong on our end. Try again later.';
+  }
 }
 </script>
 
 <template>
-  <div class="script-editor-container">
-    <aside class="script-selection">
-      <ul>
-        <li>Script 1</li>
-        <li>Script 2</li>
-        <li>Script 3</li>
-        <li>Script 4</li>
-      </ul>
-    </aside>
-    <main class="script-editing-window">
-      <h1>Script Editor</h1>
-      <div class="editor-wrapper">
-        <div class="line-numbers">
-          <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
-        </div>
-        <QuillEditor theme="snow" @update:content="updateText" />
-        <div class="editor-overlay" v-html="overlayContent"></div>
+  <main class="script-editing-window">
+    <h1>Script Editor</h1>
+    <div class="editor-wrapper">
+      <div class="line-numbers">
+        <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
       </div>
+      <QuillEditor theme="snow" @update:content="updateText" />
+      <div class="editor-overlay" v-html="overlayContent"></div>
+    </div>
+    <div class="button-wrapper">
       <button type="button" @click="compileScript">Compile</button>
-      <button type="button">Save</button>
-      <div>{{ JSON.stringify(editorText) }}</div>
-      <div>{{ JSON.stringify(overlayContent) }}</div>
-      <div>{{ byteCode }}</div>
-    </main>
-    <!-- <Teleport to="body">
+      <h3>Output:</h3>
+      <div class="output-text">{{ output }}</div>
+    </div>
+  </main>
+  <!-- <Teleport to="body">
       <div class="intellisense"></div>
     </Teleport> -->
-    <Teleport to="body">
-      <div v-show="errorMessage" class="error-title">{{ errorMessage }}</div>
-    </Teleport>
-  </div>
+  <Teleport to="body">
+    <div v-show="errorMessage" class="error-title">{{ errorMessage }}</div>
+  </Teleport>
 </template>
 
 <style scoped>
-.script-editor-container {
+.script-editing-window {
   --editor-font-size: 1rem;
   --editor-line-height: 1.25rem;
   --editor-font-family: 'Courier New', Courier, monospace;
 
-  margin-top: 10px;
-  width: 100%;
-  height: 90vh;
-  display: grid;
-  grid-template-columns: 200px 1fr;
-}
-
-.script-selection {
-  border-right: 1px solid #ccc;
-}
-
-.script-editing-window {
   padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .editor-wrapper {
   position: relative;
-  max-width: 500px;
   height: 500px;
   border: 1px solid #ccc;
+  border-top-width: 2px;
 }
 
 :deep(.ql-editor),
@@ -174,5 +180,14 @@ async function compileScript() {
   padding: 5px;
   transform: translate(0, -100%);
   max-width: 300px;
+}
+
+.output-text {
+  font-family: var(--editor-font-family);
+  font-size: var(--editor-font-size);
+  line-height: var(--editor-line-height);
+  border: 2px solid #ccc;
+  padding: 12px;
+  white-space: pre-wrap;
 }
 </style>
