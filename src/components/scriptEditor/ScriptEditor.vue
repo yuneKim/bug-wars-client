@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
-import { scriptService } from '@/services/scriptService';
-import { QuillEditor, type Delta } from '@vueup/vue-quill';
+import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import axios from 'axios';
 import { offset, position } from 'caret-pos';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 const {
   editorOptions,
@@ -16,11 +15,7 @@ const {
   lineNumbers,
   updateText,
 } = useScriptEditor();
-
-const byteCode = ref<number[]>([]);
-const compileError = ref('');
-
-const output = computed(() => compileError.value || JSON.stringify(byteCode.value));
+const { output, compileScript } = useCompiler();
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Control') {
@@ -36,48 +31,6 @@ window.addEventListener('keydown', (e) => {
 });
 
 const intellisensePos = ref({ x: '0px', y: '0px' });
-
-async function compileScript() {
-  compileError.value = '';
-  try {
-    const response = await scriptService.parse({ code: editorText.value });
-    if (response.status === 200) {
-      byteCode.value = response.data;
-    }
-  } catch (error) {
-    if (!(error instanceof Error)) return;
-    handleCompileError(error);
-  }
-}
-
-function handleCompileError(error: Error) {
-  if (!axios.isAxiosError(error)) {
-    console.error('Non-axios error:', error);
-    return;
-  }
-
-  if (error.response?.status === 422) {
-    compileError.value = error.response.data.message;
-  } else {
-    compileError.value = 'Something went wrong on our end. Try again later.';
-  }
-}
-
-type TextChange = {
-  delta: Delta;
-  oldContents: Delta;
-  source: string;
-};
-
-function handleTextChange({ delta, oldContents, source }: TextChange) {
-  delta.ops.forEach((op) => {
-    if (op.insert === '\n') {
-      op.insert = '\t\n';
-    }
-  });
-
-  return { delta, oldContents, source };
-}
 </script>
 
 <template>
@@ -87,15 +40,11 @@ function handleTextChange({ delta, oldContents, source }: TextChange) {
       <div class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
       </div>
-      <QuillEditor
-        :options="editorOptions"
-        @update:content="updateText"
-        @text-change="handleTextChange"
-      />
+      <QuillEditor :options="editorOptions" @update:content="updateText" />
       <div class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <div class="button-wrapper">
-      <button type="button" @click="compileScript">Compile</button>
+      <button type="button" @click="compileScript(editorText)">Compile</button>
       <h3>Output:</h3>
       <div class="output-text">{{ output }}</div>
     </div>
