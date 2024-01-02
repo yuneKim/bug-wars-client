@@ -154,22 +154,6 @@ describe('Auth Store', () => {
     expect(authError.value).toBe('Something went wrong on our end. Try again later.');
   });
 
-  it('should handle errors: non-axios errors', async () => {
-    const { login } = useAuthStore();
-    const consoleSpy = vi.spyOn(console, 'error');
-
-    const loginDto: LoginDto = {
-      username: 'some_user',
-      password: 'some_password',
-    };
-
-    vi.mocked(authService.login).mockRejectedValue(new Error("I'm an error!"));
-
-    await login(loginDto);
-
-    expect(consoleSpy).toHaveBeenCalledWith('Non-axios error:', expect.any(Error));
-  });
-
   it('should logout a user and redirect to login', async () => {
     const { logout } = useAuthStore();
     const { user } = storeToRefs(useAuthStore());

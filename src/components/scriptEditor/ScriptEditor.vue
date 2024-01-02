@@ -45,9 +45,11 @@ const intellisensePos = ref({ x: '0px', y: '0px' });
     </div>
     <div class="button-wrapper">
       <button type="button" @click="compileScript(editorText)">Compile</button>
-      <h3>Output:</h3>
-      <div class="output-text">{{ output }}</div>
     </div>
+    <h3>Output:</h3>
+    <div class="output-text">{{ output }}</div>
+    <div>{{ JSON.stringify(editorText) }}</div>
+    <div>{{ JSON.stringify(overlayContent) }}</div>
   </main>
   <!-- <Teleport to="body">
       <div class="intellisense"></div>

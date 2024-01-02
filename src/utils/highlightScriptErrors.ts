@@ -126,17 +126,9 @@ function insertOtherErrors(line: string, tokens: Token[], labels: string[]) {
   return line;
 }
 
-function insertError(
-  line: string,
-  token: Token,
-  tokens: Token[],
-  message: string,
-  warning = false,
-) {
+function insertError(line: string, token: Token, tokens: Token[], message: string) {
   const strToInsert =
-    `<span class="script-editor-underline-${warning ? 'warning' : 'error'}" title="${message}">` +
-    token.value +
-    '</span>';
+    `<span class="script-editor-underline-error" title="${message}">` + token.value + '</span>';
 
   for (let i = tokens.indexOf(token) + 1; i < tokens.length || i === -1; i++) {
     tokens[i].position += strToInsert.length - token.value.length;
