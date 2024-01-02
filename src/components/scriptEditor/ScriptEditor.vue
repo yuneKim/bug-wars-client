@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { useScriptEditor } from '@/composables/useScriptEditor';
 import { scriptService } from '@/services/scriptService';
-import { QuillEditor } from '@vueup/vue-quill';
+import { QuillEditor, type Delta } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios';
 import { offset, position } from 'caret-pos';
 import { computed, ref } from 'vue';
 
-const { editorText, overlayContent, errorMessage, errorPosition, lineNumbers, updateText } =
-  useScriptEditor();
+const {
+  editorOptions,
+  editorText,
+  overlayContent,
+  errorMessage,
+  errorPosition,
+  lineNumbers,
+  updateText,
+} = useScriptEditor();
 
 const byteCode = ref<number[]>([]);
 const compileError = ref('');
@@ -55,6 +62,22 @@ function handleCompileError(error: Error) {
     compileError.value = 'Something went wrong on our end. Try again later.';
   }
 }
+
+type TextChange = {
+  delta: Delta;
+  oldContents: Delta;
+  source: string;
+};
+
+function handleTextChange({ delta, oldContents, source }: TextChange) {
+  delta.ops.forEach((op) => {
+    if (op.insert === '\n') {
+      op.insert = '\t\n';
+    }
+  });
+
+  return { delta, oldContents, source };
+}
 </script>
 
 <template>
@@ -64,7 +87,11 @@ function handleCompileError(error: Error) {
       <div class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
       </div>
-      <QuillEditor theme="snow" @update:content="updateText" />
+      <QuillEditor
+        :options="editorOptions"
+        @update:content="updateText"
+        @text-change="handleTextChange"
+      />
       <div class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <div class="button-wrapper">
