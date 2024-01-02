@@ -3,8 +3,6 @@ import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { offset, position } from 'caret-pos';
-import { ref } from 'vue';
 
 const {
   editorOptions,
@@ -17,20 +15,20 @@ const {
 } = useScriptEditor();
 const { output, compileScript } = useCompiler();
 
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Control') {
-    // console.log(window.getSelection());
-    const editor = document.querySelector('.ql-editor');
+// window.addEventListener('keydown', (e) => {
+//   if (e.key === 'Control') {
+//     // console.log(window.getSelection());
+//     const editor = document.querySelector('.ql-editor');
 
-    const pos = position(editor as HTMLElement);
-    const off = offset(editor as HTMLElement);
-    // console.log(pos, off);
-    // console.log(intellisensePos.value);
-    intellisensePos.value = { x: off.left + 'px', y: off.top + 'px' };
-  }
-});
+//     const pos = position(editor as HTMLElement);
+//     const off = offset(editor as HTMLElement);
+//     // console.log(pos, off);
+//     // console.log(intellisensePos.value);
+//     intellisensePos.value = { x: off.left + 'px', y: off.top + 'px' };
+//   }
+// });
 
-const intellisensePos = ref({ x: '0px', y: '0px' });
+// const intellisensePos = ref({ x: '0px', y: '0px' });
 </script>
 
 <template>
@@ -62,7 +60,7 @@ const intellisensePos = ref({ x: '0px', y: '0px' });
 <style scoped>
 .script-editing-window {
   --editor-font-size: 1rem;
-  --editor-line-height: 1.25rem;
+  --editor-line-height: 1.5rem;
   --editor-font-family: 'Courier New', Courier, monospace;
 
   padding: 10px;
@@ -128,7 +126,7 @@ const intellisensePos = ref({ x: '0px', y: '0px' });
 :deep(.script-editor-underline-error),
 :deep(.script-editor-underline-warning) {
   text-decoration: wavy underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 5px;
   color: transparent;
 }
 
@@ -140,14 +138,14 @@ const intellisensePos = ref({ x: '0px', y: '0px' });
   text-decoration-color: orange;
 }
 
-.intellisense {
+/* .intellisense {
   width: 50px;
   height: 50px;
   background-color: red;
   position: absolute;
   top: v-bind('intellisensePos.y');
   left: v-bind('intellisensePos.x');
-}
+} */
 
 .error-title {
   position: absolute;

@@ -7,12 +7,9 @@ const actions = ['noop', 'mov', 'rotr', 'rotl', 'att', 'eat'];
 const controls = ['ifEnemy', 'ifAlly', 'ifFood', 'ifEmpty', 'ifWall', 'goto'];
 
 export function highlightScriptErrors(content: string) {
-  const labels: string[] = [];
-
-  return content
-    .split('\n')
-    .map((line) => highlightErrorsInLine(line, labels))
-    .join('\n');
+  const lines = content.split('\n');
+  const labels = lines.filter((line) => line.startsWith(':')).map((line) => line.slice(1));
+  return lines.map((line) => highlightErrorsInLine(line, labels)).join('\n');
 }
 
 function highlightErrorsInLine(line: string, labels: string[]) {

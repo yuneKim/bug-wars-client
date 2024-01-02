@@ -26,7 +26,6 @@ export function useCompiler() {
   }
 
   return {
-    byteCode,
     output,
     compileScript,
   };

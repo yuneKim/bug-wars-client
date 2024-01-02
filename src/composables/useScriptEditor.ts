@@ -65,6 +65,7 @@ export function useScriptEditor() {
 
   function synchronizeScroll(e: Event) {
     if (overlay.value == null || lineNumberDiv.value == null) return;
+    console.log(lineNumberDiv.value.outerHTML);
 
     overlay.value.scrollTo(
       (e.target as HTMLElement).scrollLeft,

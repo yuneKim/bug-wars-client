@@ -48,6 +48,12 @@ describe('highlightScriptErrors', () => {
     expect(highlightScriptErrors(input)).toBe(output);
   });
 
+  it('should not highlight control with target declared later in script', () => {
+    const input = 'ifEnemy TEST\n:TEST\n';
+    const output = 'ifEnemy TEST\n:TEST\n';
+    expect(highlightScriptErrors(input)).toBe(output);
+  });
+
   it('should highlight invalid actions or controls', () => {
     const input = 'attack\n';
     const output =
