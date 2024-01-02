@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { authService } from '@/services/authService';
 import { type RegisterDto } from '@/types';
-import axios from 'axios';
+import { makeRequest } from '@/utils/makeRequest';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -43,32 +43,18 @@ function handleSubmit() {
 }
 
 async function register(registerDto: RegisterDto) {
-  let response;
-  try {
-    response = await authService.register(registerDto);
-    if (response.status === 201) {
-      router.push({ name: 'login' });
-    }
-  } catch (error) {
-    if (!(error instanceof Error)) return;
-    handleRegisterError(error);
-  }
-}
+  const response = await makeRequest(() => authService.register(registerDto), {
+    successStatuses: [201],
+    errorStatuses: {
+      400: 'All fields are required.',
+      409: (response) => response.data.message,
+    },
+  });
 
-function handleRegisterError(error: Error) {
-  if (!axios.isAxiosError(error)) {
-    console.error('Non-axios error:', error);
-    return;
-  }
-
-  if (error.response?.status === 400) {
-    authError.value = 'Username and Password cannot be blank.';
-  } else if (error.response?.status === 401) {
-    authError.value = 'Your login attempt failed. Please try again.';
-  } else if (error.response?.status === 409) {
-    authError.value = error.response.data.message;
+  if (response.type === 'success') {
+    router.push({ name: 'login' });
   } else {
-    authError.value = 'Something went wrong on our end. Try again later.';
+    authError.value = response.error;
   }
 }
 </script>
