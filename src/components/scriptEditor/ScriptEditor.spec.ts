@@ -2,19 +2,6 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import ScriptEditor from './ScriptEditor.vue';
 
-// const mock = vi.hoisted(() => {
-//   return {
-//     useCompiler: vi.fn().mockReturnValue({
-//       output: vi.fn(),
-//       compileScript: vi.fn(),
-//     }),
-//   };
-// });
-
-// vi.mock('@/composables/useCompiler', () => ({
-//   useCompiler: mock.useCompiler,
-// }));
-
 describe('ScriptEditor', () => {
   afterEach(() => {
     vi.resetAllMocks();

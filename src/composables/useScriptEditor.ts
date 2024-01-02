@@ -1,37 +1,8 @@
+import { editorOptions } from '@/config/quill';
 import { highlightScriptErrors } from '@/utils/highlightScriptErrors';
-import type { Delta } from '@vueup/vue-quill';
+import { type Delta } from '@vueup/vue-quill';
 import sanitize from 'sanitize-html';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-
-const editorOptions = {
-  theme: 'snow',
-  modules: {
-    toolbar: [['bold', 'italic', 'link']],
-    keyboard: {
-      bindings: {
-        enter: {
-          key: 13,
-          handler: function (this: any, range: any, context: any) {
-            if (context.prefix.startsWith(':')) {
-              this.quill.insertText(range.index, '\t', 'user');
-              setTimeout(() => {
-                this.quill.setSelection(range.index + 2);
-              }, 0);
-            } else if (context.prefix.startsWith('\t')) {
-              const tabs = context.prefix.match(/\t/g)?.length ?? 0;
-
-              this.quill.insertText(range.index, '\t'.repeat(tabs), 'user');
-              setTimeout(() => {
-                this.quill.setSelection(range.index + 2 * tabs);
-              }, 0);
-            }
-            return true;
-          },
-        },
-      },
-    },
-  },
-};
 
 export function useScriptEditor() {
   const editor = ref<HTMLElement | null>(null);

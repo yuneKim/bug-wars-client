@@ -46,8 +46,6 @@ const { output, compileScript } = useCompiler();
     </div>
     <h3>Output:</h3>
     <div class="output-text">{{ output }}</div>
-    <div>{{ JSON.stringify(editorText) }}</div>
-    <div>{{ JSON.stringify(overlayContent) }}</div>
   </main>
   <!-- <Teleport to="body">
       <div class="intellisense"></div>
@@ -73,7 +71,6 @@ const { output, compileScript } = useCompiler();
   position: relative;
   height: 500px;
   border: 1px solid #ccc;
-  border-top-width: 2px;
 }
 
 :deep(.ql-editor),
@@ -97,6 +94,7 @@ const { output, compileScript } = useCompiler();
   left: 36px;
   tab-size: 4;
   overflow-y: auto;
+  color: transparent;
 }
 
 .line-numbers {
@@ -127,7 +125,6 @@ const { output, compileScript } = useCompiler();
 :deep(.script-editor-underline-warning) {
   text-decoration: wavy underline;
   text-underline-offset: 5px;
-  color: transparent;
 }
 
 :deep(.script-editor-underline-error) {
