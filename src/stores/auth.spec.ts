@@ -1,4 +1,4 @@
-import type { RetryAxiosRequestConfig } from '@/axios';
+import type { RetryAxiosRequestConfig } from '@/config/axios';
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import { flushPromises } from '@vue/test-utils';
