@@ -8,8 +8,8 @@ const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
 
 const loginDto = ref<LoginDto>({
-  username: 'test_user',
-  password: 'sausages',
+  username: '',
+  password: '',
 });
 const loginError = ref('');
 const displayError = computed(() => authError.value || loginError.value);
