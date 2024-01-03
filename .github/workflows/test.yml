@@ -23,8 +23,11 @@ jobs:
         run: npm ci
       - name: 'Make Sure It Builds'
         run: npm run build
-      - name: 'Run Tests'
+      - name: 'Run Unit Tests'
         run: npm run test:unit:coverage
       - name: 'Report Coverage'
         if: always() # Also generate the report if tests are failing
         uses: davelosert/vitest-coverage-report-action@v2
+
+      - name: 'Run E2E Tests'
+        run: npm run test:e2e
