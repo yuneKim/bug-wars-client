@@ -79,6 +79,15 @@ describe('makeRequest', () => {
       error: 'error',
     });
 
+    const weirdRequest = () => Promise.reject(new Error('error'));
+
+    const weirdResponse = await makeRequest(weirdRequest, {
+      successStatuses: [200],
+      errorStatuses: {},
+    });
+
+    expect(weirdResponse).toStrictEqual({ type: 'error', status: 0, error: 'Error: error' });
+
     const weirderRequest = () => Promise.reject(undefined);
 
     const weirderResponse = await makeRequest(weirderRequest, {

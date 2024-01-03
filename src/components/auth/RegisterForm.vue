@@ -24,15 +24,15 @@ const formData = ref<FormData>({
 
 function handleSubmit() {
   if (formData.value.username.length < 3) {
-    authError.value = 'Username must be at least 3 characters long';
+    authError.value = 'Username must be at least 3 characters long.';
     return;
   }
   if (formData.value.password.length < 6) {
-    authError.value = 'Password must be at least 6 characters long';
+    authError.value = 'Password must be at least 6 characters long.';
     return;
   }
   if (formData.value.password !== formData.value.confirmPassword) {
-    authError.value = 'Passwords do not match';
+    authError.value = 'Passwords do not match.';
     return;
   }
   register({
