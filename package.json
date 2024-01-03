@@ -19,7 +19,6 @@
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.6.2",
-    "caret-pos": "^2.0.0",
     "pinia": "^2.1.7",
     "sanitize-html": "^2.11.0",
     "vue": "^3.3.10",

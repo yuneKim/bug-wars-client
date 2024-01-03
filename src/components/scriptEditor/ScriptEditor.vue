@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
+import { SCRIPT_EDITOR_OFFSET } from '@/config/constants';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref } from 'vue';
@@ -15,26 +16,14 @@ const {
   initializeQuill,
   intellisense,
   intellisenseTooltip,
+  intellisenseClickHandler,
 } = useScriptEditor();
 const { output, compileScript } = useCompiler();
 
 const lineNumberDiv = ref<HTMLElement | null>(null);
 const overlayDiv = ref<HTMLElement | null>(null);
 const errorTooltipDiv = ref<HTMLElement | null>(null);
-
-// window.addEventListener('keydown', (e) => {
-//   if (e.key === 'Control') {
-//     // console.log(window.getSelection());
-//     const editor = document.querySelector('.ql-editor');
-
-//     const pos = position(editor as HTMLElement);
-//     const off = offset(editor as HTMLElement);
-//     // console.log(pos, off);
-//     // console.log(intellisensePos.value);
-//     intellisensePos.value = { x: off.left + 'px', y: off.top + 'px' };
-//   }
-// });
-// const intellisensePos = ref({ x: '0px', y: '0px' });
+const intellisenseTooltipDiv = ref<HTMLElement | null>(null);
 </script>
 
 <template>
@@ -49,7 +38,16 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
         :options="editorOptions"
         @textChange="intellisense"
         @update:content="updateText"
-        @ready="(quill) => initializeQuill(quill, lineNumberDiv, overlayDiv, errorTooltipDiv)"
+        @ready="
+          (quill) =>
+            initializeQuill(
+              quill,
+              lineNumberDiv,
+              overlayDiv,
+              errorTooltipDiv,
+              intellisenseTooltipDiv,
+            )
+        "
       />
       <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
@@ -62,12 +60,18 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
     <div class="output-text">{{ output }}</div>
   </main>
   <Teleport to="body">
-    <div v-if="intellisenseTooltip.display" class="intellisense">
+    <div
+      ref="intellisenseTooltipDiv"
+      v-if="intellisenseTooltip.display && !intellisenseTooltip.preventDisplay"
+      class="intellisense"
+    >
       <ul class="intellisense-item-list">
         <li
           v-for="(item, index) in intellisenseTooltip.items"
           :key="item.value"
           :class="{ 'intellisense-selected': intellisenseTooltip.selectedItem === index }"
+          @click="intellisenseClickHandler"
+          @mousemove="intellisenseTooltip.selectedItem = index"
         >
           <span>{{ item.value }}</span>
           <span>{{ item.type }}</span>
@@ -108,7 +112,7 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
 
 :deep(.ql-editor) {
   padding-left: 0;
-  left: 35px;
+  left: v-bind('SCRIPT_EDITOR_OFFSET + "px"');
 }
 
 .editor-overlay {
@@ -181,13 +185,14 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
   display: flex;
   gap: 3rem;
   justify-content: space-between;
+  cursor: pointer;
 }
-te .intellisense-item-list span:last-child {
+.intellisense-item-list span:last-child {
   font-size: calc(var(--editor-font-size) * 0.8);
 }
 
 .intellisense-selected {
-  background-color: rgb(189, 130, 130);
+  background-color: rgb(137, 189, 130);
 }
 
 .error-title {
