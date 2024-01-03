@@ -3,17 +3,22 @@ import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { ref } from 'vue';
 
 const {
   editorOptions,
   editorText,
   overlayContent,
-  errorMessage,
-  errorPosition,
+  errorTooltip,
   lineNumbers,
   updateText,
+  initializeQuill,
 } = useScriptEditor();
 const { output, compileScript } = useCompiler();
+
+const lineNumberDiv = ref<HTMLElement | null>(null);
+const overlayDiv = ref<HTMLElement | null>(null);
+const errorTooltipDiv = ref<HTMLElement | null>(null);
 
 // window.addEventListener('keydown', (e) => {
 //   if (e.key === 'Control') {
@@ -35,11 +40,16 @@ const { output, compileScript } = useCompiler();
   <main class="script-editing-window">
     <h1>Script Editor</h1>
     <div class="editor-wrapper">
-      <div class="line-numbers">
+      <div ref="lineNumberDiv" class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
       </div>
-      <QuillEditor :options="editorOptions" @update:content="updateText" />
-      <div class="editor-overlay" v-html="overlayContent"></div>
+      <QuillEditor
+        ref="testRef"
+        :options="editorOptions"
+        @update:content="updateText"
+        @ready="(quill) => initializeQuill(quill, lineNumberDiv, overlayDiv, errorTooltipDiv)"
+      />
+      <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <div class="button-wrapper">
       <button class="compile-button" type="button" @click="compileScript(editorText)">
@@ -53,7 +63,9 @@ const { output, compileScript } = useCompiler();
       <div class="intellisense"></div>
     </Teleport> -->
   <Teleport to="body">
-    <div v-show="errorMessage" class="error-title">{{ errorMessage }}</div>
+    <div ref="errorTooltipDiv" v-show="errorTooltip.message" class="error-title">
+      {{ errorTooltip.message }}
+    </div>
   </Teleport>
 </template>
 
@@ -102,10 +114,10 @@ const { output, compileScript } = useCompiler();
 .line-numbers {
   position: absolute;
   border-right: 1px solid #ccc;
+  padding-top: 14px;
   padding-right: 5px;
   padding-bottom: 12px;
   height: 100%;
-  padding-top: 12px;
   box-sizing: border-box;
   overflow-y: hidden;
 }
@@ -148,8 +160,8 @@ const { output, compileScript } = useCompiler();
 
 .error-title {
   position: absolute;
-  top: v-bind('errorPosition.y');
-  left: v-bind('errorPosition.x');
+  top: v-bind('errorTooltip.position.y');
+  left: v-bind('errorTooltip.position.x');
   border: 1px solid black;
   background: rgb(233, 233, 233);
   padding: 5px;

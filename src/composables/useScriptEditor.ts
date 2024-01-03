@@ -1,18 +1,23 @@
 import { editorOptions } from '@/config/quill';
 import { highlightScriptErrors } from '@/utils/highlightScriptErrors';
-import { type Delta } from '@vueup/vue-quill';
+import { Quill, type Delta } from '@vueup/vue-quill';
 import sanitize from 'sanitize-html';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+
+type ErrorTooltip = {
+  message: string;
+  position: { x: string; y: string };
+};
 
 export function useScriptEditor() {
   const editor = ref<HTMLElement | null>(null);
   const overlay = ref<HTMLElement | null>(null);
   const lineNumberDiv = ref<HTMLElement | null>(null);
+  const errorTooltipDiv = ref<HTMLElement | null>(null);
 
   const editorText = ref('');
   const overlayContent = ref('');
-  const errorMessage = ref('');
-  const errorPosition = ref({ x: '0px', y: '0px' });
+  const errorTooltip = ref<ErrorTooltip>({ message: '', position: { x: '0px', y: '0px' } });
   const typingTimer = ref<number>(0);
 
   const lineNumbers = computed(() => {
@@ -20,23 +25,30 @@ export function useScriptEditor() {
   });
 
   onMounted(() => {
-    editor.value = document.querySelector('.ql-editor');
-    overlay.value = document.querySelector('.editor-overlay');
-    lineNumberDiv.value = document.querySelector('.line-numbers');
-
-    editor.value?.setAttribute('spellcheck', 'false');
-    editor.value?.addEventListener('scroll', synchronizeScroll);
     document.addEventListener('mousemove', displayTooltip);
   });
 
   onUnmounted(() => {
-    editor.value?.removeEventListener('scroll', synchronizeScroll);
     document.removeEventListener('mousemove', displayTooltip);
   });
 
+  function initializeQuill(
+    quill: Quill,
+    lineNumberRef: HTMLElement | null,
+    overlayDiv: HTMLElement | null,
+    errorTooltipDivNode: HTMLElement | null,
+  ) {
+    lineNumberDiv.value = lineNumberRef;
+    overlay.value = overlayDiv;
+    errorTooltipDiv.value = errorTooltipDivNode;
+
+    editor.value = quill.root;
+    editor.value?.setAttribute('spellcheck', 'false');
+    editor.value?.addEventListener('scroll', synchronizeScroll);
+  }
+
   function synchronizeScroll(e: Event) {
     if (overlay.value == null || lineNumberDiv.value == null) return;
-    console.log(lineNumberDiv.value.outerHTML);
 
     overlay.value.scrollTo(
       (e.target as HTMLElement).scrollLeft,
@@ -61,11 +73,10 @@ export function useScriptEditor() {
   }
 
   function displayTooltip(e: MouseEvent) {
-    const tooltip = document.querySelector('.error-title');
-
     //check if mouse intersects with warning or error
+    if (overlay.value == null || errorTooltipDiv.value == null) return;
     const doesIntersect = [
-      ...document.querySelectorAll(
+      ...overlay.value.querySelectorAll(
         '.script-editor-underline-error, .script-editor-underline-warning',
       ),
     ].some((el) => {
@@ -76,20 +87,19 @@ export function useScriptEditor() {
         e.clientY >= rect.top &&
         e.clientY <= rect.bottom
       ) {
-        errorMessage.value = (el as HTMLElement).title;
-        errorPosition.value = {
-          x: rect.left + 'px',
-          y: rect.top + 'px',
+        errorTooltip.value = {
+          message: (el as HTMLElement).title,
+          position: { x: rect.left + 'px', y: rect.top + 'px' },
         };
         return true;
-      } else if (tooltip != null && e.target === tooltip) {
+      } else if (e.target === errorTooltipDiv.value) {
         return true;
       }
       return false;
     });
 
     if (!doesIntersect) {
-      errorMessage.value = '';
+      errorTooltip.value.message = '';
     }
   }
 
@@ -97,9 +107,9 @@ export function useScriptEditor() {
     editorOptions,
     editorText,
     overlayContent,
-    errorMessage,
-    errorPosition,
+    errorTooltip,
     lineNumbers,
     updateText,
+    initializeQuill,
   };
 }

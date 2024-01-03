@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { useCompiler } from './useCompiler';
 
 vi.mock('@/utils/makeRequest');
+vi.mock('@/services/scriptService');
 
 describe('useCompiler', () => {
   it('should compile the script', async () => {
@@ -14,7 +15,10 @@ describe('useCompiler', () => {
       data: [1, 2, 3],
     };
 
-    vi.mocked(makeRequest).mockResolvedValue(mockResponse);
+    vi.mocked(makeRequest).mockImplementation((func: Function) => {
+      func();
+      return Promise.resolve(mockResponse);
+    });
 
     await compileScript('some_script');
 
