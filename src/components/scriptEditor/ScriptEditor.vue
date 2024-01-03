@@ -13,6 +13,8 @@ const {
   lineNumbers,
   updateText,
   initializeQuill,
+  intellisense,
+  intellisenseTooltip,
 } = useScriptEditor();
 const { output, compileScript } = useCompiler();
 
@@ -32,7 +34,6 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
 //     intellisensePos.value = { x: off.left + 'px', y: off.top + 'px' };
 //   }
 // });
-
 // const intellisensePos = ref({ x: '0px', y: '0px' });
 </script>
 
@@ -46,6 +47,7 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
       <QuillEditor
         ref="testRef"
         :options="editorOptions"
+        @textChange="intellisense"
         @update:content="updateText"
         @ready="(quill) => initializeQuill(quill, lineNumberDiv, overlayDiv, errorTooltipDiv)"
       />
@@ -59,9 +61,20 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
     <h3>Output:</h3>
     <div class="output-text">{{ output }}</div>
   </main>
-  <!-- <Teleport to="body">
-      <div class="intellisense"></div>
-    </Teleport> -->
+  <Teleport to="body">
+    <div v-if="intellisenseTooltip.display" class="intellisense">
+      <ul class="intellisense-item-list">
+        <li
+          v-for="(item, index) in intellisenseTooltip.items"
+          :key="item.value"
+          :class="{ 'intellisense-selected': intellisenseTooltip.selectedItem === index }"
+        >
+          <span>{{ item.value }}</span>
+          <span>{{ item.type }}</span>
+        </li>
+      </ul>
+    </div>
+  </Teleport>
   <Teleport to="body">
     <div ref="errorTooltipDiv" v-show="errorTooltip.message" class="error-title">
       {{ errorTooltip.message }}
@@ -71,10 +84,6 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
 
 <style scoped>
 .script-editing-window {
-  --editor-font-size: 1rem;
-  --editor-line-height: 1.5rem;
-  --editor-font-family: 'Courier New', Courier, monospace;
-
   padding: 10px;
   width: 100%;
   max-width: 500px;
@@ -149,14 +158,37 @@ const errorTooltipDiv = ref<HTMLElement | null>(null);
   text-decoration-color: orange;
 }
 
-/* .intellisense {
-  width: 50px;
-  height: 50px;
-  background-color: red;
+.intellisense {
+  background-color: #ccc;
   position: absolute;
-  top: v-bind('intellisensePos.y');
-  left: v-bind('intellisensePos.x');
-} */
+  top: v-bind('intellisenseTooltip.position.y');
+  left: v-bind('intellisenseTooltip.position.x');
+  transform: translate(0, calc(var(--editor-line-height) - 5px));
+}
+
+.intellisense-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;
+}
+
+.intellisense-item-list li {
+  padding-inline: 5px;
+  font-family: var(--editor-font-family);
+  font-size: var(--editor-font-size);
+  line-height: calc(var(--editor-line-height) * 0.8);
+  display: flex;
+  gap: 3rem;
+  justify-content: space-between;
+}
+te .intellisense-item-list span:last-child {
+  font-size: calc(var(--editor-font-size) * 0.8);
+}
+
+.intellisense-selected {
+  background-color: rgb(189, 130, 130);
+}
 
 .error-title {
   position: absolute;

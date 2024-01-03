@@ -1,15 +1,17 @@
+import { ACTIONS, CONTROLS } from '@/config/constants';
+import { getLabels } from './getLabels';
+
 type Token = {
   value: string;
   position: number;
 };
 
-const actions = ['noop', 'mov', 'rotr', 'rotl', 'att', 'eat'];
-const controls = ['ifEnemy', 'ifAlly', 'ifFood', 'ifEmpty', 'ifWall', 'goto'];
-
 export function highlightScriptErrors(content: string) {
-  const lines = content.split('\n');
-  const labels = lines.filter((line) => line.startsWith(':')).map((line) => line.slice(1));
-  return lines.map((line) => highlightErrorsInLine(line, labels)).join('\n');
+  const labels = getLabels(content);
+  return content
+    .split('\n')
+    .map((line) => highlightErrorsInLine(line, labels))
+    .join('\n');
 }
 
 function highlightErrorsInLine(line: string, labels: string[]) {
@@ -17,9 +19,9 @@ function highlightErrorsInLine(line: string, labels: string[]) {
 
   if (tokens.length === 0) return line;
 
-  if (actions.includes(tokens[0].value) && tokens.length > 1) {
+  if (ACTIONS.includes(tokens[0].value) && tokens.length > 1) {
     line = insertActionError(line, tokens);
-  } else if (controls.includes(tokens[0].value)) {
+  } else if (CONTROLS.includes(tokens[0].value)) {
     line = insertControlError(line, tokens, labels);
   } else if (tokens[0].value.includes(':') && tokens.length > 1) {
     line = insertLabelError(line, tokens);
@@ -108,14 +110,14 @@ function insertOtherErrors(line: string, tokens: Token[], labels: string[]) {
           );
         }
       }
-    } else if (!actions.includes(token.value) && !controls.includes(token.value)) {
+    } else if (!ACTIONS.includes(token.value) && !CONTROLS.includes(token.value)) {
       line = insertError(
         line,
         token,
         tokens,
-        `This is not a valid action or control.\nValid actions are: ${actions.join(
+        `This is not a valid action or control.\nValid actions are: ${ACTIONS.join(
           ', ',
-        )}.\nValid controls are: ${controls.join(', ')}.`,
+        )}.\nValid controls are: ${CONTROLS.join(', ')}.`,
       );
     }
   }

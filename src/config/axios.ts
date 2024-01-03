@@ -4,7 +4,7 @@ import axios, { type AxiosRequestConfig } from 'axios';
 export interface RetryAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
-// 42
+
 export function configureAxios() {
   axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API + '/api';
   axios.defaults.headers['Content-Type'] = 'application/json';
