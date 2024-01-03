@@ -42,7 +42,9 @@ const { output, compileScript } = useCompiler();
       <div class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <div class="button-wrapper">
-      <button type="button" @click="compileScript(editorText)">Compile</button>
+      <button class="compile-button" type="button" @click="compileScript(editorText)">
+        Compile
+      </button>
     </div>
     <h3>Output:</h3>
     <div class="output-text">{{ output }}</div>

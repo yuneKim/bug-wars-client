@@ -1,6 +1,10 @@
-import { mount } from '@vue/test-utils';
+import { useCompiler } from '@/composables/useCompiler';
+import { mount, shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { computed } from 'vue';
 import ScriptEditor from './ScriptEditor.vue';
+
+vi.mock('@/composables/useCompiler');
 
 describe('ScriptEditor', () => {
   afterEach(() => {
@@ -8,6 +12,11 @@ describe('ScriptEditor', () => {
   });
 
   it('should mount and have spellcheck disabled', () => {
+    vi.mocked(useCompiler).mockImplementation(() => ({
+      output: computed(() => 'some output'),
+      compileScript: vi.fn(),
+    }));
+
     const wrapper = mount(ScriptEditor, {
       attachTo: document.body,
     });
@@ -18,6 +27,11 @@ describe('ScriptEditor', () => {
   });
 
   it('should synchronize scroll', async () => {
+    vi.mocked(useCompiler).mockImplementation(() => ({
+      output: computed(() => 'some output'),
+      compileScript: vi.fn(),
+    }));
+
     const wrapper = mount(ScriptEditor, {
       attachTo: document.body,
     });
@@ -34,5 +48,20 @@ describe('ScriptEditor', () => {
     expect(spy).toHaveBeenCalledWith(0, 100);
 
     wrapper.unmount();
+  });
+
+  it('should compile on click', async () => {
+    const spy = vi.fn();
+
+    vi.mocked(useCompiler).mockImplementation(() => ({
+      output: computed(() => 'some output'),
+      compileScript: spy,
+    }));
+
+    const wrapper = shallowMount(ScriptEditor);
+
+    await wrapper.find('.compile-button').trigger('click');
+
+    expect(spy).toHaveBeenCalled();
   });
 });

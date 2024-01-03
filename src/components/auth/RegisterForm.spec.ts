@@ -69,7 +69,7 @@ describe('RegisterForm.vue', () => {
     expect(authService.register).toHaveBeenCalledOnce();
   });
 
-  it('handles errors', async () => {
+  it('handles errors with message', async () => {
     const wrapper = shallowMount(RegisterForm);
 
     const registerDto: RegisterDto = {
