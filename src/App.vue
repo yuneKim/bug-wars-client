@@ -12,8 +12,8 @@ const { logout } = useAuthStore();
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <a href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
-        <RouterLink v-else :to="{ name: 'login' }">Login</RouterLink>
+        <a class="logout" href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
+        <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
         <RouterLink :to="{ name: 'register' }">Register</RouterLink>
       </nav>
     </div>
