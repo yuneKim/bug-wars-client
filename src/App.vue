@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { RouterLink, RouterView } from 'vue-router';
+import { useAuthStore } from './stores/auth';
+
+const { user } = storeToRefs(useAuthStore());
+const { logout } = useAuthStore();
 </script>
 
 <template>
@@ -7,7 +12,8 @@ import { RouterLink, RouterView } from 'vue-router';
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+        <a href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
+        <RouterLink v-else :to="{ name: 'login' }">Login</RouterLink>
         <RouterLink :to="{ name: 'register' }">Register</RouterLink>
       </nav>
     </div>
