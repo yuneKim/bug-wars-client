@@ -47,13 +47,13 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'home' });
   }
 
-  function logout() {
+  function logout(redirect = true) {
     user.value = emptyUser;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     authService.logout();
-    router.push({ name: 'login' });
+    if (redirect) router.push({ name: 'home' });
   }
 
   function clearAuthError() {
