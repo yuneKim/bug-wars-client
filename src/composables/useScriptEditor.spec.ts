@@ -1,5 +1,6 @@
-import { Delta } from '@vueup/vue-quill';
+import { Delta, Quill } from '@vueup/vue-quill';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ref } from 'vue';
 import { useScriptEditor } from './useScriptEditor';
 
 describe('useScriptEditor', () => {
@@ -14,7 +15,14 @@ describe('useScriptEditor', () => {
   });
 
   it('should update overlay text', () => {
-    const { updateText, overlayContent } = useScriptEditor();
+    const { updateText, overlayContent, initializeQuill } = useScriptEditor({
+      overlayDiv: ref(document.createElement('div')),
+      lineNumberDiv: ref(document.createElement('div')),
+      errorTooltipDiv: ref(document.createElement('div')),
+    });
+
+    const quill = new Quill(document.createElement('div'));
+    initializeQuill(quill);
 
     const input = 'some_text';
     const output =

@@ -62,8 +62,8 @@ describe('highlightScriptErrors', () => {
   });
 
   it('should ignore comments', () => {
-    const input = 'att // :BEGIN test comment\n';
-    const output = 'att // :BEGIN test comment\n';
+    const input = 'att # :BEGIN test comment\n';
+    const output = 'att # :BEGIN test comment\n';
     expect(highlightScriptErrors(input)).toBe(output);
   });
 });
