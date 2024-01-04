@@ -17,4 +17,31 @@ describe('Script Editor', () => {
     cy.get('.ql-editor').type(':BEGIN{enter}att{enter}mov');
     cy.get('.ql-editor').should('have.text', ':BEGIN\tatt\tmov');
   });
+
+  it('displays intellisense when you begin typing a word', () => {
+    cy.get('.ql-editor').type('if');
+    cy.get('.intellisense').should('be.visible');
+    cy.get('.intellisense li').should('have.length', 5);
+  });
+
+  it('intellisense completes a word', () => {
+    cy.get('.ql-editor').type('if');
+    cy.get('.intellisense li').eq(1).click();
+    cy.get('.ql-editor').should('have.text', 'ifAlly');
+
+    cy.get('.ql-editor').type('{enter}if{downArrow}{downArrow}{enter}');
+    cy.get('.ql-editor').should('have.text', 'ifAllyifFood');
+  });
+
+  it('intellisense can be cancelled with escape key', () => {
+    cy.get('.ql-editor').type('if{esc}En');
+    cy.get('.intellisense').should('not.exist');
+  });
+
+  it('intellisense is hidden when editing existing word but reappears upon typing', () => {
+    cy.get('.ql-editor').type('ifEnemy {backspace}{backspace}{backspace}');
+    cy.get('.intellisense').should('not.exist');
+    cy.get('.ql-editor').type('m');
+    cy.get('.intellisense').should('be.visible');
+  });
 });

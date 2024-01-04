@@ -30,4 +30,4 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@v2
 
       - name: 'Run E2E Tests'
-        run: npm run test:e2e
+        run: npm run test:e2e:prebuilt
