@@ -21,6 +21,11 @@ const router = createRouter({
       name: 'register',
       component: RegisterView,
     },
+    {
+      path: '/script-editor',
+      name: 'scriptEditor',
+      component: () => import('@/components/scriptEditor/ScriptEditor.vue'),
+    },
   ],
 });
 

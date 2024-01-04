@@ -1,3 +1,9 @@
+:root {
+  --editor-font-size: 1rem;
+  --editor-line-height: 1.5rem;
+  --editor-font-family: 'Courier New', Courier, monospace;
+}
+
 body {
   margin: 0;
 }

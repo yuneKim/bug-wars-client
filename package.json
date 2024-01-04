@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
+    "start:test": "npm run build && npm run preview",
     "test:unit": "vitest",
-    "test:unit:coverage": "vitest --coverage",
-    "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:e2e": "start-server-and-test start:test http://localhost:4173 'cypress run --e2e'",
+    "test:e2e:prebuilt": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
@@ -17,8 +19,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.6.2",
     "pinia": "^2.1.7",
+    "sanitize-html": "^2.11.0",
     "vue": "^3.3.10",
     "vue-router": "^4.2.5"
   },
@@ -28,6 +32,7 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^18.19.3",
+    "@types/sanitize-html": "^2.9.5",
     "@vitejs/plugin-vue": "^4.5.1",
     "@vitest/coverage-v8": "^1.0.4",
     "@vitest/ui": "^1.1.0",

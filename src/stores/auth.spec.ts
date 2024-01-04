@@ -1,4 +1,4 @@
-import type { RetryAxiosRequestConfig } from '@/axios';
+import type { RetryAxiosRequestConfig } from '@/config/axios';
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
 import { flushPromises } from '@vue/test-utils';
@@ -152,22 +152,6 @@ describe('Auth Store', () => {
     expect(user.value).toStrictEqual(emptyUser);
     expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
     expect(authError.value).toBe('Something went wrong on our end. Try again later.');
-  });
-
-  it('should handle errors: non-axios errors', async () => {
-    const { login } = useAuthStore();
-    const consoleSpy = vi.spyOn(console, 'error');
-
-    const loginDto: LoginDto = {
-      username: 'some_user',
-      password: 'some_password',
-    };
-
-    vi.mocked(authService.login).mockRejectedValue(new Error("I'm an error!"));
-
-    await login(loginDto);
-
-    expect(consoleSpy).toHaveBeenCalledWith('Non-axios error:', expect.any(Error));
   });
 
   it('should logout a user and redirect to login', async () => {

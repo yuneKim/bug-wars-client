@@ -13,3 +13,7 @@ export type RegisterDto = {
   password: string;
   email: string;
 };
+
+export type ParseDto = {
+  code: string;
+};
