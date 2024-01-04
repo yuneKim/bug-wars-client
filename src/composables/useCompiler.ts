@@ -9,6 +9,9 @@ export function useCompiler() {
   const output = computed(() => compileError.value || JSON.stringify(byteCode.value));
 
   async function compileScript(code: string) {
+    // replace all nbsp with spaces
+    code = code.replace(/\u00a0/g, ' ');
+
     compileError.value = '';
 
     const response = await makeRequest(() => scriptService.parse({ code }), {
