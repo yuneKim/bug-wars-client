@@ -156,7 +156,7 @@ function extractTokens(line: string) {
 }
 
 function removeComment(line: string) {
-  const commentIndex = line.indexOf('//');
+  const commentIndex = line.indexOf('#');
   if (commentIndex === -1) return line;
   return line.slice(0, commentIndex);
 }

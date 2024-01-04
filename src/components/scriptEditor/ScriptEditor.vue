@@ -6,6 +6,10 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref } from 'vue';
 
+const lineNumberDiv = ref<HTMLElement | null>(null);
+const overlayDiv = ref<HTMLElement | null>(null);
+const errorTooltipDiv = ref<HTMLElement | null>(null);
+
 const {
   editorOptions,
   editorText,
@@ -17,13 +21,12 @@ const {
   intellisense,
   intellisenseTooltip,
   intellisenseClickHandler,
-} = useScriptEditor();
+} = useScriptEditor({
+  lineNumberDiv,
+  overlayDiv,
+  errorTooltipDiv,
+});
 const { output, compileScript } = useCompiler();
-
-const lineNumberDiv = ref<HTMLElement | null>(null);
-const overlayDiv = ref<HTMLElement | null>(null);
-const errorTooltipDiv = ref<HTMLElement | null>(null);
-const intellisenseTooltipDiv = ref<HTMLElement | null>(null);
 </script>
 
 <template>
@@ -38,16 +41,7 @@ const intellisenseTooltipDiv = ref<HTMLElement | null>(null);
         :options="editorOptions"
         @textChange="intellisense"
         @update:content="updateText"
-        @ready="
-          (quill) =>
-            initializeQuill(
-              quill,
-              lineNumberDiv,
-              overlayDiv,
-              errorTooltipDiv,
-              intellisenseTooltipDiv,
-            )
-        "
+        @ready="initializeQuill"
       />
       <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
