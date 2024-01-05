@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { authService } from '@/services/authService';
 import { type RegisterDto } from '@/types';
-import { makeRequest } from '@/utils/makeRequest';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -43,13 +42,7 @@ function handleSubmit() {
 }
 
 async function register(registerDto: RegisterDto) {
-  const response = await makeRequest(() => authService.register(registerDto), {
-    successStatuses: [201],
-    errorStatuses: {
-      400: 'All fields are required.',
-      409: (response) => response.data.message,
-    },
-  });
+  const response = await authService.register(registerDto);
 
   if (response.type === 'success') {
     router.push({ name: 'login' });

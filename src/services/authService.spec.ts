@@ -1,16 +1,18 @@
-import type { RegisterDto, LoginDto, User } from '@/types';
+import type { LoginDto, RegisterDto, User } from '@/types';
+import { makeRequest, type SuccessResponse } from '@/utils/makeRequest';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
 import { authService } from './authService';
 
 vi.mock('axios');
+vi.mock('@/utils/makeRequest');
 
 describe('authService', () => {
   it('makes a POST request to register', async () => {
     const registerDto: RegisterDto = {
       username: 'some_user',
       password: 'some_password',
-      email: 'some_email'
+      email: 'some_email',
     };
 
     const mockResponse: User = {
@@ -18,14 +20,25 @@ describe('authService', () => {
       roles: ['ROLE_USER'],
     };
 
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 201,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
     vi.mocked(axios.post).mockResolvedValue({
       data: mockResponse,
     });
 
-    const registerResponse = (await authService.register(registerDto)).data;
+    const registerResponse = await authService.register(registerDto);
 
     expect(axios.post).toHaveBeenCalledWith(expect.any(String), registerDto);
-    expect(registerResponse).toStrictEqual(mockResponse);
+    expect(registerResponse).toStrictEqual(mockSuccessResponse);
   });
 
   it('makes a POST request to login', async () => {
@@ -39,14 +52,25 @@ describe('authService', () => {
       roles: ['ROLE_USER'],
     };
 
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 201,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
     vi.mocked(axios.post).mockResolvedValue({
       data: mockResponse,
     });
 
-    const loginResponse = (await authService.login(loginDto)).data;
+    const loginResponse = await authService.login(loginDto);
 
     expect(axios.post).toHaveBeenCalledWith(expect.any(String), loginDto);
-    expect(loginResponse).toStrictEqual(mockResponse);
+    expect(loginResponse).toStrictEqual(mockSuccessResponse);
   });
 
   it('makes a POST request to logout', async () => {

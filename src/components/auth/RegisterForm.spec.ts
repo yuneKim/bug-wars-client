@@ -1,6 +1,5 @@
 import { authService } from '@/services/authService';
 import type { RegisterDto } from '@/types';
-import { makeRequest } from '@/utils/makeRequest';
 import { shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
@@ -42,13 +41,10 @@ describe('RegisterForm.vue', () => {
       email: 'some_email',
     };
 
-    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
-      func();
-      return Promise.resolve({
-        type: 'success',
-        status: 201,
-        data: 'A message',
-      });
+    vi.mocked(authService.register).mockResolvedValue({
+      type: 'success',
+      status: 20,
+      data: 'A message',
     });
 
     const usernameInput = wrapper.find('#username');
@@ -78,7 +74,7 @@ describe('RegisterForm.vue', () => {
       email: 'some_email',
     };
 
-    vi.mocked(makeRequest).mockResolvedValue({
+    vi.mocked(authService.register).mockResolvedValue({
       type: 'error',
       status: 400,
       error: 'A message',

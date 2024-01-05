@@ -1,5 +1,4 @@
 import { scriptService } from '@/services/scriptService';
-import { makeRequest } from '@/utils/makeRequest';
 import { computed, ref } from 'vue';
 
 export function useCompiler() {
@@ -11,15 +10,9 @@ export function useCompiler() {
   async function compileScript(code: string) {
     // replace all nbsp with spaces
     code = code.replace(/\u00a0/g, ' ');
-
     compileError.value = '';
 
-    const response = await makeRequest(() => scriptService.parse({ code }), {
-      successStatuses: [200],
-      errorStatuses: {
-        422: (response) => response.data.message,
-      },
-    });
+    const response = await scriptService.parse({ code });
 
     if (response.type === 'success') {
       byteCode.value = response.data;

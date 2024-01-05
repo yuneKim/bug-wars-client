@@ -3,6 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { makeRequest } from './makeRequest';
 
 describe('makeRequest', () => {
+  it('should return a success response when request was successful', async () => {
+    const mockResponse: AxiosResponse<any, any> = {
+      data: 'data',
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {} as any,
+    };
+    const request = () => Promise.resolve(mockResponse);
+
+    const response = await makeRequest(request, {
+      successStatuses: [200],
+      errorStatuses: {},
+    });
+
+    expect(response).toStrictEqual({
+      type: 'success',
+      status: 200,
+      data: 'data',
+    });
+  });
+
   it('should return an error when request was successful but response status was unexpected', async () => {
     const mockResponse: AxiosResponse<any, any> = {
       data: 'data',
@@ -114,6 +136,33 @@ describe('makeRequest', () => {
     expect(weirdestResponse).toStrictEqual({
       type: 'error',
       status: 0,
+      error: 'Something went wrong on our end. Try again later.',
+    });
+  });
+
+  it('should handle reasonable unexpected errors', async () => {
+    const mockError = new AxiosError();
+
+    const mockResponse: AxiosResponse<any, any> = {
+      data: 'data',
+      status: 500,
+      statusText: 'OK',
+      headers: {},
+      config: {} as any,
+    };
+
+    mockError.response = mockResponse;
+
+    const request = () => Promise.reject(mockError);
+
+    const response = await makeRequest(request, {
+      successStatuses: [200],
+      errorStatuses: {},
+    });
+
+    expect(response).toStrictEqual({
+      type: 'error',
+      status: 500,
       error: 'Something went wrong on our end. Try again later.',
     });
   });
