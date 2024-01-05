@@ -1,8 +1,8 @@
-import { makeRequest, type ErrorResponse, type SuccessResponse } from '@/utils/makeRequest';
+import { scriptService } from '@/services/scriptService';
+import { type ErrorResponse, type SuccessResponse } from '@/utils/makeRequest';
 import { describe, expect, it, vi } from 'vitest';
 import { useCompiler } from './useCompiler';
 
-vi.mock('@/utils/makeRequest');
 vi.mock('@/services/scriptService');
 
 describe('useCompiler', () => {
@@ -15,10 +15,7 @@ describe('useCompiler', () => {
       data: [1, 2, 3],
     };
 
-    vi.mocked(makeRequest).mockImplementation((func: Function) => {
-      func();
-      return Promise.resolve(mockResponse);
-    });
+    vi.mocked(scriptService.parse).mockResolvedValue(mockResponse);
 
     await compileScript('some_script');
 
@@ -34,7 +31,7 @@ describe('useCompiler', () => {
       error: 'Some Error',
     };
 
-    vi.mocked(makeRequest).mockResolvedValue(mockResponse);
+    vi.mocked(scriptService.parse).mockResolvedValue(mockResponse);
 
     await compileScript('some_script');
 
