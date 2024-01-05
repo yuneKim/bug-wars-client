@@ -19,6 +19,9 @@ Check out our [contributing guide](.github/CONTRIBUTING.md)!
 ## Contributors
 
 [Yune Kim - Tech Lead](https://github.com/yuneKim)
+
 [Christopher Bandurski](https://github.com/Ferrington)
+
 [Chris Ratsabout](https://github.com/chrisratsabout)
+
 [Clint Simmons](https://github.com/simmca)
