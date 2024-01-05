@@ -1,7 +1,7 @@
 import { ACTIONS, CONTROLS, SCRIPT_EDITOR_OFFSET } from '@/config/constants';
 import { getLabels } from '@/utils/scriptEditor/getLabels';
 import type { Delta, Quill } from '@vueup/vue-quill';
-import { onMounted, onUnmounted, ref, type Ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch, type Ref } from 'vue';
 
 type IntellisenseOption = {
   type: 'label' | 'action' | 'control';
@@ -29,6 +29,10 @@ export function useIntellisense({ quill, editorDiv, caretIndex }: Params) {
     items: [],
     selectedItem: 0,
     position: { x: '0px', y: '0px' },
+  });
+
+  watch(caretIndex, (newIndex) => {
+    console.log('child', newIndex);
   });
 
   onMounted(() => {
@@ -149,8 +153,11 @@ export function useIntellisense({ quill, editorDiv, caretIndex }: Params) {
     const content = quill.value.getText(0);
     const lastWord = getLastWord(content.slice(0, caretIndex.value));
     const option = intellisenseTooltip.value.items[intellisenseTooltip.value.selectedItem];
-    quill.value.insertText(caretIndex.value, option?.value.substring(lastWord.length) ?? '');
-    quill.value.setSelection(caretIndex.value + (option?.value.length ?? 0));
+    const oldCaretIndex = caretIndex.value;
+    quill.value.insertText(oldCaretIndex, option?.value.substring(lastWord.length) ?? '');
+
+    const newCaretIndex = oldCaretIndex + (option?.value.length ?? 0) - lastWord.length;
+    quill.value.setSelection(newCaretIndex);
   }
 
   return {

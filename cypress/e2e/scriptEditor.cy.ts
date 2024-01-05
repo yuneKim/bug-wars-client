@@ -33,6 +33,15 @@ describe('Script Editor', () => {
     cy.get('.ql-editor').should('have.text', 'ifAllyifFood');
   });
 
+  it('intellisense correct places cursor', () => {
+    cy.get('.ql-editor').type(':BEGIN{enter}{enter}{upArrow}if{enter}a');
+    cy.get('.ql-editor').should('have.text', ':BEGIN\tifEnemya\t');
+    cy.get('.ql-editor').type('{enter}if');
+    cy.get('.intellisense-item-list li').eq(2).click();
+    cy.get('.ql-editor').type('a');
+    cy.get('.ql-editor').should('have.text', ':BEGIN\tifEnemya\tifFooda\t');
+  });
+
   it('intellisense can be cancelled with escape key', () => {
     cy.get('.ql-editor').type('if{esc}En');
     cy.get('.intellisense').should('not.exist');
