@@ -1,14 +1,27 @@
 import type { LoginDto, RegisterDto } from '@/types';
+import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
 
 export const authService = {
-  register(registerDto: RegisterDto){
-    return axios.post('/auth/register', registerDto);
+  register(registerDto: RegisterDto) {
+    return makeRequest(() => axios.post('/auth/register', registerDto), {
+      successStatuses: [201],
+      errorStatuses: {
+        400: 'All fields are required.',
+        409: (response) => response.data.message,
+      },
+    });
   },
 
   login(loginDto: LoginDto) {
-    return axios.post('/auth/login', loginDto);
+    return makeRequest(() => axios.post('/auth/login', loginDto), {
+      successStatuses: [200],
+      errorStatuses: {
+        400: 'Username and Password cannot be blank.',
+        401: 'Your login attempt failed. Please try again.',
+      },
+    });
   },
 
   logout() {
@@ -23,6 +36,4 @@ export const authService = {
       refreshToken: token,
     });
   },
-
-
 };

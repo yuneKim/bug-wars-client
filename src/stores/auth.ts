@@ -1,7 +1,7 @@
 import type { RetryAxiosRequestConfig } from '@/config/axios';
 import { authService } from '@/services/authService';
 import type { LoginDto, User } from '@/types';
-import { makeRequest, type SuccessResponse } from '@/utils/makeRequest';
+import { type SuccessResponse } from '@/utils/makeRequest';
 import { objectsHaveSameKeys } from '@/utils/objectsHaveSameKeys';
 import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
@@ -19,13 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
   const authError = ref('');
 
   async function login(loginDto: LoginDto) {
-    const response = await makeRequest(() => authService.login(loginDto), {
-      successStatuses: [200],
-      errorStatuses: {
-        400: 'Username and Password cannot be blank.',
-        401: 'Your login attempt failed. Please try again.',
-      },
-    });
+    const response = await authService.login(loginDto);
 
     if (response.type === 'success') {
       successfulLoginActions(response);
