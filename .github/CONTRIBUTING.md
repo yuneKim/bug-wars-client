@@ -45,10 +45,10 @@ Assuming you are using [VS Code](https://code.visualstudio.com/), you'll want to
 
 ## How to contribute
 
-To create a new feature / bug fix / whatever, create a new branch based on the main branch:
+To create a new feature / bug fix / whatever, create a new branch:
 
 ```
-git branch --track <new-branch> origin/main
+git checkout -b <your-branch>
 ```
 
 If you are going to implement a feature or fix a bug, your branch name should be formatted like
@@ -64,7 +64,7 @@ As you are working on your feature, continue to pull from main periodically to m
 git pull origin main
 ```
 
-You should regularly push your changes to your branch. Try and keep commits focused so if you need to go back to a previous commit it's easier to do.
+You should regularly push your changes to your branch. Try and keep the cope of your commits small so if you need to go back to a previous commit it's easier to do.
 
 ```
 git add -A
@@ -72,4 +72,23 @@ git commit -m "styled login page"
 git push origin <your-branch>
 ```
 
-When you're satisfied with your work and ready to merge your changes to main, head to github and [create a pull request (PR)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=webui). Automated tests will run on your code. If they fail, you'll need to adjust your code until they pass. If there is a merge conflict, you'll need to resolve it before your branch can be merged. Finally, a group member will review your code. If they spot something funky, they may ask you to make a few changes. Once your PR is approved, your changes can be merged onto main. Thanks for your contribution!
+Before opening a pull request (PR), make sure all tests pass and have acceptable coverage.
+
+```
+npm run test:unit:coverage     # runs all vitest tests and generates a coverage report
+npm run test:e2e               # runs cypress e2e tests
+```
+
+You can also run vitest in watch mode. This is handy for when you're writing new tests. When you save, vitest will rerun any tests associated with that file.
+
+```
+npm run test:unit
+```
+
+Similarly, you can run cypress in dev mode. This is helpful when writing tests
+
+```
+npm run test:e2e:dev
+```
+
+When you're satisfied with your work and ready to merge your changes to main, head to github and [create a PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=webui). Automated tests will run on your code. If they fail, you'll need to adjust your code until they pass. If there is a merge conflict, you'll need to resolve it before your branch can be merged. Finally, a group member will review your code. If they spot something funky, they may ask you to make a few changes. Once your PR is approved, your changes can be merged onto main. Thanks for your contribution!
