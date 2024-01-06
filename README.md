@@ -27,3 +27,5 @@ Check out our [contributing guide](.github/CONTRIBUTING.md)!
 [Clint Simmons](https://github.com/simmca)
 
 [Samantha Stinchcomb](https://github.com/ThePudgyPigeon)
+
+[Stephanie Strano](https://github.com/stephnicoledev)
