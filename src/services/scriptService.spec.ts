@@ -1,4 +1,4 @@
-import type { ParseDto } from '@/types';
+import type { ParseDto, ScriptDto, Script } from '@/types';
 import { makeRequest, type SuccessResponse } from '@/utils/makeRequest';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
@@ -58,6 +58,41 @@ describe('authService', () => {
 
     expect(axios.get).toHaveBeenCalledWith(expect.any(String));
     expect(registerResponse).toStrictEqual(mockSuccessResponse);
+  });
+
+  it('make a POST request to create a script', async () => {
+    const scriptDto: ScriptDto = {
+      name: 'Razzle Dazzle',
+      raw: ':START \n :END',
+    };
+
+    const mockResponse: Script = {
+      id: 1,
+      name: 'Razzle Dazzle',
+      raw: ':START \n :END',
+      bytecode: '35 0',
+      isBytecodeValid: true,
+    };
+
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 201,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
+    vi.mocked(axios.post).mockResolvedValue({
+      data: mockResponse,
+    });
+
+    const createScriptResponse = await scriptService.createScript(scriptDto);
+
+    expect(axios.post).toHaveBeenCalledWith(expect.any(String), scriptDto);
+    expect(createScriptResponse).toStrictEqual(mockSuccessResponse);
   });
 
   it('makes a GET request to get a script by id', async () => {

@@ -17,3 +17,16 @@ export type RegisterDto = {
 export type ParseDto = {
   code: string;
 };
+
+export type ScriptDto = {
+  name: string;
+  raw: string;
+};
+
+export type Script = {
+  id: number;
+  name: string;
+  raw: string;
+  bytecode: string;
+  isBytecodeValid: boolean;
+};
