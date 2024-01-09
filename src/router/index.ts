@@ -6,6 +6,7 @@ import LandingPageView from '@/views/LandingPageView.vue';
 import GameLobbyView from '@/views/GameLobbyView.vue';
 import HowToPlayView from '@/views/HowToPlayView.vue';
 import CreditsView from '@/views/CreditsView.vue';
+import ScriptListView from '@/views/ScriptListView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +45,12 @@ const router = createRouter({
       path: '/credits',
       name: 'credits',
       component: CreditsView,
-    }
+    },
+    {
+      path: '/scripts',
+      name: 'Scripts',
+      component: ScriptListView,
+    },
   ],
 });
 
