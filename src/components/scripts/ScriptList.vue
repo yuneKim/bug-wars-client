@@ -14,18 +14,21 @@ async function loadScripts() {
   if (response.type === 'success') {
     scripts.value = response.data;
   } else {
-    console.error("Uh oh");
+    console.error('Uh oh');
   }
-
 }
-
 </script>
 
 <template>
   <h1>Your Scripts</h1>
   <ul>
-    <li v-for="script in scripts" :key="script.id"><RouterLink :to="{name:'scriptEditor', params:{id:script.id}}">{{ script.name }}</RouterLink></li>
+    <li v-for="script in scripts" :key="script.id">
+      <RouterLink :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
+        script.name
+      }}</RouterLink>
+    </li>
   </ul>
+  <RouterLink :to="{ name: 'scriptEditor' }">Create Script</RouterLink>
 </template>
 
 <style scoped></style>
