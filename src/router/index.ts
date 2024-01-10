@@ -27,7 +27,7 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/script-editor',
+      path: '/script-editor/:id?',
       name: 'scriptEditor',
       component: () => import('@/components/scriptEditor/ScriptEditor.vue'),
     },
@@ -48,7 +48,7 @@ const router = createRouter({
     },
     {
       path: '/scripts',
-      name: 'Scripts',
+      name: 'scripts',
       component: ScriptListView,
     },
   ],

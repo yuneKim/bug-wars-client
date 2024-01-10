@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
+import { useRoute } from 'vue-router';
 import { SCRIPT_EDITOR_OFFSET } from '@/config/constants';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { scriptService } from '@/services/scriptService';
+import type { Script } from '@/types';
+
+const route = useRoute();
+const script = ref<Script>();
+watch(
+  () => route.params.id,
+  (id) => loadScript(Number(id)),
+  { immediate: true },
+);
 
 const lineNumberDiv = ref<HTMLElement | null>(null);
 const overlayDiv = ref<HTMLElement | null>(null);
@@ -27,11 +38,22 @@ const {
   errorTooltipDiv,
 });
 const { output, compileScript } = useCompiler();
+editorText.value = 'execute order 66';
+async function loadScript(scriptId: number) {
+  const response = await scriptService.getScriptById(scriptId);
+
+  if (response.type === 'success') {
+    script.value = response.data;
+  } else {
+    console.error('Uh oh');
+  }
+}
 </script>
 
 <template>
   <main class="script-editing-window">
     <h1>Script Editor</h1>
+    <h2>{{ script?.name }}</h2>
     <div class="editor-wrapper">
       <div ref="lineNumberDiv" class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
@@ -52,6 +74,7 @@ const { output, compileScript } = useCompiler();
     </div>
     <h3>Output:</h3>
     <div class="output-text">{{ output }}</div>
+    {{ script }}
   </main>
   <Teleport to="body">
     <div
