@@ -1,166 +1,7 @@
 <script setup lang="ts">
+import { gameService } from '@/services/gameService';
 import { cloneDeep } from 'lodash-es';
-import { ref } from 'vue';
-
-const str =
-  '01010101010101010101010101010101010101010101010101010101010101 01000000000000000100010000000000000000000100010000000000000001 01000000000000000000010001011111110101000100000000000000000001 01000000000000000000010011001100110011000100000000000000000001 01000000010001000000010000000000000000000100000001000100000001 01000000000001000000000001000000000001000000000001000000000001 01000000010101000000010059000000000059000100000001010100000001 01000000000000000000010000000000000000000100000000000000000001 01010000000000000027010000000000000000000111000000000000000101 01000000000000002300010000000000000000000100150000000000000001 01010101010001010101010100000000000000010101010101000101010101 01000000000000000000010000000000000000000100000000000000000001 01000123000139000000000000000100000000000000000031010047010001 01000100000000000000000000000000000000000000000000000000010001 01002323000000000000000000000200020001000000000000000047470001 01002300000000000000000000000002000000000000000000000000470001 01002323000000000000000001000200020000000000000000000047470001 01000100000000000000000000000000000000000000000000000000010001 01000123000139000000000000000000010000000000000031010047010001 01000000000000000000010000000000000000000100000000000000000001 01010101010001010101010100000000000000010101010101000101010101 01000000000000005500010000000000000000000100470000000000000001 01010000000000000051010000000000000000000135000000000000000101 01000000000000000000010000000000000000000100000000000000000001 01000000010101000000010003000000000003000100000001010100000001 01000000000001000000000001000000000001000000000001000000000001 01000000010001000000010000000000000000000100000001000100000001 01000000000000000000010051005100510051000100000000000000000001 01000000000000000000010001015151510101000100000000000000000001 01000000000000000100010000000000000000000100010000000000000001 01010101010101010101010101010101010101010101010101010101010101 ';
-
-const ticks: BattleSummary = [
-  [
-    {
-      coords: {
-        x: 14.0,
-        y: 2.0,
-      },
-      action: 0,
-    },
-    {
-      coords: {
-        x: 2.0,
-        y: 14.0,
-      },
-      action: 11,
-    },
-    {
-      coords: {
-        x: 28.0,
-        y: 16.0,
-      },
-      action: 10,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 16.0,
-        y: 28.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 16.0,
-        y: 2.0,
-      },
-      action: 0,
-    },
-    {
-      coords: {
-        x: 2.0,
-        y: 16.0,
-      },
-      action: 11,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 28.0,
-        y: 14.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 14.0,
-        y: 28.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 15.0,
-        y: 2.0,
-      },
-      action: 12,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 2.0,
-        y: 15.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 28.0,
-        y: 15.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 15.0,
-        y: 28.0,
-      },
-      action: 10,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 12.0,
-        y: 3.0,
-      },
-      action: 12,
-    },
-    {
-      coords: {
-        x: 3.0,
-        y: 12.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 27.0,
-        y: 18.0,
-      },
-      action: 10,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 18.0,
-        y: 27.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 18.0,
-        y: 3.0,
-      },
-      action: 12,
-    },
-    {
-      coords: {
-        x: 3.0,
-        y: 18.0,
-      },
-      action: 10,
-    },
-  ],
-  [
-    {
-      coords: {
-        x: 27.0,
-        y: 12.0,
-      },
-      action: 10,
-    },
-    {
-      coords: {
-        x: 12.0,
-        y: 27.0,
-      },
-      action: 10,
-    },
-  ],
-];
+import { onMounted, ref } from 'vue';
 
 type Direction = 'north' | 'east' | 'south' | 'west';
 
@@ -194,8 +35,6 @@ type ActionSummary = {
 
 type TickSummary = ActionSummary[];
 
-type BattleSummary = TickSummary[];
-
 type BattleGrid = Entity[][];
 
 const frames = ref<BattleGrid[]>([]);
@@ -216,6 +55,13 @@ const commands: Record<number, string> = {
   12: 'rotl',
   13: 'att',
   14: 'eat',
+};
+
+const bugImgs: Record<number, string> = {
+  0: new URL('@/assets/img/bug-red.jpg', import.meta.url).href,
+  1: new URL('@/assets/img/bug-blue.jpg', import.meta.url).href,
+  2: new URL('@/assets/img/bug-green.jpg', import.meta.url).href,
+  3: new URL('@/assets/img/bug-purple.jpg', import.meta.url).href,
 };
 
 function unsquash(str: string): Entity[][] {
@@ -250,21 +96,24 @@ function unsquash(str: string): Entity[][] {
           } else {
             throw new Error('Unknown entity');
           }
-        })
+        }),
     );
 
   return map as Entity[][];
 }
 
-function unpackReplay() {
-  frames.value[0] = unsquash(str);
+function unpackReplay(battleground: string, ticks: TickSummary[] = []) {
+  frames.value[0] = unsquash(battleground);
   for (let i = 0; i < ticks.length; i++) {
     const prevFrame = frames.value[i];
     const nextFrame = cloneDeep(prevFrame);
     for (const action of ticks[i]) {
       const { x, y } = action.coords;
       const cell = nextFrame[y][x];
-      if (cell.type !== 'bug') throw new Error('Problem with data');
+      if (cell.type !== 'bug') {
+        console.log(action);
+        throw new Error(`Problem with data on tick ${i}`);
+      }
       if (commands[action.action] === 'mov') {
         const { x: dx, y: dy } = getDirectionVector(cell.direction);
         const nextCell = nextFrame[y + dy][x + dx];
@@ -273,26 +122,43 @@ function unpackReplay() {
           nextFrame[y][x] = { type: 'empty' };
         }
       } else if (commands[action.action] === 'rotr') {
-        cell.direction = rotateDirection(cell.direction, 1);
-      } else if (commands[action.action] === 'rotl') {
         cell.direction = rotateDirection(cell.direction, -1);
+      } else if (commands[action.action] === 'rotl') {
+        cell.direction = rotateDirection(cell.direction, 1);
       } else if (commands[action.action] === 'att') {
         const { x: dx, y: dy } = getDirectionVector(cell.direction);
         const nextCell = nextFrame[y + dy][x + dx];
         if (nextCell.type === 'bug') {
+          nextFrame[y + dy][x + dx] = { type: 'food' };
+        } else if (nextCell.type === 'food') {
           nextFrame[y + dy][x + dx] = { type: 'empty' };
         }
       } else if (commands[action.action] === 'eat') {
         const { x: dx, y: dy } = getDirectionVector(cell.direction);
         const nextCell = nextFrame[y + dy][x + dx];
         if (nextCell.type === 'food') {
-          nextFrame[y + dy][x + dx] = cell;
-          nextFrame[y][x] = { type: 'empty' };
+          const newBug = {
+            type: 'bug',
+            direction: faceCenter(x + dx, y + dy, nextFrame),
+            swarm: cell.swarm,
+          } as Bug;
+          nextFrame[y + dy][x + dx] = newBug;
         }
       }
     }
     frames.value.push(nextFrame);
   }
+}
+
+function faceCenter(x: number, y: number, frame: BattleGrid): Direction {
+  const centerX = Math.floor(frame[0].length / 2);
+  const centerY = Math.floor(frame.length / 2);
+  const slope = x == centerX ? Infinity : (-1 * (centerY - y)) / (centerX - x);
+
+  if (slope > -1 && slope < 1) {
+    return x > centerX ? 'west' : 'east';
+  }
+  return y > centerY ? 'north' : 'south';
 }
 
 function getDirectionVector(direction: Direction) {
@@ -355,8 +221,24 @@ function setIntervalImmediately(func: Function, interval: number) {
   return window.setInterval(func, interval);
 }
 
-unpackReplay();
-console.log(frames);
+async function getReplay() {
+  const gameDto = {
+    scriptIds: [1, 2, 1, 2],
+    // mapName: 'ns_arena.txt',
+    mapName: 'ns_fortress4.txt',
+  };
+  const response = await gameService.getReplay(gameDto);
+
+  if (response.type === 'success') {
+    const { battleground, replay } = response.data;
+    console.log(replay);
+    unpackReplay(battleground, replay);
+  } else {
+    console.error('uh oh', response.status, response.error);
+  }
+}
+
+onMounted(getReplay);
 </script>
 
 <template>
@@ -364,9 +246,10 @@ console.log(frames);
     <div v-if="frames.length > 0" class="battlefield">
       <div class="row" v-for="(row, y) in frames[frameIndex]" :key="y">
         <div :class="`cell ${cell.type}`" v-for="(cell, x) in row" :key="x">
-          <div v-if="cell.type === 'bug'" :class="`swarm-${cell.swarm + 1}`">
-            <img :class="`face-${cell.direction}`" src="@/assets/right-arrow.png" width="10" />
+          <div v-if="cell.type === 'bug'" :class="`swarm-${cell.swarm + 1}`" :title="`${x}, ${y}`">
+            <img :class="`face-${cell.direction}`" :src="bugImgs[cell.swarm]" width="20" />
           </div>
+          <div v-if="cell.type === 'food'"></div>
         </div>
       </div>
     </div>
@@ -393,7 +276,7 @@ console.log(frames);
 
 .battlefield {
   padding: 1px;
-  background: #000;
+  background: #545454;
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -405,20 +288,30 @@ console.log(frames);
 }
 
 .cell {
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
 }
 
 .wall {
-  background-color: #000;
+  background: #545454;
 }
 
 .empty {
-  background-color: #fff;
+  background-color: #000;
 }
 
 .food {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+}
+
+.food div {
   background-color: #0f0;
+  height: 14px;
+  width: 14px;
+  border-radius: 7px;
 }
 
 .bug {
@@ -451,19 +344,19 @@ console.log(frames);
 }
 
 .face-north {
-  transform: rotate(270deg);
-}
-
-.face-east {
   transform: rotate(0deg);
 }
 
-.face-south {
+.face-east {
   transform: rotate(90deg);
 }
 
-.face-west {
+.face-south {
   transform: rotate(180deg);
+}
+
+.face-west {
+  transform: rotate(270deg);
 }
 
 .vcr-controls {

@@ -1,11 +1,10 @@
-import LoginView from '@/views/LoginView.vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import RegisterView from '../views/RegisterView.vue';
-import LandingPageView from '@/views/LandingPageView.vue';
+import CreditsView from '@/views/CreditsView.vue';
 import GameLobbyView from '@/views/GameLobbyView.vue';
 import HowToPlayView from '@/views/HowToPlayView.vue';
-import CreditsView from '@/views/CreditsView.vue';
+import LandingPageView from '@/views/LandingPageView.vue';
+import LoginView from '@/views/LoginView.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import RegisterView from '../views/RegisterView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +43,12 @@ const router = createRouter({
       path: '/credits',
       name: 'credits',
       component: CreditsView,
-    }
+    },
+    {
+      path: '/replay-viewer',
+      name: 'replayViewer',
+      component: () => import('@/components/replayViewer/ReplayViewer.vue'),
+    },
   ],
 });
 
