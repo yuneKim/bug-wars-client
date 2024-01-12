@@ -6,17 +6,17 @@ import Button from 'primevue/button';
   <div class="container">
     <div class="btn-wrapper">
       <!-- logo goes here -->
-      <Button>
-        <RouterLink :to="{ name: 'gameLobby' }" data-test="gameLobby">Play Game</RouterLink>
+      <Button data-test="gameLobby">
+        <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
       </Button>
-      <Button>
-        <RouterLink :to="{ name: 'scripts' }" data-test="scriptEditor">Script Editor</RouterLink>
+      <Button data-test="scriptEditor">
+        <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
       </Button>
-      <Button>
-        <RouterLink :to="{ name: 'howToPlay' }" data-test="howToPlay">How to Play</RouterLink>
+      <Button data-test="howToPlay">
+        <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
       </Button>
-      <Button>
-        <RouterLink :to="{ name: 'credits' }" data-test="credits">Credits</RouterLink>
+      <Button data-test="credits">
+        <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
       </Button>
     </div>
   </div>
