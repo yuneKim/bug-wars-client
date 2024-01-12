@@ -13,14 +13,17 @@ const { logout } = useAuthStore();
       <nav class="header-div">
         <div class="left">
           <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-          <RouterLink :to="{ name: 'scriptEditor' }">Script Editor</RouterLink>
+          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
         </div>
-        <div class="middle"><h1 class="main-title">Bug Wars</h1></div>
+        <div class="middle">
+          <RouterLink :to="{ name: 'home' }" class="main-title-link"
+            ><h1 class="main-title">Bug Wars</h1></RouterLink
+          >
+        </div>
         <div class="right">
-          <RouterLink to="/">Home</RouterLink>
+          <RouterLink :to="{ name: 'home' }" class="home-link">Home</RouterLink>
           <a class="logout" href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
           <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
-          <RouterLink :to="{ name: 'register' }">Register</RouterLink>
         </div>
       </nav>
     </header>
@@ -46,6 +49,15 @@ const { logout } = useAuthStore();
 .header-div {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+}
+
+.main-title-link {
+  text-decoration: none;
+  color: black;
+}
+
+.home-link {
+  margin-right: 40px;
 }
 
 .left {
