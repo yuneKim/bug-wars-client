@@ -3,15 +3,40 @@ import ReplayViewer from '@/components/replayViewer/ReplayViewer.vue';
 import { useReplayViewer } from '@/composables/useReplayViewer';
 import { useRoute } from 'vue-router';
 
+const bugImgs: Record<number, string> = {
+  0: new URL('@/assets/img/bug-red.png', import.meta.url).href,
+  1: new URL('@/assets/img/bug-blue.png', import.meta.url).href,
+  2: new URL('@/assets/img/bug-green.png', import.meta.url).href,
+  3: new URL('@/assets/img/bug-purple.png', import.meta.url).href,
+};
+
 const route = useRoute();
 
-const { frames, frameIndex, rewind, play, pause, showPause, prevFrame, nextFrame } =
-  useReplayViewer(route.query);
+const {
+  frames,
+  frameIndex,
+  rewind,
+  play,
+  pause,
+  showPause,
+  prevFrame,
+  nextFrame,
+  scoreBoard,
+  topBugs,
+} = useReplayViewer(route.query);
 </script>
 
 <template>
   <div class="game-container">
     <div class="game-wrapper">
+      <div class="scoreboard">
+        <div v-for="(swarm, n) in scoreBoard" :key="n">
+          <span class="leader-star" v-show="topBugs.includes(n)">&starf;</span>
+          <span>{{ swarm.name }}</span>
+          <span>{{ swarm.scores[frameIndex] }}</span>
+          <img :src="bugImgs[n]" />
+        </div>
+      </div>
       <div>
         <ReplayViewer :frame="frames[frameIndex]" />
       </div>
@@ -50,6 +75,12 @@ const { frames, frameIndex, rewind, play, pause, showPause, prevFrame, nextFrame
 .game-container {
   display: flex;
   justify-content: center;
+}
+
+.leader-star {
+  display: inline-block;
+  width: 20px;
+  color: gold;
 }
 
 .game-wrapper {
