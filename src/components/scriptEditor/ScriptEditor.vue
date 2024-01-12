@@ -7,13 +7,24 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, watch } from 'vue';
 import { scriptService } from '@/services/scriptService';
-import type { Script } from '@/types';
+import type { Script, ScriptDto } from '@/types';
 
 const route = useRoute();
-const script = ref<Script>();
+const script = ref<Script>({
+  id: -1,
+  name: '',
+  raw: '',
+  bytecode: '',
+  isBytecodeValid: false,
+});
+
+const editTitle = ref(script.value.name != '');
+const errorMessage = ref('');
+const successMessage = ref('');
+
 watch(
   () => route.params.id,
-  (id) => loadScript(Number(id)),
+  (id) => loadScript(id),
   { immediate: true },
 );
 
@@ -38,8 +49,12 @@ const {
   errorTooltipDiv,
 });
 const { output, compileScript } = useCompiler();
-editorText.value = 'execute order 66';
-async function loadScript(scriptId: number) {
+
+watch(editorText, (text) => (script.value.raw = text));
+
+async function loadScript(idString: string | string[]) {
+  const scriptId = Number(idString);
+  if (isNaN(scriptId)) return;
   const response = await scriptService.getScriptById(scriptId);
 
   if (response.type === 'success') {
@@ -48,12 +63,43 @@ async function loadScript(scriptId: number) {
     console.error('Uh oh');
   }
 }
+
+function save() {
+  if (script.value.id < 0) {
+    createScript();
+  }
+}
+
+async function createScript() {
+  const scriptDto: ScriptDto = {
+    name: script.value.name,
+    raw: script.value.raw,
+  };
+  const response = await scriptService.createScript(scriptDto);
+  if (response.type === 'success') {
+    script.value.id = response.data.id;
+    successMessage.value = 'Saved!';
+  } else {
+    errorMessage.value = response.error;
+  }
+}
+
+function clearMessages() {
+  errorMessage.value = '';
+  successMessage.value = '';
+}
 </script>
 
 <template>
   <main class="script-editing-window">
     <h1>Script Editor</h1>
-    <h2>{{ script?.name }}</h2>
+    <div v-if="editTitle">
+      <input type="text" v-model="script.name" @input="clearMessages" />
+      <button type="button" @click="editTitle = false">Ok!</button>
+    </div>
+    <h2 v-else>
+      {{ script?.name }} <button type="button" @click="editTitle = true">Edit Title</button>
+    </h2>
     <div class="editor-wrapper">
       <div ref="lineNumberDiv" class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
@@ -64,17 +110,20 @@ async function loadScript(scriptId: number) {
         @textChange="intellisense"
         @update:content="updateText"
         @ready="initializeQuill"
+        @input="clearMessages"
       />
       <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
+    <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     <div class="button-wrapper">
       <button class="compile-button" type="button" @click="compileScript(editorText)">
         Compile
       </button>
+      <button type="button" @click="save">Save</button>
+      <span class="success-message" v-if="successMessage"> {{ successMessage }}</span>
     </div>
     <h3>Output:</h3>
     <div class="output-text">{{ output }}</div>
-    {{ script }}
   </main>
   <Teleport to="body">
     <div
@@ -230,5 +279,13 @@ async function loadScript(scriptId: number) {
   border: 2px solid #ccc;
   padding: 12px;
   white-space: pre-wrap;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
 }
 </style>
