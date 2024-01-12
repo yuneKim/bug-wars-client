@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useCompiler } from '@/composables/useCompiler';
 import { useScriptEditor } from '@/composables/useScriptEditor';
-import { useRoute } from 'vue-router';
 import { SCRIPT_EDITOR_OFFSET } from '@/config/constants';
+import { scriptService } from '@/services/scriptService';
+import type { Script, ScriptDto } from '@/types';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, watch } from 'vue';
-import { scriptService } from '@/services/scriptService';
-import type { Script, ScriptDto } from '@/types';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
+console.log(route);
 const script = ref<Script>({
   id: -1,
   name: '',
