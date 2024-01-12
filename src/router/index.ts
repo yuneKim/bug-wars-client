@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/script-editor',
       name: 'scriptEditor',
-      component: () => import('@/components/scriptEditor/ScriptEditor.vue'),
+      component: () => import('@/views/ScriptEditorView.vue'),
     },
     {
       path: '/game-lobby',
@@ -45,9 +45,9 @@ const router = createRouter({
       component: CreditsView,
     },
     {
-      path: '/replay-viewer',
-      name: 'replayViewer',
-      component: () => import('@/components/replayViewer/ReplayViewer.vue'),
+      path: '/game',
+      name: 'game',
+      component: () => import('@/views/GameView.vue'),
     },
   ],
 });

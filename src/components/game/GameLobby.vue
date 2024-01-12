@@ -26,7 +26,7 @@ function setSelect(e: Event, n: number) {
 
 function startGame() {
   router.push({
-    name: 'replayViewer',
+    name: 'game',
     query: {
       m: gameData.value.map,
       s: gameData.value.swarms.join(','),
@@ -57,7 +57,6 @@ function startGame() {
         <button class="start-game-btn" @click="startGame">Start Game</button>
       </div>
     </div>
-    {{ gameData }}
   </div>
 </template>
 

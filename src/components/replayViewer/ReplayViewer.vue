@@ -1,46 +1,54 @@
 <script setup lang="ts">
-import { useReplayViewer } from '@/composables/useReplayViewer';
-import { useRoute } from 'vue-router';
+import type { BattleGrid } from '@/utils/replayUnsquasher';
 
-const route = useRoute();
-const { frames, frameIndex, rewind, play, fastForward, pause, bugImgs } = useReplayViewer(
-  route.query,
-);
+const bugImgs: Record<number, string> = {
+  0: new URL('@/assets/img/bug-red.png', import.meta.url).href,
+  1: new URL('@/assets/img/bug-blue.png', import.meta.url).href,
+  2: new URL('@/assets/img/bug-green.png', import.meta.url).href,
+  3: new URL('@/assets/img/bug-purple.png', import.meta.url).href,
+};
+
+const props = defineProps<{
+  frame: BattleGrid;
+}>();
+
+function randomDirection() {
+  const directions = ['face-north', 'face-east', 'face-south', 'face-west'];
+  return directions[Math.floor(Math.random() * directions.length)];
+}
 </script>
 
 <template>
   <div class="container">
-    <div v-if="frames.length > 0" class="battlefield">
-      <div class="row" v-for="(row, y) in frames[frameIndex]" :key="y">
+    <div v-if="frame" class="battlefield">
+      <div class="row" v-for="(row, y) in props.frame" :key="y">
         <div :class="`cell ${cell.type}`" v-for="(cell, x) in row" :key="x">
-          <div v-if="cell.type === 'bug'" :class="`swarm-${cell.swarm + 1}`" :title="`${x}, ${y}`">
-            <img :class="`face-${cell.direction}`" :src="bugImgs[cell.swarm]" width="20" />
+          <div
+            v-if="cell.type === 'bug'"
+            :class="`bug swarm-${cell.swarm + 1}`"
+            :title="`${x}, ${y}`"
+          >
+            <img src="@/assets/img/dark-ground.jpg" />
+            <img
+              class="bug-img"
+              :class="`face-${cell.direction}`"
+              :src="bugImgs[cell.swarm]"
+              width="20"
+            />
           </div>
-          <div v-if="cell.type === 'food'">
-            <img src="@/assets/img/food.jpg" />
+          <div class="food-cell" v-if="cell.type === 'food'">
+            <img src="@/assets/img/dark-ground.jpg" />
+            <img class="food-img" src="@/assets/img/food.png" />
           </div>
           <div v-if="cell.type === 'wall'">
             <img src="@/assets/img/wall.jpg" />
           </div>
           <div v-if="cell.type === 'empty'">
-            <img src="@/assets/img/ground.jpg" />
+            <img src="@/assets/img/dark-ground.jpg" />
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <button @click="frameIndex--" :disabled="frameIndex == 0">Previous</button>
-    <button @click="frameIndex++" :disabled="frameIndex >= frames.length - 1">Next</button>
-    <div>
-      <input type="range" v-model="frameIndex" :min="0" :max="frames.length - 1" @input="pause" />
-    </div>
-  </div>
-  <div class="vcr-controls">
-    <button @click="rewind">{{ '<<' }}</button>
-    <button @click="pause">{{ '||' }}</button>
-    <button @click="play">{{ '>' }}</button>
-    <button @click="fastForward">{{ '>>' }}</button>
   </div>
 </template>
 
@@ -55,12 +63,10 @@ const { frames, frameIndex, rewind, play, fastForward, pause, bugImgs } = useRep
   background: black;
   display: flex;
   flex-direction: column;
-  gap: 1px;
 }
 
 .row {
   display: flex;
-  gap: 1px;
 }
 
 .cell {
@@ -76,33 +82,20 @@ const { frames, frameIndex, rewind, play, fastForward, pause, bugImgs } = useRep
   background-color: #000;
 }
 
-.bug {
-  background-color: rgb(226, 226, 226);
+.bug,
+.food-cell {
+  position: relative;
 }
 
-.bug div {
-  width: 100%;
-  height: 100%;
-  font-size: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.bug img,
+.food-cell img {
+  position: absolute;
+  inset: 0;
 }
 
-.swarm-1 {
-  background-color: rgb(255, 0, 0);
-}
-
-.swarm-2 {
-  background-color: rgb(255, 0, 255);
-}
-
-.swarm-3 {
-  background-color: rgb(0, 0, 255);
-}
-
-.swarm-4 {
-  background-color: rgb(255, 255, 0);
+.bug-img,
+.food-img {
+  z-index: 5;
 }
 
 .face-north {
@@ -119,14 +112,5 @@ const { frames, frameIndex, rewind, play, fastForward, pause, bugImgs } = useRep
 
 .face-west {
   transform: rotate(270deg);
-}
-
-.vcr-controls {
-  display: flex;
-  gap: 1rem;
-}
-
-.vcr-controls button {
-  width: 50px;
 }
 </style>

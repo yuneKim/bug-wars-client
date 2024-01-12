@@ -6,20 +6,17 @@ import {
   type TickSummary,
 } from '@/utils/replayUnsquasher';
 import { cloneDeep } from 'lodash-es';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { LocationQuery } from 'vue-router';
-
-const bugImgs: Record<number, string> = {
-  0: new URL('@/assets/img/bug-red.jpg', import.meta.url).href,
-  1: new URL('@/assets/img/bug-blue.jpg', import.meta.url).href,
-  2: new URL('@/assets/img/bug-green.jpg', import.meta.url).href,
-  3: new URL('@/assets/img/bug-purple.jpg', import.meta.url).href,
-};
 
 export function useReplayViewer(routeQuery: LocationQuery) {
   const frames = ref<BattleGrid[]>([]);
   const frameIndex = ref(0);
   const timer = ref(0);
+
+  const showPause = computed(() => {
+    return timer.value !== 0;
+  });
 
   watch(
     () => routeQuery,
@@ -40,38 +37,35 @@ export function useReplayViewer(routeQuery: LocationQuery) {
     }
   }
 
+  function play(n: number) {
+    clearInterval(timer.value);
+    timer.value = setIntervalImmediately(() => {
+      if (frameIndex.value < frames.value.length - 1) frameIndex.value++;
+      if (frameIndex.value >= frames.value.length - 1) {
+        clearInterval(timer.value);
+        timer.value = 0;
+      }
+    }, n);
+  }
+
   function rewind() {
-    clearInterval(timer.value);
-    timer.value = setIntervalImmediately(() => {
-      if (frameIndex.value > 0) frameIndex.value--;
-      if (frameIndex.value <= 0) {
-        clearInterval(timer.value);
-      }
-    }, 100);
-  }
-
-  function play() {
-    clearInterval(timer.value);
-    timer.value = setIntervalImmediately(() => {
-      if (frameIndex.value < frames.value.length - 1) frameIndex.value++;
-      if (frameIndex.value >= frames.value.length - 1) {
-        clearInterval(timer.value);
-      }
-    }, 500);
-  }
-
-  function fastForward() {
-    clearInterval(timer.value);
-    timer.value = setIntervalImmediately(() => {
-      if (frameIndex.value < frames.value.length - 1) frameIndex.value++;
-      if (frameIndex.value >= frames.value.length - 1) {
-        clearInterval(timer.value);
-      }
-    }, 100);
+    pause();
+    frameIndex.value = 0;
   }
 
   function pause() {
     clearInterval(timer.value);
+    timer.value = 0;
+  }
+
+  function prevFrame() {
+    pause();
+    if (frameIndex.value > 0) frameIndex.value--;
+  }
+
+  function nextFrame() {
+    pause();
+    if (frameIndex.value < frames.value.length - 1) frameIndex.value++;
   }
 
   function setIntervalImmediately(func: Function, interval: number) {
@@ -89,7 +83,6 @@ export function useReplayViewer(routeQuery: LocationQuery) {
 
     if (response.type === 'success') {
       const { battleground, replay } = response.data;
-      console.log(replay);
       unpackReplay(battleground, replay);
     } else {
       console.error('uh oh', response.status, response.error);
@@ -101,8 +94,9 @@ export function useReplayViewer(routeQuery: LocationQuery) {
     frameIndex,
     rewind,
     play,
-    fastForward,
     pause,
-    bugImgs,
+    showPause,
+    prevFrame,
+    nextFrame,
   };
 }
