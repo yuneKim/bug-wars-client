@@ -4,8 +4,11 @@ import Button from 'primevue/button';
 
 <template>
   <div class="container">
+    <div>
+      <img class="logo" src="@/assets/base/logo.png"/>
+    </div>
+
     <div class="btn-wrapper">
-      <!-- logo goes here -->
       <Button data-test="gameLobby">
         <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
       </Button>
@@ -25,8 +28,16 @@ import Button from 'primevue/button';
 <style scoped>
 .container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding-top: calc(100vh / 4);
+  padding-top: 50px;
+}
+
+.logo {
+  width: 300px;
+  position: relative;
+  left: 7px;
 }
 
 .btn-wrapper {

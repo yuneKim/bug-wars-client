@@ -19,6 +19,22 @@ body {
   height: 100vh;
 }
 
+.p-inputtext {
+  padding: 6px;
+  background-color: rgba(18, 18, 18, .85);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.p-inputtext:hover {
+  border-color: rgb(114, 16, 0);
+}
+
+.p-inputtext:focus {
+  border-color: rgb(114, 16, 0);
+  box-shadow: 0 0 0 0.2rem rgb(114, 16, 0);
+}
+
 .p-button {
   justify-content: center;
   background: rgb(114, 16, 0);
@@ -26,6 +42,11 @@ body {
   border-color: rgb(220, 220, 220);
   padding-block: 5px;
   text-transform: uppercase;
+}
+
+.p-button:hover {
+  filter: brightness(75%);
+  transition: ease-in-out .2s;
 }
 
 .p-slider .p-slider-handle {
