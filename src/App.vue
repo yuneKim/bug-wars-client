@@ -1,32 +1,11 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { RouterLink, RouterView } from 'vue-router';
-import { useAuthStore } from './stores/auth';
+import TopNav from "@/components/base/TopNav.vue";
 
-const { user } = storeToRefs(useAuthStore());
-const { logout } = useAuthStore();
 </script>
 
 <template>
   <div class="container">
-    <header>
-      <nav class="header-div">
-        <div class="left">
-          <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
-        </div>
-        <div class="middle">
-          <RouterLink :to="{ name: 'home' }" class="main-title-link"
-            ><h1 class="main-title">Bug Wars</h1></RouterLink
-          >
-        </div>
-        <div class="right">
-          <RouterLink :to="{ name: 'home' }" class="home-link">Home</RouterLink>
-          <a class="logout" href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
-          <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
-        </div>
-      </nav>
-    </header>
+    <TopNav />
 
     <RouterView />
     <footer>
@@ -97,6 +76,20 @@ nav a {
 .footer-nav {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 5px;
+  padding: 10px;
+  background-color: rgba(18, 18, 18, .85);
+  
+}
+
+.footer-nav a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: #d1d1d1;
+  text-transform: uppercase;
+}
+
+.footer-nav a:hover {
+  color: rgb(255, 34, 0);
+  transition: ease-in-out .3s;
 }
 </style>

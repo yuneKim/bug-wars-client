@@ -1,19 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700;800&display=swap');
+
 :root {
   --editor-font-size: 1rem;
   --editor-line-height: 1.5rem;
   --editor-font-family: 'Courier New', Courier, monospace;
 }
 
+* {
+  font-family: Oxanium, Arial, Helvetica, sans-serif;
+}
+
 body {
   margin: 0;
+  background-image: url('@/assets/base/home-background-desktop.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 
 .p-button {
   justify-content: center;
-  background: red;
-  border-radius: 0;
-  border-color: red;
+  background: rgb(114, 16, 0);
+  border-radius: 2px;
+  border-color: rgb(220, 220, 220);
   padding-block: 5px;
+  text-transform: uppercase;
 }
 
 .p-slider .p-slider-handle {
