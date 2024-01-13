@@ -53,6 +53,10 @@ function clearError() {
         <p v-if="displayError.length > 0" class="login-error">{{ displayError }}</p>
         <button type="submit">Login</button>
       </div>
+      <div>
+        <p>Don't have an account?</p>
+        <RouterLink :to="{ name: 'register' }">Register here!</RouterLink>
+      </div>
     </form>
   </div>
 </template>

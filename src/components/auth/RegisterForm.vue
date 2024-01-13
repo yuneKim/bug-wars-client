@@ -89,6 +89,10 @@ async function register(registerDto: RegisterDto) {
       />
       <p class="error-message">{{ authError }}</p>
       <button type="submit">Register</button>
+      <div>
+        <p>Already have an account?</p>
+        <RouterLink :to="{ name: 'login' }">Login here!</RouterLink>
+      </div>
     </form>
   </div>
 </template>
