@@ -1,6 +1,6 @@
 import { authService } from '@/services/authService';
 import type { RegisterDto } from '@/types';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import RegisterForm from './RegisterForm.vue';
@@ -33,7 +33,7 @@ describe('RegisterForm.vue', () => {
   });
 
   it('calls register on form submit', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -66,7 +66,7 @@ describe('RegisterForm.vue', () => {
   });
 
   it('handles errors with message', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -97,7 +97,7 @@ describe('RegisterForm.vue', () => {
   });
 
   it('validates data on form submit', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const usernameInput = wrapper.find('#username');
     const passwordInput = wrapper.find('#password');

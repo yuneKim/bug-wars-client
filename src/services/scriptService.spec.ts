@@ -118,4 +118,28 @@ describe('authService', () => {
     expect(axios.get).toHaveBeenCalledWith(expect.any(String));
     expect(registerResponse).toStrictEqual(mockSuccessResponse);
   });
+
+  it('makes a DELETE request to delete a script by id', async () => {
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 204,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
+    const mockResponse = [35, 0];
+
+    vi.mocked(axios.get).mockResolvedValue({
+      data: mockResponse,
+    });
+
+    const registerResponse = await scriptService.deleteScriptById(1);
+
+    expect(axios.delete).toHaveBeenCalled();
+    expect(registerResponse).toStrictEqual(mockSuccessResponse);
+  });
 });

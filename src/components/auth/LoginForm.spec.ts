@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/auth';
 import type { LoginDto } from '@/types';
 import { createTestingPinia } from '@pinia/testing';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import LoginForm from './LoginForm.vue';
 
@@ -25,7 +25,7 @@ describe('LoginForm.vue', () => {
     div.id = 'root';
     document.body.appendChild(div);
 
-    const wrapper = shallowMount(LoginForm, {
+    const wrapper = mount(LoginForm, {
       attachTo: '#root',
       global: {
         plugins: [
@@ -62,7 +62,7 @@ describe('LoginForm.vue', () => {
     div.id = 'root';
     document.body.appendChild(div);
 
-    const wrapper = shallowMount(LoginForm, {
+    const wrapper = mount(LoginForm, {
       attachTo: '#root',
       global: {
         plugins: [

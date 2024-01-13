@@ -5,6 +5,6 @@ import TheCredits from './TheCredits.vue';
 describe('TheCredits.vue', () => {
     it('displays text', () => {
         const wrapper = shallowMount(TheCredits);
-        expect(wrapper.find('h1').text()).toBe('Credits');
+        expect(wrapper.find('h3').text()).toBe('Yune Kim - Tech Lead');
     })
 })

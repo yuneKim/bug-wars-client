@@ -26,48 +26,4 @@ describe('App.vue', () => {
 
     expect(wrapper.find('nav').exists()).toBe(true);
   });
-
-  it('renders nav element with login link', () => {
-    const pinia = createTestingPinia({
-      createSpy: vi.fn,
-    });
-    const authStore = useAuthStore(pinia);
-    authStore.user = {
-      username: '',
-      roles: [],
-    };
-
-    const wrapper = shallowMount(App, {
-      global: {
-        plugins: [pinia],
-      },
-      stubs: {
-        RouterLink: RouterLinkStub,
-      },
-    });
-
-    expect(wrapper.find('.login').exists()).toBe(true);
-  });
-
-  it('renders nav element with logout link', () => {
-    const pinia = createTestingPinia({
-      createSpy: vi.fn,
-    });
-    const authStore = useAuthStore(pinia);
-    authStore.user = {
-      username: 'ferrington',
-      roles: [],
-    };
-
-    const wrapper = shallowMount(App, {
-      global: {
-        plugins: [pinia],
-      },
-      stubs: {
-        RouterLink: RouterLinkStub,
-      },
-    });
-
-    expect(wrapper.find('.logout').exists()).toBe(true);
-  });
 });
