@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Script } from '@/types';
-import { ref, onMounted } from 'vue';
 import { scriptService } from '@/services/scriptService';
-import { RouterLink } from 'vue-router';
+import type { Script } from '@/types';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
+import { onMounted, ref } from 'vue';
+import { RouterLink } from 'vue-router';
 
 const scripts = ref<Script[]>([]);
 const showDialog = ref(false);
@@ -65,13 +65,5 @@ async function loadScripts() {
   justify-content: space-between;
   gap: 50px;
   align-items: center;
-}
-
-.p-button {
-  justify-content: center;
-  background: red;
-  border-radius: 0;
-  border-color: red;
-  padding-block: 5px;
 }
 </style>

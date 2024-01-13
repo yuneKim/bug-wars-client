@@ -35,14 +35,6 @@ import Button from 'primevue/button';
   gap: 5px;
 }
 
-.p-button {
-  justify-content: center;
-  background: red;
-  border-radius: 0;
-  border-color: red;
-  padding-block: 5px;
-}
-
 .btn-wrapper a {
   text-decoration: none;
   color: white;
