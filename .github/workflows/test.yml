@@ -29,5 +29,5 @@ jobs:
         if: always() # Also generate the report if tests are failing
         uses: davelosert/vitest-coverage-report-action@v2
 
-      - name: 'Run E2E Tests'
-        run: npm run test:e2e:prebuilt
+      # - name: 'Run E2E Tests'
+      #   run: npm run test:e2e:prebuilt

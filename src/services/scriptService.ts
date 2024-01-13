@@ -30,8 +30,8 @@ export const scriptService = {
     });
   },
   createScript(scriptDto: ScriptDto) {
-    return makeRequest(() => axios.post('/auth/login', scriptDto), {
-      successStatuses: [200],
+    return makeRequest(() => axios.post('/scripts', scriptDto), {
+      successStatuses: [201],
       errorStatuses: {
         400: 'Name/Script cannot be blank.',
         409: 'Name must be unique.',

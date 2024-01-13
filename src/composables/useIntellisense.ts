@@ -31,10 +31,6 @@ export function useIntellisense({ quill, editorDiv, caretIndex }: Params) {
     position: { x: '0px', y: '0px' },
   });
 
-  watch(caretIndex, (newIndex) => {
-    console.log('child', newIndex);
-  });
-
   onMounted(() => {
     document.addEventListener('click', clickHandler);
   });

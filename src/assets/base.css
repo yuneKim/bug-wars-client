@@ -7,3 +7,11 @@
 body {
   margin: 0;
 }
+
+.p-button {
+  justify-content: center;
+  background: red;
+  border-radius: 0;
+  border-color: red;
+  padding-block: 5px;
+}

@@ -1,16 +1,15 @@
 import { useCompiler } from '@/composables/useCompiler';
 import { mount, shallowMount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { computed } from 'vue';
 import ScriptEditor from './ScriptEditor.vue';
 
 vi.mock('@/composables/useCompiler');
+vi.mock('vue-router', () => ({
+  useRoute: vi.fn(() => ({ params: { id: '1' } })),
+}));
 
 describe('ScriptEditor', () => {
-  afterEach(() => {
-    vi.resetAllMocks();
-  });
-
   it('should mount and have spellcheck disabled', () => {
     vi.mocked(useCompiler).mockImplementation(() => ({
       output: computed(() => 'some output'),
