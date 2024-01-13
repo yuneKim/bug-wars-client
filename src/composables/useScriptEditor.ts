@@ -110,6 +110,11 @@ export function useScriptEditor({ overlayDiv, lineNumberDiv, errorTooltipDiv }: 
     }
   }
 
+  function setText(text: string) {
+    quill.value.setText(text);
+    updateText(new Delta([{ insert: text }]));
+  }
+
   return {
     editorOptions,
     editorText,
@@ -121,5 +126,6 @@ export function useScriptEditor({ overlayDiv, lineNumberDiv, errorTooltipDiv }: 
     intellisense,
     intellisenseTooltip,
     intellisenseClickHandler,
+    setText,
   };
 }

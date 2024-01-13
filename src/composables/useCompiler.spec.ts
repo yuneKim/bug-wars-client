@@ -37,4 +37,13 @@ describe('useCompiler', () => {
 
     expect(output.value).toStrictEqual(mockResponse.error);
   });
+
+  it('should set the output', () => {
+    const { output, setOutput } = useCompiler();
+
+    const input = '[1,2,3]';
+    setOutput(input);
+
+    expect(output.value).toStrictEqual(input);
+  });
 });

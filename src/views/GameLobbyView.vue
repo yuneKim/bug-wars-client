@@ -3,9 +3,9 @@ import GameLobby from '@/components/game/GameLobby.vue';
 </script>
 
 <template>
-    <div>
-        <GameLobby/>
-    </div>
+  <div>
+    <GameLobby />
+  </div>
 </template>
 
 <style scoped></style>

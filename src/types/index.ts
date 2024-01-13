@@ -30,3 +30,8 @@ export type Script = {
   bytecode: string;
   isBytecodeValid: boolean;
 };
+
+export type PlayGameDto = {
+  scriptIds: number[];
+  mapName: string;
+};

@@ -37,4 +37,21 @@ describe('useScriptEditor', () => {
 
     expect(overlayContent.value).toBe(output);
   });
+
+  it('should update editor text', () => {
+    const { setText, editorText, initializeQuill } = useScriptEditor({
+      overlayDiv: ref(document.createElement('div')),
+      lineNumberDiv: ref(document.createElement('div')),
+      errorTooltipDiv: ref(document.createElement('div')),
+    });
+
+    const quill = new Quill(document.createElement('div'));
+    initializeQuill(quill);
+
+    const input = 'some_text';
+    setText(input);
+    vi.runAllTimers();
+
+    expect(editorText.value).toBe(input);
+  });
 });

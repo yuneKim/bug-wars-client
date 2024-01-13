@@ -10,7 +10,7 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-console.log(route);
+
 const script = ref<Script>({
   id: -1,
   name: '',
@@ -44,12 +44,13 @@ const {
   intellisense,
   intellisenseTooltip,
   intellisenseClickHandler,
+  setText,
 } = useScriptEditor({
   lineNumberDiv,
   overlayDiv,
   errorTooltipDiv,
 });
-const { output, compileScript } = useCompiler();
+const { output, setOutput, compileScript } = useCompiler();
 
 watch(editorText, (text) => (script.value.raw = text));
 
@@ -60,6 +61,8 @@ async function loadScript(idString: string | string[]) {
 
   if (response.type === 'success') {
     script.value = response.data;
+    setText(script.value.raw);
+    setOutput(response.data.bytecode);
   } else {
     console.error('Uh oh');
   }
@@ -280,6 +283,7 @@ function clearMessages() {
   border: 2px solid #ccc;
   padding: 12px;
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .error-message {

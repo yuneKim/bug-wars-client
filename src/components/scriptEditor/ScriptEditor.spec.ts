@@ -13,6 +13,7 @@ describe('ScriptEditor', () => {
   it('should mount and have spellcheck disabled', () => {
     vi.mocked(useCompiler).mockImplementation(() => ({
       output: computed(() => 'some output'),
+      setOutput: vi.fn(),
       compileScript: vi.fn(),
     }));
 
@@ -28,6 +29,7 @@ describe('ScriptEditor', () => {
   it('should synchronize scroll', async () => {
     vi.mocked(useCompiler).mockImplementation(() => ({
       output: computed(() => 'some output'),
+      setOutput: vi.fn(),
       compileScript: vi.fn(),
     }));
 
@@ -54,6 +56,7 @@ describe('ScriptEditor', () => {
 
     vi.mocked(useCompiler).mockImplementation(() => ({
       output: computed(() => 'some output'),
+      setOutput: vi.fn(),
       compileScript: spy,
     }));
 

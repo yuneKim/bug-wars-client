@@ -21,8 +21,13 @@ export function useCompiler() {
     }
   }
 
+  function setOutput(output: string) {
+    byteCode.value = JSON.parse(output);
+  }
+
   return {
     output,
+    setOutput,
     compileScript,
   };
 }
