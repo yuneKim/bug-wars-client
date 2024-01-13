@@ -203,7 +203,6 @@ describe('generateFrame', () => {
   it('should face center from west', () => {
     const battleStr = '11000000 02000000 00000000';
     const battleGrid = unsquashBattleground(battleStr);
-    console.log(battleGrid);
 
     const tickSummary = [
       [
@@ -229,7 +228,6 @@ describe('generateFrame', () => {
   it('should face center from east', () => {
     const battleStr = '00000011 00000002 00000000';
     const battleGrid = unsquashBattleground(battleStr);
-    console.log(battleGrid);
 
     const tickSummary = [
       [
@@ -255,7 +253,6 @@ describe('generateFrame', () => {
   it('should face center from south', () => {
     const battleStr = '00000000 00000000 00000000 00001100 00000200';
     const battleGrid = unsquashBattleground(battleStr);
-    console.log(battleGrid);
 
     const tickSummary = [
       [
@@ -281,7 +278,6 @@ describe('generateFrame', () => {
   it('should face south from north', () => {
     const battleStr = '00110000 00020000 00000000 00000000 00000000';
     const battleGrid = unsquashBattleground(battleStr);
-    console.log(battleGrid);
 
     const tickSummary = [
       [
@@ -307,7 +303,6 @@ describe('generateFrame', () => {
   it('should throw error on misaddressed bug', () => {
     const battleStr = '00110000 00020000 00000000 00000000 00000000';
     const battleGrid = unsquashBattleground(battleStr);
-    console.log(battleGrid);
 
     const tickSummary = [
       [

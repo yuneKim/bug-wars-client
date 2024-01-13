@@ -22,11 +22,11 @@ type SwarmScore = {
 export function useReplayViewer(routeQuery: LocationQuery) {
   const frames = ref<BattleGrid[]>([]);
   const frameIndex = ref(0);
-  const timer = ref(0);
+  const timer = ref<number | null>(null);
   const scoreboard = ref<SwarmScore[]>([]);
 
   const showPause = computed(() => {
-    return timer.value !== 0;
+    return timer.value != null;
   });
 
   const topBugs = computed(() => {
@@ -47,6 +47,22 @@ export function useReplayViewer(routeQuery: LocationQuery) {
       immediate: true,
     },
   );
+
+  async function getReplay(mapName: string, scriptIds: number[]) {
+    const gameDto = {
+      scriptIds,
+      mapName,
+    };
+    const response = await gameService.getReplay(gameDto);
+
+    if (response.type === 'success') {
+      const { battleground, replay, swarms } = response.data;
+      initializeScoreboard(swarms);
+      unpackReplay(battleground, replay);
+    } else {
+      console.error('uh oh', response.status, response.error);
+    }
+  }
 
   function unpackReplay(battleground: string, ticks: TickSummary[] = []) {
     const initialState = unsquashBattleground(battleground);
@@ -86,12 +102,11 @@ export function useReplayViewer(routeQuery: LocationQuery) {
   }
 
   function play(n: number) {
-    clearInterval(timer.value);
+    clearTimer();
     timer.value = setIntervalImmediately(() => {
       if (frameIndex.value < frames.value.length - 1) frameIndex.value++;
       if (frameIndex.value >= frames.value.length - 1) {
-        clearInterval(timer.value);
-        timer.value = 0;
+        clearTimer();
       }
     }, n);
   }
@@ -102,8 +117,7 @@ export function useReplayViewer(routeQuery: LocationQuery) {
   }
 
   function pause() {
-    clearInterval(timer.value);
-    timer.value = 0;
+    clearTimer();
   }
 
   function prevFrame() {
@@ -121,20 +135,10 @@ export function useReplayViewer(routeQuery: LocationQuery) {
     return window.setInterval(func, interval);
   }
 
-  async function getReplay(mapName: string, scriptIds: number[]) {
-    const gameDto = {
-      scriptIds,
-      // mapName: 'ns_arena.txt',
-      mapName,
-    };
-    const response = await gameService.getReplay(gameDto);
-
-    if (response.type === 'success') {
-      const { battleground, replay, swarms } = response.data;
-      initializeScoreboard(swarms);
-      unpackReplay(battleground, replay);
-    } else {
-      console.error('uh oh', response.status, response.error);
+  function clearTimer() {
+    if (timer.value) {
+      clearInterval(timer.value);
+      timer.value = null;
     }
   }
 

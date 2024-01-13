@@ -33,7 +33,7 @@ const {
     <div class="scoreboard">
       <template v-for="topBug in topBugs" :key="topBug">
         <img :src="bugImgs[topBug]" />
-        <span class="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
+        <span class="score" data-test="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
         <span>{{ scoreboard[topBug].name }}</span>
       </template>
     </div>
@@ -55,10 +55,10 @@ const {
       <div class="vcr-controls">
         <div>
           <Button @click="rewind">{{ '|<' }}</Button>
-          <Button v-if="showPause" @click="pause">{{ '||' }}</Button>
-          <Button v-else @click="play(500)">{{ '>' }}</Button>
-          <Button @click="play(100)">{{ '>>' }}</Button>
-          <Button @click="play(30)">{{ '>>>' }}</Button>
+          <Button v-if="showPause" @click="pause" data-test="pause-button">{{ '||' }}</Button>
+          <Button v-else @click="play(500)" data-test="play-button">{{ '>' }}</Button>
+          <Button @click="play(100)" data-test="ff-button">{{ '>>' }}</Button>
+          <Button @click="play(30)" data-test="fff-button">{{ '>>>' }}</Button>
         </div>
         <div>
           <Button @click="prevFrame" :disabled="frameIndex == 0">{{ '<|' }}</Button>

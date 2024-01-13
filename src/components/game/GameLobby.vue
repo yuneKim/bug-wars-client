@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 export type GameData = {
   map: string;
-  swarms: number[];
+  swarms: string[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,13 +16,8 @@ const router = useRouter();
 
 const gameData = ref({
   map: 'ns_fortress4.txt',
-  swarms: [1, 1, 1, 1],
+  swarms: ['1', '1', '1', '1'],
 });
-
-function setSelect(e: Event, n: number) {
-  const target = e.target as HTMLSelectElement;
-  gameData.value.swarms[n - 1] = Number(target.value);
-}
 
 function startGame() {
   router.push({
@@ -47,14 +42,14 @@ function startGame() {
       <div class="swarm-selection-wrapper">
         <div v-for="n in 4" :key="n" class="swarm-group">
           <label :for="`swarm${n}`">{{ `Swarm ${n}:` }}</label>
-          <select :id="`swarm${n}`" @input="setSelect($event, n)">
+          <select :id="`swarm${n}`" v-model="gameData.swarms[n - 1]" data-test="swarm-select">
             <option value="1">Pizza Rizza</option>
             <option value="2">Strawberry Sizzle</option>
           </select>
         </div>
       </div>
       <div class="btn-wrapper">
-        <button class="start-game-btn" @click="startGame">Start Game</button>
+        <button class="start-game-btn" data-test="start-game" @click="startGame">Start Game</button>
       </div>
     </div>
   </div>
