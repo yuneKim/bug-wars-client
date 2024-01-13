@@ -1,10 +1,144 @@
 <script setup lang="ts">
+import Button from 'primevue/button';
 </script>
 
 <template>
-    <div>
-        <h1>Credits</h1>
+    <div class="credits-container">
+        <div class="logo-container">
+            <img class="crusader-games-logo" src="@/assets/base/crusader-games-logo.png" alt="crusader-games-logo">
+            <img class="team-doomity-logo" src="@/assets/base/team-doomity-logo.png" alt="team-doomity-logo">
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/yune.jpg" alt="anon">
+                <h3>Yune Kim - Tech Lead</h3>
+                <a href="https://www.linkedin.com/in/yunekimdev/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/yuneKim" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/christopher.jpg" alt="anon">
+                <h3>Christopher Bandurski</h3>
+                <a href="https://www.linkedin.com/in/christopherbandurski/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/Ferrington" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/keaton.jpg" alt="anon">
+                <h3>Keaton Kido</h3>
+                <a href="https://www.linkedin.com/in/keatonkido/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/kido8013" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/anon.jpg" alt="anon">
+                <h3>Maher Nassri</h3>
+                <a href="https://www.linkedin.com/in/maher-nassri-7292166/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/mahernassri" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/chris.jpg" alt="anon">
+                <h3>Chris Ratsabout</h3>
+                <a href="https://www.linkedin.com/in/christopherratsabout/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/chrisratsabout" target="_blank"><Button icon="pi pi-github"
+                        label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/alissa.jpg" alt="anon">
+                <h3>Alissa Reynolds</h3>
+                <a href="https://www.linkedin.com/in/alissa-reynolds-957810291/" target="_blank"><Button
+                        icon="pi pi-linkedin" label="LinkedIn" /></a>
+                <a href="https://github.com/alissareynolds" target="_blank"><Button icon="pi pi-github"
+                        label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/anon.jpg" alt="anon">
+                <h3>Kirk Reynolds</h3>
+                <a href="https://www.linkedin.com/in/kirk-reynolds-78baa9a1/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/km6805" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/clint.jpg" alt="anon">
+                <h3>Clint Simmons</h3>
+                <a href="https://www.linkedin.com/in/clintasimmons/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/simmca" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/sam.jpg" alt="anon">
+                <h3>Samantha Stinchcomb</h3>
+                <a href="https://www.linkedin.com/in/samantha-stinchcomb/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/ThePudgyPigeon" target="_blank"><Button icon="pi pi-github"
+                        label="GitHub" /></a>
+            </div>
+            <div class="card">
+                <img class="portrait" src="@/assets/portraits/stephanie.jpg" alt="anon">
+                <h3>Stephanie Strano</h3>
+                <a href="https://www.linkedin.com/in/stephanie-strano/" target="_blank"><Button icon="pi pi-linkedin"
+                        label="LinkedIn" /></a>
+                <a href="https://github.com/stephnicoledev" target="_blank"><Button icon="pi pi-github"
+                        label="GitHub" /></a>
+            </div>
+
+        </div>
+
+
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.credits-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.crusader-games-logo {
+    width: 200px;
+}
+
+.team-doomity-logo {
+    width: 500px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 50px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    text-transform: uppercase;
+    border: .5px solid white;
+    background-color: rgba(18, 18, 18, .85);
+    border-radius: 2px;
+    padding: 20px;
+    gap: 15px;
+    align-items: center;
+}
+
+.card h3 {
+    margin: 0;
+}
+
+.portrait {
+    width: 250px;
+    border-radius: 2px;
+}</style>

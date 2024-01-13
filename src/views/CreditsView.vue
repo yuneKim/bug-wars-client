@@ -3,9 +3,14 @@ import TheCredits from '@/components/game/TheCredits.vue';
 </script>
 
 <template>
-    <div>
+    <div class="big-container">
         <TheCredits/>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.big-container {
+    height: 100%;
+    overflow-y: auto;
+}
+</style>
