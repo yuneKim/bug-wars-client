@@ -3,6 +3,8 @@ import { authService } from '@/services/authService';
 import { type RegisterDto } from '@/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
 const router = useRouter();
 const authError = ref('');
@@ -53,44 +55,44 @@ async function register(registerDto: RegisterDto) {
 </script>
 <template>
   <div class="register-form-container">
-    <h1 class="register-header">Register</h1>
     <form class="register-form" @input="authError = ''" @submit.prevent="handleSubmit">
-      <input
+      <h1 class="register-header">Register</h1>
+      <label for="username">Username</label>
+      <InputText
         type="text"
         name="username"
         id="username"
-        placeholder="username"
         v-model="formData.username"
         required
       />
-      <input
+      <label for="password">Password</label>
+      <InputText
         type="password"
         name="password"
         id="password"
-        placeholder="password"
         v-model="formData.password"
         required
       />
-      <input
+      <label for="confirm-password">Confirm Password</label>
+      <InputText
         type="password"
         name="confirm-password"
         id="confirm-password"
-        placeholder="confirm password"
         v-model="formData.confirmPassword"
         required
       />
-      <input
+      <label for="email">Email</label>
+      <InputText
         type="email"
         name="email"
         id="email"
-        placeholder="email"
         v-model="formData.email"
         required
       />
       <p class="error-message">{{ authError }}</p>
-      <button type="submit">Register</button>
+      <Button type="submit">Register</Button>
       <div>
-        <p>Already have an account?</p>
+        <p>Have an account?</p>
         <RouterLink :to="{ name: 'login' }">Login here!</RouterLink>
       </div>
     </form>
@@ -100,17 +102,33 @@ async function register(registerDto: RegisterDto) {
 <style scoped>
 .register-header {
   text-align: center;
+  color: #fff;
 }
 .register-form-container {
-  display: block;
   margin: 0 auto;
-  width: 300px;
+  margin-top: 50px;
+  max-width: 250px;
+  text-transform: uppercase;
+  border: .5px solid white;
+  background-color: rgba(18, 18, 18, .85);
+  border-radius: 2px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 20px;
+  color: #fff;
+}
+
+.register-form a {
+  color: #fff;
+}
+
+.register-form a:hover {
+  color: #ff0000;
+  transition: ease-in-out .2s;
 }
 
 .error-message {

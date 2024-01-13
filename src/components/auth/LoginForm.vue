@@ -44,6 +44,7 @@ function clearError() {
 <template>
   <div class="login-wrapper">
     <form class="login-form" @submit.prevent="submit">
+      <h1 class="login-header">Login</h1>
       <div class="form-group">
         <label for="username">Username</label>
         <InputText size="small" type="text" id="username" @input="clearError" v-model="loginDto.username" />
@@ -90,6 +91,11 @@ function clearError() {
 .login-form a:hover {
   color: rgb(255, 34, 0);
   transition: ease-in-out .2s;
+}
+
+.login-header {
+  text-align: center;
+  color: #fff;
 }
 
 .form-group {
