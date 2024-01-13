@@ -100,7 +100,6 @@ function modifyFrameWithAction(frame: BattleGrid, action: ActionSummary, i: numb
   const { x, y } = action.coords;
   const cell = frame[y][x];
   if (cell.type !== 'bug') {
-    console.log(action);
     throw new Error(`Problem with data on tick ${i}`);
   }
 
@@ -176,8 +175,6 @@ function getDirectionVector(direction: Direction) {
       return { x: 0, y: 1 };
     case 'west':
       return { x: -1, y: 0 };
-    default:
-      throw new Error('Unknown direction');
   }
 }
 
