@@ -23,23 +23,19 @@ export function useReplayViewer(routeQuery: LocationQuery) {
   const frames = ref<BattleGrid[]>([]);
   const frameIndex = ref(0);
   const timer = ref(0);
-  const scoreBoard = ref<SwarmScore[]>([]);
+  const scoreboard = ref<SwarmScore[]>([]);
 
   const showPause = computed(() => {
     return timer.value !== 0;
   });
 
   const topBugs = computed(() => {
-    const scores = scoreBoard.value.map((swarm) => {
-      return swarm.scores[frameIndex.value];
-    });
-    const topBugs: number[] = [];
-    scores.forEach((score, i) => {
-      if (score === Math.max(...scores)) {
-        topBugs.push(i);
-      }
-    });
-    return topBugs;
+    return scoreboard.value
+      .map((swarm, n) => {
+        return [n, swarm.scores[frameIndex.value]];
+      })
+      .sort((a, b) => b[1] - a[1])
+      .map((a) => a[0]);
   });
 
   watch(
@@ -66,7 +62,7 @@ export function useReplayViewer(routeQuery: LocationQuery) {
 
   function initializeScoreboard(swarms: Swarm[]) {
     for (let i = 0; i < swarms.length; i++) {
-      scoreBoard.value[i] = {
+      scoreboard.value[i] = {
         name: swarms[i].name,
         scores: [],
       };
@@ -85,7 +81,7 @@ export function useReplayViewer(routeQuery: LocationQuery) {
       }
     }
     for (const swarm in bugsAlive) {
-      scoreBoard.value[swarm].scores.push(bugsAlive[swarm]);
+      scoreboard.value[swarm].scores.push(bugsAlive[swarm]);
     }
   }
 
@@ -151,7 +147,7 @@ export function useReplayViewer(routeQuery: LocationQuery) {
     showPause,
     prevFrame,
     nextFrame,
-    scoreBoard,
+    scoreboard,
     topBugs,
   };
 }

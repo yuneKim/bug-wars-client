@@ -15,3 +15,20 @@ body {
   border-color: red;
   padding-block: 5px;
 }
+
+.p-slider .p-slider-handle {
+  border-color: red;
+}
+
+.p-slider .p-slider-handle:hover {
+  background: red;
+  border-color: red;
+}
+
+.p-slider .p-slider-handle:focus {
+  box-shadow: 0 0 0 0.2rem #f3a7a7;
+}
+
+.p-slider .p-slider-range {
+  background: rgb(255, 64, 64);
+}

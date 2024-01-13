@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import ReplayViewer from '@/components/replayViewer/ReplayViewer.vue';
 import { useReplayViewer } from '@/composables/useReplayViewer';
+import Button from 'primevue/button';
+import Slider from 'primevue/slider';
 import { useRoute } from 'vue-router';
 
 const bugImgs: Record<number, string> = {
@@ -21,50 +23,48 @@ const {
   showPause,
   prevFrame,
   nextFrame,
-  scoreBoard,
+  scoreboard,
   topBugs,
 } = useReplayViewer(route.query);
 </script>
 
 <template>
   <div class="game-container">
-    <div class="game-wrapper">
-      <div class="scoreboard">
-        <div v-for="(swarm, n) in scoreBoard" :key="n">
-          <span class="leader-star" v-show="topBugs.includes(n)">&starf;</span>
-          <span>{{ swarm.name }}</span>
-          <span>{{ swarm.scores[frameIndex] }}</span>
-          <img :src="bugImgs[n]" />
-        </div>
-      </div>
+    <div class="scoreboard">
+      <template v-for="topBug in topBugs" :key="topBug">
+        <img :src="bugImgs[topBug]" />
+        <span class="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
+        <span>{{ scoreboard[topBug].name }}</span>
+      </template>
+    </div>
+    <div>
+      <ReplayViewer :frame="frames[frameIndex]" />
+    </div>
+    <div></div>
+    <div></div>
+    <div class="replay-controls">
       <div>
-        <ReplayViewer :frame="frames[frameIndex]" />
-      </div>
-      <div>
-        <div>
-          <input
-            class="slider"
-            type="range"
-            v-model="frameIndex"
-            :min="0"
-            :max="frames.length - 1"
-            @input="pause"
-          />
-        </div>
+        <Slider
+          class="slider"
+          v-model="frameIndex"
+          :min="0"
+          :max="frames.length - 1"
+          @input="pause"
+        />
       </div>
       <div class="vcr-controls">
         <div>
-          <button @click="rewind">{{ '|<' }}</button>
-          <button v-if="showPause" @click="pause">{{ '||' }}</button>
-          <button v-else @click="play(500)">{{ '>' }}</button>
-          <button @click="play(100)">{{ '>>' }}</button>
-          <button @click="play(30)">{{ '>>>' }}</button>
+          <Button @click="rewind">{{ '|<' }}</Button>
+          <Button v-if="showPause" @click="pause">{{ '||' }}</Button>
+          <Button v-else @click="play(500)">{{ '>' }}</Button>
+          <Button @click="play(100)">{{ '>>' }}</Button>
+          <Button @click="play(30)">{{ '>>>' }}</Button>
         </div>
         <div>
-          <button @click="prevFrame" :disabled="frameIndex == 0">{{ '<|' }}</button>
-          <button @click="nextFrame" :disabled="frameIndex >= frames.length - 1">
+          <Button @click="prevFrame" :disabled="frameIndex == 0">{{ '<|' }}</Button>
+          <Button @click="nextFrame" :disabled="frameIndex >= frames.length - 1">
             {{ '|>' }}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -73,8 +73,24 @@ const {
 
 <style scoped>
 .game-container {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.scoreboard {
+  justify-self: end;
+  align-self: center;
+  margin-right: 5rem;
+
+  display: grid;
+  grid-template-columns: auto 1.5rem auto;
+  row-gap: 0.5rem;
+  column-gap: 1rem;
+}
+
+.score {
+  justify-self: right;
 }
 
 .leader-star {
@@ -83,7 +99,8 @@ const {
   color: gold;
 }
 
-.game-wrapper {
+.replay-controls {
+  padding-block: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
