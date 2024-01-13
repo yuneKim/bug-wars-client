@@ -27,14 +27,16 @@ async function loadScripts() {
     <div class="littler-container">
       <h1 class="header">Your Scripts</h1>
       <ul class="list-container">
-        <li v-for="script in scripts" :key="script.id" class="list-item">
+        <li v-for="script in scripts" :key="script.id" class="list-item" data-test="script">
           <RouterLink :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
             script.name
           }}</RouterLink>
-          <Button type="button" @click="showDialog = true">Delete</Button>
+          <Button type="button" @click="showDialog = true" data-test="delete-button">Delete</Button>
         </li>
       </ul>
-      <Dialog v-model:visible="showDialog" modal header="test header"><p>dummy text</p></Dialog>
+      <Dialog v-model:visible="showDialog" modal header="test header" data-test="dialog"
+        ><p>dummy text</p></Dialog
+      >
       <RouterLink :to="{ name: 'scriptEditor' }">Create Script</RouterLink>
     </div>
   </div>
