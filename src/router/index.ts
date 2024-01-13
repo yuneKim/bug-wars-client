@@ -1,13 +1,7 @@
 import { useAuthStore } from '@/stores/auth';
-import CreditsView from '@/views/CreditsView.vue';
-import GameLobbyView from '@/views/GameLobbyView.vue';
-import HowToPlayView from '@/views/HowToPlayView.vue';
 import LandingPageView from '@/views/LandingPageView.vue';
-import LoginView from '@/views/LoginView.vue';
-import ScriptListView from '@/views/ScriptListView.vue';
 import { storeToRefs } from 'pinia';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import RegisterView from '../views/RegisterView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,13 +15,13 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginView,
+      component: () => import('@/views/LoginView.vue'),
       meta: { requiresAuth: false },
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterView,
+      component: () => import('@/views/RegisterView.vue'),
       meta: { requiresAuth: false },
     },
     {
@@ -38,19 +32,19 @@ const router = createRouter({
     {
       path: '/game-lobby',
       name: 'gameLobby',
-      component: GameLobbyView,
+      component: () => import('@/views/GameLobbyView.vue'),
       meta: { requiresAuth: false },
     },
     {
       path: '/how-to-play',
       name: 'howToPlay',
-      component: HowToPlayView,
+      component: () => import('@/views/HowToPlayView.vue'),
       meta: { requiresAuth: false },
     },
     {
       path: '/credits',
       name: 'credits',
-      component: CreditsView,
+      component: () => import('@/views/CreditsView.vue'),
     },
     {
       path: '/game',
@@ -61,7 +55,7 @@ const router = createRouter({
     {
       path: '/scripts',
       name: 'scripts',
-      component: ScriptListView,
+      component: () => import('@/views/ScriptListView.vue'),
       meta: { requiresAuth: true },
     },
   ],
