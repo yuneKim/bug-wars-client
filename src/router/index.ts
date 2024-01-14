@@ -62,10 +62,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
+  const { setPostLoginDestination } = useAuthStore();
   const { user } = storeToRefs(useAuthStore());
   const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
 
   if (requiresAuth && !user.value.roles.includes('ROLE_USER')) {
+    setPostLoginDestination(to.name != null && to.name !== 'login' ? to.name : 'home');
     return { name: 'login' };
   }
 });
