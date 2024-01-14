@@ -28,7 +28,6 @@ function randomDirection() {
             :class="`bug swarm-${cell.swarm + 1}`"
             :title="`${x}, ${y}`"
           >
-            <img src="@/assets/img/dark-ground.jpg" />
             <img
               class="bug-img"
               :class="`face-${cell.direction}`"
@@ -37,15 +36,12 @@ function randomDirection() {
             />
           </div>
           <div class="food-cell" v-if="cell.type === 'food'">
-            <img src="@/assets/img/dark-ground.jpg" />
             <img class="food-img" src="@/assets/img/food.png" />
           </div>
           <div v-if="cell.type === 'wall'">
             <img src="@/assets/img/wall.jpg" />
           </div>
-          <div v-if="cell.type === 'empty'">
-            <img src="@/assets/img/dark-ground.jpg" />
-          </div>
+          <div v-if="cell.type === 'empty'"></div>
         </div>
       </div>
     </div>
@@ -55,14 +51,27 @@ function randomDirection() {
 <style scoped>
 .container {
   display: inline-block;
+  position: relative;
+  z-index: 0;
 }
 
 .battlefield {
   padding: 1px;
   /* background: #545454; toggle grid lines */
-  background: black;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.battlefield::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  background-image: url('@/assets/img/blackstone.jpg');
+  background-position: 20% 35%;
+  filter: brightness(70%);
+  z-index: -1;
 }
 
 .row {
@@ -79,7 +88,6 @@ function randomDirection() {
 }
 
 .empty {
-  background-color: #000;
 }
 
 .bug,

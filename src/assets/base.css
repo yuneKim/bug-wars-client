@@ -77,36 +77,70 @@ body::before {
   filter: brightness(60%);
 }
 
+.p-slider {
+  background: rgb(92, 92, 92);
+  height: 10px;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.p-slider:hover .p-slider-handle {
+  opacity: 1;
+}
+
 .p-slider .p-slider-handle {
-  border-color: red;
+  border: 1px solid #fff;
+  background: rgb(114, 16, 0);
+  box-shadow: none;
+  opacity: 0;
+  border-radius: 0;
+  transition: unset;
+  transition: opacity 0.2s;
 }
 
 .p-slider .p-slider-handle:hover {
-  background: red;
-  border-color: red;
+  background: rgb(114, 16, 0);
 }
 
 .p-slider .p-slider-handle:focus {
-  box-shadow: 0 0 0 0.2rem #f3a7a7;
+  box-shadow: none;
+  opacity: 1;
 }
 
 .p-slider .p-slider-range {
-  background: rgb(255, 64, 64);
+  background: rgb(114, 16, 0);
 }
 
 .p-dropdown {
-  border-color: #fff;
+  border-color: rgb(114, 16, 0);
   border-radius: 2px;
   color: #fff;
 }
 
 .p-dropdown-label {
-  background: rgb(114, 16, 0);
+  background: rgb(18, 18, 18);
   border-radius: 0;
 }
 
+.p-dropdown :is(.p-dropdown-label, .p-dropdown-trigger) {
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.p-dropdown:hover :is(.p-dropdown-label, .p-dropdown-trigger) {
+  background: rgb(25, 25, 25);
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
 .p-dropdown-trigger {
-  background: rgb(114, 16, 0);
+  background: rgb(18, 18, 18);
   border-radius: 0;
 }
 
@@ -123,7 +157,7 @@ body::before {
 }
 
 .p-dropdown-panel {
-  background: rgb(114, 16, 0);
+  background: rgb(18, 18, 18);
   border-radius: 0;
   border: 1px solid #fff;
 }
@@ -137,9 +171,22 @@ body::before {
 }
 
 .p-dropdown-item.p-highlight {
-  background: rgb(114, 16, 0);
+  background: rgb(18, 18, 18);
+}
+
+.p-dropdown-item:not(.p-disabled) {
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .p-dropdown-item:not(.p-disabled):hover {
-  background: rgb(49, 8, 0);
+  background: rgb(82, 14, 0);
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
