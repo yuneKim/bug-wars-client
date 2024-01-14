@@ -38,4 +38,12 @@ export const scriptService = {
       },
     });
   },
+  deleteScriptById(id: number) {
+    return makeRequest(() => axios.delete(`/scripts/${id}`), {
+      successStatuses: [204],
+      errorStatuses: {
+        403: 'You do not have permission to delete this script.'
+      },
+    });
+  },
 };

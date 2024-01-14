@@ -6,6 +6,8 @@ import { scriptService } from '@/services/scriptService';
 import type { Script, ScriptDto } from '@/types';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -19,7 +21,7 @@ const script = ref<Script>({
   isBytecodeValid: false,
 });
 
-const editTitle = ref(script.value.name != '');
+const editTitle = ref(!route.params.id);
 const errorMessage = ref('');
 const successMessage = ref('');
 
@@ -74,11 +76,30 @@ function save() {
   }
 }
 
+function validateScriptName() {
+  if (script.value.name.length === 0) {
+    errorMessage.value = 'Script name may not be blank.';
+    return false;
+  }
+  return true;
+}
+
+function validateScriptBody() {
+  if (script.value.raw.length === 0) {
+    errorMessage.value = 'Script body may not be blank.';
+    return false;
+  }
+  return true;
+}
+
 async function createScript() {
+  if (!validateScriptName() || !validateScriptBody()) return;
+
   const scriptDto: ScriptDto = {
     name: script.value.name,
     raw: script.value.raw,
   };
+
   const response = await scriptService.createScript(scriptDto);
   if (response.type === 'success') {
     script.value.id = response.data.id;
@@ -96,14 +117,27 @@ function clearMessages() {
 
 <template>
   <main class="script-editing-window">
-    <h1>Script Editor</h1>
-    <div v-if="editTitle">
-      <input type="text" v-model="script.name" @input="clearMessages" />
-      <button type="button" @click="editTitle = false">Ok!</button>
+    <h1 class="header">Script Editor</h1>
+    <div class="title-editor-wrapper">
+      <div class="edit-title-wrapper" v-if="editTitle">
+        <InputText
+          type="text"
+          placeholder="Name your script!"
+          v-model="script.name"
+          @input="clearMessages"
+        />
+        <Button
+          type="button"
+          @click="validateScriptName() ? (editTitle = false) : null"
+          icon="pi pi-check-square"
+          label="Confirm"
+        />
+      </div>
+      <h2 class="title-header" v-else>
+        {{ script?.name }}
+        <Button type="button" icon="pi pi-pencil" label="Edit" @click="editTitle = true"></Button>
+      </h2>
     </div>
-    <h2 v-else>
-      {{ script?.name }} <button type="button" @click="editTitle = true">Edit Title</button>
-    </h2>
     <div class="editor-wrapper">
       <div ref="lineNumberDiv" class="line-numbers">
         <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
@@ -120,13 +154,17 @@ function clearMessages() {
     </div>
     <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     <div class="button-wrapper">
-      <button class="compile-button" type="button" @click="compileScript(editorText)">
-        Compile
-      </button>
-      <button type="button" @click="save">Save</button>
+      <Button
+        class="compile-button"
+        type="button"
+        icon="pi pi-wrench"
+        label="Compile"
+        @click="compileScript(editorText)"
+      />
       <span class="success-message" v-if="successMessage"> {{ successMessage }}</span>
+      <Button type="button" icon="pi pi-save" label="Save" @click="save" />
     </div>
-    <h3>Output:</h3>
+    <h3 class="output-title">OUTPUT:</h3>
     <div class="output-text">{{ output }}</div>
   </main>
   <Teleport to="body">
@@ -158,10 +196,45 @@ function clearMessages() {
 
 <style scoped>
 .script-editing-window {
-  padding: 10px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
+  margin-block: 50px;
+  background-color: rgba(18, 18, 18, 0.85);
+  color: #fff;
+  padding: 50px;
+  border: 0.5px solid white;
+  border-radius: 2px;
+  position: relative;
+  z-index: 0;
+}
+
+.header {
+  margin-block: 0 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.title-editor-wrapper {
+  display: flex;
+  align-items: center;
+  height: 3.5rem;
+}
+.title-editor-wrapper > * {
+  flex-grow: 1;
+}
+
+.edit-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
 }
 
 .editor-wrapper {
@@ -174,10 +247,15 @@ function clearMessages() {
 .editor-overlay {
   position: absolute;
   inset: 0;
-  font-family: var(--editor-font-family);
-  font-size: var(--editor-font-size);
-  line-height: var(--editor-line-height);
   white-space: pre;
+}
+
+:deep(.ql-editor) *,
+.editor-overlay,
+:deep(.editor-overlay) * {
+  font-family: var(--editor-font-family) !important;
+  font-size: var(--editor-font-size) !important;
+  line-height: var(--editor-line-height) !important;
 }
 
 :deep(.ql-editor) {
@@ -232,8 +310,16 @@ function clearMessages() {
   text-decoration-color: orange;
 }
 
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .intellisense {
-  background-color: #ccc;
+  background: rgb(18, 18, 18);
+  color: white;
   position: absolute;
   top: v-bind('intellisenseTooltip.position.y');
   left: v-bind('intellisenseTooltip.position.x');
@@ -244,7 +330,7 @@ function clearMessages() {
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid black;
+  border: 1px solid #fff;
 }
 
 .intellisense-item-list li {
@@ -253,7 +339,7 @@ function clearMessages() {
   font-size: var(--editor-font-size);
   line-height: calc(var(--editor-line-height) * 0.8);
   display: flex;
-  gap: 3rem;
+  gap: 4rem;
   justify-content: space-between;
   cursor: pointer;
 }
@@ -262,7 +348,7 @@ function clearMessages() {
 }
 
 .intellisense-selected {
-  background-color: rgb(137, 189, 130);
+  background: rgb(82, 14, 0);
 }
 
 .error-title {
@@ -276,6 +362,10 @@ function clearMessages() {
   max-width: 300px;
 }
 
+.output-title {
+  margin-top: 40px;
+}
+
 .output-text {
   font-family: var(--editor-font-family);
   font-size: var(--editor-font-size);
@@ -284,6 +374,8 @@ function clearMessages() {
   padding: 12px;
   white-space: pre-wrap;
   word-wrap: break-word;
+  height: 10rem;
+  overflow-y: auto;
 }
 
 .error-message {
@@ -291,6 +383,8 @@ function clearMessages() {
 }
 
 .success-message {
-  color: green;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  color: rgb(0, 255, 0);
 }
 </style>

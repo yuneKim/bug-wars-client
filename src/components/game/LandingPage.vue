@@ -3,30 +3,51 @@ import Button from 'primevue/button';
 </script>
 
 <template>
-  <div class="container">
-    <div class="btn-wrapper">
-      <!-- logo goes here -->
-      <Button data-test="gameLobby">
-        <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-      </Button>
-      <Button data-test="scriptEditor">
-        <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
-      </Button>
-      <Button data-test="howToPlay">
-        <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
-      </Button>
-      <Button data-test="credits">
-        <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
-      </Button>
+  <div class="landing-container">
+    <div class="slightly-smaller-container">
+      <div>
+        <img class="logo" src="@/assets/base/logo.png" />
+      </div>
+
+      <div class="btn-wrapper">
+        <Button data-test="gameLobby">
+          <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
+        </Button>
+        <Button data-test="scriptEditor">
+          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
+        </Button>
+        <Button data-test="howToPlay">
+          <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
+        </Button>
+        <Button data-test="credits">
+          <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
+.landing-container {
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding-top: calc(100vh / 4);
+}
+
+.slightly-smaller-container {
+  margin-top: -150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logo {
+  width: 300px;
+  position: relative;
+  left: 7px;
 }
 
 .btn-wrapper {
@@ -38,5 +59,7 @@ import Button from 'primevue/button';
 .btn-wrapper a {
   text-decoration: none;
   color: white;
+  position: relative;
+  top: 1px;
 }
 </style>

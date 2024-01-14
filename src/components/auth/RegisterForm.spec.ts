@@ -1,6 +1,6 @@
 import { authService } from '@/services/authService';
 import type { RegisterDto } from '@/types';
-import { shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import RegisterForm from './RegisterForm.vue';
@@ -33,7 +33,7 @@ describe('RegisterForm.vue', () => {
   });
 
   it('calls register on form submit', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -66,7 +66,7 @@ describe('RegisterForm.vue', () => {
   });
 
   it('handles errors with message', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -97,25 +97,28 @@ describe('RegisterForm.vue', () => {
   });
 
   it('validates data on form submit', async () => {
-    const wrapper = shallowMount(RegisterForm);
+    const wrapper = mount(RegisterForm);
 
     const usernameInput = wrapper.find('#username');
     const passwordInput = wrapper.find('#password');
     const confirmPasswordInput = wrapper.find('#confirm-password');
-    const errorMessage = wrapper.find('.error-message');
 
     await usernameInput.setValue('Yo');
     await wrapper.find('form').trigger('submit');
-    expect(errorMessage.text()).toBe('Username must be at least 3 characters long.');
+    expect(wrapper.find('.error-message').text()).toBe(
+      'Username must be at least 3 characters long.',
+    );
 
     await usernameInput.setValue('Bob');
     await passwordInput.setValue('test');
     await wrapper.find('form').trigger('submit');
-    expect(errorMessage.text()).toBe('Password must be at least 6 characters long.');
+    expect(wrapper.find('.error-message').text()).toBe(
+      'Password must be at least 6 characters long.',
+    );
 
     await passwordInput.setValue('password');
     await confirmPasswordInput.setValue('PASSWORD');
     await wrapper.find('form').trigger('submit');
-    expect(errorMessage.text()).toBe('Passwords do not match.');
+    expect(wrapper.find('.error-message').text()).toBe('Passwords do not match.');
   });
 });

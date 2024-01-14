@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { authService } from '@/services/authService';
 import { type RegisterDto } from '@/types';
+import Button from 'primevue/button';
+import Divider from 'primevue/divider';
+import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -52,68 +55,112 @@ async function register(registerDto: RegisterDto) {
 }
 </script>
 <template>
-  <div class="register-form-container">
-    <h1 class="register-header">Register</h1>
-    <form class="register-form" @input="authError = ''" @submit.prevent="handleSubmit">
-      <input
-        type="text"
-        name="username"
-        id="username"
-        placeholder="username"
-        v-model="formData.username"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="password"
-        v-model="formData.password"
-        required
-      />
-      <input
-        type="password"
-        name="confirm-password"
-        id="confirm-password"
-        placeholder="confirm password"
-        v-model="formData.confirmPassword"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email"
-        v-model="formData.email"
-        required
-      />
-      <p class="error-message">{{ authError }}</p>
-      <button type="submit">Register</button>
-      <div>
-        <p>Already have an account?</p>
-        <RouterLink :to="{ name: 'login' }">Login here!</RouterLink>
-      </div>
-    </form>
+  <div class="register-form-container-container">
+    <div class="register-form-container">
+      <form class="register-form" @input="authError = ''" @submit.prevent="handleSubmit">
+        <h1 class="register-header">Register</h1>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <InputText
+            type="text"
+            name="username"
+            id="username"
+            v-model="formData.username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <InputText
+            type="password"
+            name="password"
+            id="password"
+            v-model="formData.password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <InputText
+            type="password"
+            name="confirm-password"
+            id="confirm-password"
+            v-model="formData.confirmPassword"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <InputText type="email" name="email" id="email" v-model="formData.email" required />
+        </div>
+        <div class="form-group">
+          <p v-if="authError.length > 0" class="error-message">{{ authError }}</p>
+          <Button class="submit-btn" type="submit">Register</Button>
+        </div>
+        <Divider class="divider" />
+        <div>
+          <p>Already have an account?</p>
+          <RouterLink :to="{ name: 'login' }">Login here!</RouterLink>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.register-form-container-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .register-header {
   text-align: center;
+  color: #fff;
 }
 .register-form-container {
-  display: block;
   margin: 0 auto;
-  width: 300px;
+  margin-top: -100px;
+  width: 100%;
+  max-width: 400px;
+  text-transform: uppercase;
+  border: 0.5px solid white;
+  background-color: rgba(18, 18, 18, 0.85);
+  border-radius: 2px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  padding: 50px;
+  color: #fff;
+}
+
+.register-form a {
+  color: #fff;
+}
+
+.register-form a:hover {
+  color: #ff0000;
+  transition: ease-in-out 0.2s;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .error-message {
   color: red;
+}
+
+.submit-btn {
+  padding-top: 6px;
+}
+
+.divider {
+  margin-top: 15px;
+  margin-bottom: 0px;
 }
 </style>
