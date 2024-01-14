@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import TopNav from "@/components/base/TopNav.vue";
-
+import TopNav from '@/components/base/TopNav.vue';
 </script>
 
 <template>
   <div class="container">
     <TopNav />
-    <RouterView />
+    <div class="router-view-container">
+      <RouterView />
+    </div>
     <footer>
       <nav class="footer-nav">
         <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
@@ -24,12 +25,15 @@ import TopNav from "@/components/base/TopNav.vue";
   inset: 0;
 }
 
+.router-view-container {
+  overflow-y: auto;
+}
+
 .footer-nav {
   display: flex;
   justify-content: flex-end;
   padding: 10px;
-  background-color: rgba(18, 18, 18, .85);
-  
+  background-color: rgba(18, 18, 18, 0.85);
 }
 
 .footer-nav a {
@@ -41,6 +45,6 @@ import TopNav from "@/components/base/TopNav.vue";
 
 .footer-nav a:hover {
   color: rgb(255, 34, 0);
-  transition: ease-in-out .2s;
+  transition: ease-in-out 0.2s;
 }
 </style>

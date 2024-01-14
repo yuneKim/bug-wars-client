@@ -3,35 +3,45 @@ import Button from 'primevue/button';
 </script>
 
 <template>
-  <div class="container">
-    <div>
-      <img class="logo" src="@/assets/base/logo.png"/>
-    </div>
+  <div class="landing-container">
+    <div class="slightly-smaller-container">
+      <div>
+        <img class="logo" src="@/assets/base/logo.png" />
+      </div>
 
-    <div class="btn-wrapper">
-      <Button data-test="gameLobby">
-        <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-      </Button>
-      <Button data-test="scriptEditor">
-        <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
-      </Button>
-      <Button data-test="howToPlay">
-        <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
-      </Button>
-      <Button data-test="credits">
-        <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
-      </Button>
+      <div class="btn-wrapper">
+        <Button data-test="gameLobby">
+          <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
+        </Button>
+        <Button data-test="scriptEditor">
+          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
+        </Button>
+        <Button data-test="howToPlay">
+          <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
+        </Button>
+        <Button data-test="credits">
+          <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
+.landing-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slightly-smaller-container {
+  margin-top: -150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
+  gap: 20px;
 }
 
 .logo {
@@ -49,5 +59,7 @@ import Button from 'primevue/button';
 .btn-wrapper a {
   text-decoration: none;
   color: white;
+  position: relative;
+  top: 1px;
 }
 </style>

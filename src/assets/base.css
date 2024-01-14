@@ -12,16 +12,20 @@
 
 body {
   margin: 0;
-  background-image: url('@/assets/base/home-background-desktop.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('@/assets/base/background.jpg');
+  background-position: 20% 35%;
+  filter: brightness(50%);
 }
 
 .p-inputtext {
   padding: 6px;
-  background-color: rgba(18, 18, 18, .85);
+  background-color: rgba(18, 18, 18, 0.85);
   color: #fff;
   border-radius: 2px;
 }
@@ -39,16 +43,19 @@ body {
 .p-inputtext:-webkit-autofill:hover,
 .p-inputtext:-webkit-autofill:focus,
 .p-inputtext:-webkit-autofill:active {
-  transition: background-color 600000s 0s, color 600000s 0s;
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
   /* background-color: rgba(18, 18, 18, .85); */
 }
 
 .p-inputtext[data-autocompleted] {
-  background-color: rgba(18, 18, 18, .85);
+  background-color: rgba(18, 18, 18, 0.85);
 }
 
 .p-button {
   justify-content: center;
+  align-items: center;
   background: rgb(114, 16, 0);
   border-radius: 2px;
   border-color: rgb(220, 220, 220);
@@ -58,12 +65,16 @@ body {
 
 .p-button:hover {
   filter: brightness(75%);
-  transition: ease-in-out .2s;
+  transition: ease-in-out 0.2s;
 }
 
 .p-button:focus {
   border-color: rgb(114, 16, 0);
   box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.p-button:disabled {
+  filter: brightness(60%);
 }
 
 .p-slider .p-slider-handle {
@@ -81,4 +92,54 @@ body {
 
 .p-slider .p-slider-range {
   background: rgb(255, 64, 64);
+}
+
+.p-dropdown {
+  border-color: #fff;
+  border-radius: 2px;
+  color: #fff;
+}
+
+.p-dropdown-label {
+  background: rgb(114, 16, 0);
+  border-radius: 0;
+}
+
+.p-dropdown-trigger {
+  background: rgb(114, 16, 0);
+  border-radius: 0;
+}
+
+.p-dropdown-trigger-icon {
+  color: #fff;
+}
+
+.p-inputtext:focus {
+  box-shadow: none;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: none;
+}
+
+.p-dropdown-panel {
+  background: rgb(114, 16, 0);
+  border-radius: 0;
+  border: 1px solid #fff;
+}
+
+.p-dropdown-items {
+  padding-block: 0;
+}
+
+.p-dropdown-item {
+  color: #fff;
+}
+
+.p-dropdown-item.p-highlight {
+  background: rgb(114, 16, 0);
+}
+
+.p-dropdown-item:not(.p-disabled):hover {
+  background: rgb(49, 8, 0);
 }

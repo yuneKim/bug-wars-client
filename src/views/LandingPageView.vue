@@ -3,9 +3,7 @@ import LandingPage from '@/components/game/LandingPage.vue';
 </script>
 
 <template>
-    <div>
-        <LandingPage/>
-    </div>
+  <LandingPage />
 </template>
 
 <style scoped></style>
