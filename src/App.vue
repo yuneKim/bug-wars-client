@@ -1,34 +1,13 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { RouterLink, RouterView } from 'vue-router';
-import { useAuthStore } from './stores/auth';
-
-const { user } = storeToRefs(useAuthStore());
-const { logout } = useAuthStore();
+import TopNav from '@/components/base/TopNav.vue';
 </script>
 
 <template>
   <div class="container">
-    <header>
-      <nav class="header-div">
-        <div class="left">
-          <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
-        </div>
-        <div class="middle">
-          <RouterLink :to="{ name: 'home' }" class="main-title-link"
-            ><h1 class="main-title">Bug Wars</h1></RouterLink
-          >
-        </div>
-        <div class="right">
-          <RouterLink :to="{ name: 'home' }" class="home-link">Home</RouterLink>
-          <a class="logout" href="" v-if="user.username" @click.prevent="logout(false)">Logout</a>
-          <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
-        </div>
-      </nav>
-    </header>
-
-    <RouterView />
+    <TopNav />
+    <div class="router-view-container">
+      <RouterView />
+    </div>
     <footer>
       <nav class="footer-nav">
         <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
@@ -46,57 +25,26 @@ const { logout } = useAuthStore();
   inset: 0;
 }
 
-.header-div {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-}
-
-.main-title-link {
-  text-decoration: none;
-  color: black;
-}
-
-.home-link {
-  margin-right: 40px;
-}
-
-.left {
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  margin-right: 75px;
-}
-
-.center {
-  display: flex;
-  align-items: center;
-}
-
-.right {
-  justify-self: start;
-  display: flex;
-  align-items: center;
-  margin-left: 75px;
-}
-
-.main-title {
-  margin: 0;
-}
-
-nav {
-  width: 100%;
-  font-size: 1rem;
-  text-align: center;
-  display: flex;
-}
-
-nav a {
-  padding: 0 1rem;
+.router-view-container {
+  overflow-y: auto;
 }
 
 .footer-nav {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 5px;
+  padding: 10px;
+  background-color: rgba(18, 18, 18, 0.85);
+}
+
+.footer-nav a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: #d1d1d1;
+  text-transform: uppercase;
+}
+
+.footer-nav a:hover {
+  color: rgb(255, 34, 0);
+  transition: ease-in-out 0.2s;
 }
 </style>

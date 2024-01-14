@@ -23,7 +23,7 @@ export function configureAxios() {
   axios.interceptors.response.use(
     (response) => response,
     async (error) => {
-      const { attemptToRefreshToken } = useAuthStore();
+      const { attemptToRefreshToken, logout } = useAuthStore();
 
       if (!axios.isAxiosError(error)) {
         console.error('Non-axios error: ', error);
@@ -42,6 +42,7 @@ export function configureAxios() {
 
         return await attemptToRefreshToken(originalRequest);
       }
+      logout(true);
       return Promise.reject(error);
     },
   );

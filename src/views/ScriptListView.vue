@@ -3,7 +3,9 @@ import ScriptList from '@/components/scripts/ScriptList.vue';
 </script>
 
 <template>
-  <ScriptList />
+  <div>
+    <ScriptList />
+  </div>
 </template>
 
 <style scoped></style>

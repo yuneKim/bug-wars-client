@@ -1,4 +1,4 @@
-import type { ParseDto, ScriptDto, Script } from '@/types';
+import type { ParseDto, Script, ScriptDto } from '@/types';
 import { makeRequest, type SuccessResponse } from '@/utils/makeRequest';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
@@ -140,6 +140,30 @@ describe('authService', () => {
     const registerResponse = await scriptService.updateScript(1);
 
     expect(axios.put).toHaveBeenCalledWith(expect.any(String));
+    expect(registerResponse).toStrictEqual(mockSuccessResponse);
+  });
+
+  it('makes a DELETE request to delete a script by id', async () => {
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 204,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
+    const mockResponse = [35, 0];
+
+    vi.mocked(axios.get).mockResolvedValue({
+      data: mockResponse,
+    });
+
+    const registerResponse = await scriptService.deleteScriptById(1);
+
+    expect(axios.delete).toHaveBeenCalled();
     expect(registerResponse).toStrictEqual(mockSuccessResponse);
   });
 });

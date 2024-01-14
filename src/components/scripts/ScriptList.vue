@@ -31,13 +31,21 @@ async function loadScripts() {
           <RouterLink :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
             script.name
           }}</RouterLink>
-          <Button type="button" @click="showDialog = true" data-test="delete-button">Delete</Button>
+          <Button
+            type="button"
+            @click="showDialog = true"
+            data-test="delete-button"
+            icon="pi pi-trash"
+          ></Button>
         </li>
       </ul>
       <Dialog v-model:visible="showDialog" modal header="test header" data-test="dialog"
         ><p>dummy text</p></Dialog
       >
-      <RouterLink :to="{ name: 'scriptEditor' }">Create Script</RouterLink>
+      <Divider class="divider" />
+      <Button class="create-script-btn">
+        <RouterLink :to="{ name: 'scriptEditor' }">Create Script</RouterLink>
+      </Button>
     </div>
   </div>
 </template>
@@ -46,10 +54,32 @@ async function loadScripts() {
 .lil-container {
   display: flex;
   justify-content: center;
+  text-transform: uppercase;
+}
+
+.littler-container {
+  border: 0.5px solid white;
+  background-color: rgba(18, 18, 18, 0.85);
+  border-radius: 2px;
+  margin-top: 50px;
+  padding: 50px;
+}
+
+.littler-container a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.list-container a:hover {
+  transition: ease-in-out 0.2s;
+  color: #ff0000;
 }
 
 .header {
+  margin-top: 0;
+  margin-bottom: 40px;
   text-align: center;
+  color: #fff;
 }
 
 .list-container {
@@ -65,5 +95,17 @@ async function loadScripts() {
   justify-content: space-between;
   gap: 50px;
   align-items: center;
+  padding: 10px;
+  border-radius: 2px;
+  border: 0.5px solid white;
+}
+
+.create-script-btn {
+  margin-top: 30px;
+}
+
+.create-script-btn a {
+  position: relative;
+  top: 1px;
 }
 </style>

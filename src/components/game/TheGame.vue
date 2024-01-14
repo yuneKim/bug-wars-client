@@ -29,42 +29,48 @@ const {
 </script>
 
 <template>
-  <div class="game-container">
-    <div class="scoreboard">
-      <template v-for="topBug in topBugs" :key="topBug">
-        <img :src="bugImgs[topBug]" />
-        <span class="score" data-test="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
-        <span>{{ scoreboard[topBug].name }}</span>
-      </template>
-    </div>
-    <div>
-      <ReplayViewer :frame="frames[frameIndex]" />
-    </div>
-    <div></div>
-    <div></div>
-    <div class="replay-controls">
-      <div>
-        <Slider
-          class="slider"
-          v-model="frameIndex"
-          :min="0"
-          :max="frames.length - 1"
-          @input="pause"
-        />
+  <div class="grander-game-container"></div>
+  <div class="grand-game-container">
+    <div class="game-container">
+      <div class="scoreboard">
+        <template v-for="topBug in topBugs" :key="topBug">
+          <img :src="bugImgs[topBug]" />
+          <span class="score" data-test="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
+          <span>{{ scoreboard[topBug].name }}</span>
+        </template>
       </div>
-      <div class="vcr-controls">
+      <div class="replay-viewer-grid-cell">
+        <h1 class="header">REPLAY VIEWER</h1>
+        <ReplayViewer :frame="frames[frameIndex]" />
+      </div>
+      <div></div>
+      <div></div>
+      <div class="replay-controls">
         <div>
-          <Button @click="rewind">{{ '|<' }}</Button>
-          <Button v-if="showPause" @click="pause" data-test="pause-button">{{ '||' }}</Button>
-          <Button v-else @click="play(500)" data-test="play-button">{{ '>' }}</Button>
-          <Button @click="play(100)" data-test="ff-button">{{ '>>' }}</Button>
-          <Button @click="play(30)" data-test="fff-button">{{ '>>>' }}</Button>
+          <Slider
+            class="slider"
+            v-model="frameIndex"
+            :min="0"
+            :max="frames.length - 1"
+            @change="pause"
+          />
         </div>
-        <div>
-          <Button @click="prevFrame" :disabled="frameIndex == 0">{{ '<|' }}</Button>
-          <Button @click="nextFrame" :disabled="frameIndex >= frames.length - 1">
-            {{ '|>' }}
-          </Button>
+        <div class="vcr-controls">
+          <div>
+            <Button @click="rewind" icon="pi pi-fast-backward" />
+            <Button v-if="showPause" @click="pause" icon="pi pi-pause" data-test="pause-button" />
+            <Button v-else @click="play(500)" icon="pi pi-play" data-test="play-button" />
+            <Button @click="play(100)" icon="pi pi-forward" data-test="ff-button" />
+            <Button @click="play(30)" icon="pi pi-fast-forward" data-test="fff-button" />
+          </div>
+          <div>
+            <Button @click="prevFrame" icon="pi pi-step-backward-alt" :disabled="frameIndex == 0" />
+            <Button
+              @click="nextFrame"
+              icon="pi pi-step-forward-alt"
+              :disabled="frameIndex >= frames.length - 1"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -72,6 +78,19 @@ const {
 </template>
 
 <style scoped>
+.grand-game-container {
+  margin-block: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.header {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  width: fit-content;
+  color: #fff;
+}
+
 .game-container {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -81,12 +100,16 @@ const {
 .scoreboard {
   justify-self: end;
   align-self: center;
-  margin-right: 5rem;
+  margin-right: 30px;
 
   display: grid;
   grid-template-columns: auto 1.5rem auto;
   row-gap: 0.5rem;
   column-gap: 1rem;
+  color: #fff;
+  background-color: rgba(18, 18, 18, 0.85);
+  border: 1px solid #fff;
+  padding: 20px;
 }
 
 .score {
@@ -99,14 +122,25 @@ const {
   color: gold;
 }
 
+.replay-viewer-grid-cell {
+  background-color: rgba(18, 18, 18, 0.85);
+  border: 1px solid #fff;
+  padding: 50px;
+}
+
 .replay-controls {
+  margin-top: 30px;
   padding-block: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background-color: rgba(18, 18, 18, 0.85);
+  border: 1px solid #fff;
+  padding: 30px;
 }
 
 .vcr-controls {
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -116,8 +150,13 @@ const {
   gap: 1rem;
 }
 
-.vcr-controls button {
+.vcr-controls .p-button {
+  border: 1px solid #fff;
   width: 50px;
+}
+
+.vcr-controls .p-button:focus {
+  box-shadow: none;
 }
 
 .slider {

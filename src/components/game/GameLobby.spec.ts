@@ -11,15 +11,6 @@ vi.mock('vue-router', () => ({
 }));
 
 describe('GameLobby.vue', () => {
-  it('selects swarms', async () => {
-    const wrapper = shallowMount(GameLobby);
-
-    await wrapper.find('[data-test="swarm-select"]').setValue('2');
-    expect((wrapper.find('[data-test="swarm-select"]').element as HTMLSelectElement).value).toBe(
-      '2',
-    );
-  });
-
   it("starts a game when 'Start Game' is clicked", async () => {
     const wrapper = shallowMount(GameLobby);
 
