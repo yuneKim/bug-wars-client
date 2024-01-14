@@ -6,7 +6,7 @@ import { objectsHaveSameKeys } from '@/utils/objectsHaveSameKeys';
 import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, type RouteRecordName } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User>(emptyUser);
   loadUserFromLocalStorage();
   const authError = ref('');
+  const postLoginDestination = ref<RouteRecordName>('');
 
   async function login(loginDto: LoginDto) {
     const response = await authService.login(loginDto);
@@ -38,7 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('accessToken', response.data.accessToken);
     localStorage.setItem('refreshToken', response.data.refreshToken);
 
-    router.push({ name: 'home' });
+    router.push({ name: postLoginDestination.value });
   }
 
   function logout(redirect = true) {
@@ -98,6 +99,10 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  function setPostLoginDestination(routeName: RouteRecordName) {
+    postLoginDestination.value = routeName;
+  }
+
   return {
     user,
     authError,
@@ -105,5 +110,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     attemptToRefreshToken,
+    setPostLoginDestination,
   };
 });
