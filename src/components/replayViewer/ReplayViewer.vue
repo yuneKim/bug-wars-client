@@ -11,11 +11,6 @@ const bugImgs: Record<number, string> = {
 const props = defineProps<{
   frame: BattleGrid;
 }>();
-
-function randomDirection() {
-  const directions = ['face-north', 'face-east', 'face-south', 'face-west'];
-  return directions[Math.floor(Math.random() * directions.length)];
-}
 </script>
 
 <template>
@@ -85,9 +80,6 @@ function randomDirection() {
 
 .wall {
   background: #545454;
-}
-
-.empty {
 }
 
 .bug,

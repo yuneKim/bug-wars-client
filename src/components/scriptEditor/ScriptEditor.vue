@@ -76,11 +76,30 @@ function save() {
   }
 }
 
+function validateScriptName() {
+  if (script.value.name.length === 0) {
+    errorMessage.value = 'Script name may not be blank.';
+    return false;
+  }
+  return true;
+}
+
+function validateScriptBody() {
+  if (script.value.raw.length === 0) {
+    errorMessage.value = 'Script body may not be blank.';
+    return false;
+  }
+  return true;
+}
+
 async function createScript() {
+  if (!validateScriptName() || !validateScriptBody()) return;
+
   const scriptDto: ScriptDto = {
     name: script.value.name,
     raw: script.value.raw,
   };
+
   const response = await scriptService.createScript(scriptDto);
   if (response.type === 'success') {
     script.value.id = response.data.id;
@@ -101,10 +120,15 @@ function clearMessages() {
     <h1 class="header">Script Editor</h1>
     <div class="title-editor-wrapper">
       <div class="edit-title-wrapper" v-if="editTitle">
-        <InputText type="text" v-model="script.name" @input="clearMessages" />
+        <InputText
+          type="text"
+          placeholder="Name your script!"
+          v-model="script.name"
+          @input="clearMessages"
+        />
         <Button
           type="button"
-          @click="editTitle = false"
+          @click="validateScriptName() ? (editTitle = false) : null"
           icon="pi pi-check-square"
           label="Confirm"
         />
@@ -227,6 +251,7 @@ function clearMessages() {
 }
 
 :deep(.ql-editor) *,
+.editor-overlay,
 :deep(.editor-overlay) * {
   font-family: var(--editor-font-family) !important;
   font-size: var(--editor-font-size) !important;
@@ -288,11 +313,13 @@ function clearMessages() {
 .button-wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
 }
 
 .intellisense {
-  background-color: #ccc;
+  background: rgb(18, 18, 18);
+  color: white;
   position: absolute;
   top: v-bind('intellisenseTooltip.position.y');
   left: v-bind('intellisenseTooltip.position.x');
@@ -303,7 +330,7 @@ function clearMessages() {
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid black;
+  border: 1px solid #fff;
 }
 
 .intellisense-item-list li {
@@ -312,7 +339,7 @@ function clearMessages() {
   font-size: var(--editor-font-size);
   line-height: calc(var(--editor-line-height) * 0.8);
   display: flex;
-  gap: 3rem;
+  gap: 4rem;
   justify-content: space-between;
   cursor: pointer;
 }
@@ -321,7 +348,7 @@ function clearMessages() {
 }
 
 .intellisense-selected {
-  background-color: rgb(137, 189, 130);
+  background: rgb(82, 14, 0);
 }
 
 .error-title {
@@ -356,6 +383,8 @@ function clearMessages() {
 }
 
 .success-message {
-  color: green;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  color: rgb(0, 255, 0);
 }
 </style>
