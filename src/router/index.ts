@@ -69,6 +69,8 @@ router.beforeEach((to) => {
   if (requiresAuth && !user.value.roles.includes('ROLE_USER')) {
     setPostLoginDestination(to.name != null && to.name !== 'login' ? to.name : 'home');
     return { name: 'login' };
+  } else if (!['login', 'register'].includes(to.name as string)) {
+    setPostLoginDestination('home');
   }
 });
 
