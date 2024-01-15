@@ -29,16 +29,6 @@ export const scriptService = {
       },
     });
   },
-  updateScript(id: number) {
-    return makeRequest(() => axios.put(`/scripts/${id}`), {
-      successStatuses: [200],
-      errorStatuses: {
-        401: 'You must be logged in to view scripts.',
-        403: 'You do not have permission to view this script.',
-        404: 'Script not found.',
-      },
-    });
-  },
   createScript(scriptDto: ScriptDto) {
     return makeRequest(() => axios.post('/scripts', scriptDto), {
       successStatuses: [201],
@@ -48,11 +38,21 @@ export const scriptService = {
       },
     });
   },
+  updateScript(id: number, scriptDto: ScriptDto) {
+    return makeRequest(() => axios.put(`/scripts/${id}`, scriptDto), {
+      successStatuses: [200],
+      errorStatuses: {
+        401: 'You must be logged in to view scripts.',
+        403: 'You do not have permission to view this script.',
+        404: 'Script not found.',
+      },
+    });
+  },
   deleteScriptById(id: number) {
     return makeRequest(() => axios.delete(`/scripts/${id}`), {
       successStatuses: [204],
       errorStatuses: {
-        403: 'You do not have permission to delete this script.'
+        403: 'You do not have permission to delete this script.',
       },
     });
   },
