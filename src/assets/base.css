@@ -114,6 +114,7 @@ body::before {
 .p-dropdown {
   border-color: rgb(114, 16, 0);
   border-radius: 2px;
+  background: none;
   color: #fff;
 }
 
@@ -189,4 +190,30 @@ body::before {
     color 0.2s,
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+.p-carousel .p-carousel-indicator {
+  position: relative;
+  left: 5px;
+}
+
+.p-carousel .p-carousel-indicator .p-link {
+  background: rgb(92, 92, 92);
+  border-radius: 0;
+}
+
+.p-carousel .p-carousel-indicator.p-highlight .p-link {
+  background: rgb(114, 16, 0);
+  border-radius: 0;
+}
+
+.p-carousel-next,
+.p-carousel-prev {
+  border-radius: 0;
+  color: #fff;
+}
+
+.p-carousel-next:hover,
+.p-carousel-prev:hover {
+  background: rgb(114, 16, 0);
 }
