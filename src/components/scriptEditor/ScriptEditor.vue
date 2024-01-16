@@ -41,20 +41,16 @@ const {
   overlayContent,
   errorTooltip,
   lineNumbers,
-  updateText,
   initializeQuill,
   intellisense,
   intellisenseTooltip,
   intellisenseClickHandler,
-  setText,
 } = useScriptEditor({
   lineNumberDiv,
   overlayDiv,
   errorTooltipDiv,
 });
 const { output, setOutput, compileScript } = useCompiler();
-
-watch(editorText, (text) => (script.value.raw = text));
 
 async function loadScript(idString: string | string[]) {
   const scriptId = Number(idString);
@@ -63,7 +59,7 @@ async function loadScript(idString: string | string[]) {
 
   if (response.type === 'success') {
     script.value = response.data;
-    setText(script.value.raw);
+    editorText.value = response.data.raw;
     setOutput(response.data.bytecode);
   } else {
     console.error('Uh oh');
@@ -145,11 +141,13 @@ function clearMessages() {
       <QuillEditor
         ref="testRef"
         :options="editorOptions"
+        v-model:content="editorText"
+        contentType="text"
         @textChange="intellisense"
-        @update:content="updateText"
         @ready="initializeQuill"
         @input="clearMessages"
       />
+      >
       <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
