@@ -3,6 +3,9 @@ import { Quill } from '@vueup/vue-quill';
 export function configureQuill() {
   const Clipboard = Quill.import('modules/clipboard');
   const delta = Quill.import('delta');
+  const Block = Quill.import('blots/block');
+  Block.tagName = 'DIV';
+  Quill.register(Block, true);
 
   class PlainClipboard extends Clipboard {
     convert(this: any, html = null) {
