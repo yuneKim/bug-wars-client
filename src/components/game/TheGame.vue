@@ -25,7 +25,7 @@ const {
   nextFrame,
   scoreboard,
   topBugs,
-} = useReplayViewer(route.query);
+} = await useReplayViewer(route.query);
 </script>
 
 <template>

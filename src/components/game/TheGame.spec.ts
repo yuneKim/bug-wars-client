@@ -1,8 +1,8 @@
 import { useReplayViewer } from '@/composables/useReplayViewer';
 import type { BattleGrid } from '@/utils/replayUnsquasher';
-import { shallowMount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
-import { ref, type Ref } from 'vue';
+import { defineComponent, ref, type Ref } from 'vue';
 import TheGame from './TheGame.vue';
 
 vi.mock('@/composables/useReplayViewer');
@@ -11,9 +11,9 @@ vi.mock('vue-router', () => ({
 }));
 
 describe('TheGame', () => {
-  it('should display scores', () => {
-    vi.mocked(useReplayViewer).mockImplementation(() => {
-      return {
+  it('should display scores', async () => {
+    vi.mocked(useReplayViewer).mockImplementation(async () => {
+      return Promise.resolve({
         frames: ref([]) as Ref<BattleGrid[]>,
         frameIndex: ref(0),
         rewind: vi.fn(),
@@ -31,10 +31,21 @@ describe('TheGame', () => {
           },
         }),
         topBugs: ref([0, 1]),
-      } as any;
+      }) as any;
     });
 
-    const wrapper = shallowMount(TheGame);
+    const TestComponent = defineComponent({
+      components: { TheGame },
+      template: '<Suspense><TheGame /></Suspense>',
+    });
+    const wrapper = mount(TestComponent, {
+      shallow: true,
+      global: {
+        stubs: { Suspense: false, TheGame: false, Button: false },
+      },
+    });
+
+    await flushPromises();
 
     expect(wrapper.findAll('[data-test="score"]').length).toBe(2);
   });
@@ -65,7 +76,18 @@ describe('TheGame', () => {
         topBugs: ref([0, 1]),
       } as any;
     });
-    const wrapper = shallowMount(TheGame);
+    const TestComponent = defineComponent({
+      components: { TheGame },
+      template: '<Suspense><TheGame /></Suspense>',
+    });
+    const wrapper = mount(TestComponent, {
+      shallow: true,
+      global: {
+        stubs: { Suspense: false, TheGame: false, Button: false },
+      },
+    });
+
+    await flushPromises();
 
     vi.mocked(mockPlay).mockImplementation(() => (mockShowPause.value = true));
     vi.mocked(mockPause).mockImplementation(() => (mockShowPause.value = false));

@@ -4,14 +4,23 @@
   --editor-font-size: 1rem;
   --editor-line-height: 1.5rem;
   --editor-font-family: 'Courier New', Courier, monospace;
+
+  --button-red: rgb(114, 16, 0);
+  --button-red-dark: rgb(82, 14, 0);
+  --button-red-light: rgb(137, 18, 0);
+
+  --dark-background: rgb(18, 18, 18);
+  --dark-background-light: rgb(25, 25, 25);
 }
 
 * {
   font-family: Oxanium, Arial, Helvetica, sans-serif;
 }
 
+html,
 body {
   margin: 0;
+  background: black;
 }
 
 body::before {
@@ -25,18 +34,18 @@ body::before {
 
 .p-inputtext {
   padding: 6px;
-  background-color: rgba(18, 18, 18, 0.85);
+  background-color: var(--dark-background);
   color: #fff;
   border-radius: 2px;
 }
 
 .p-inputtext:hover {
-  border-color: rgb(114, 16, 0);
+  border-color: var(--button-red);
 }
 
 .p-inputtext:focus {
-  border-color: rgb(114, 16, 0);
-  box-shadow: 0 0 0 0.2rem rgb(114, 16, 0);
+  border-color: var(--button-red);
+  box-shadow: 0 0 0 0.2rem var(--button-red);
 }
 
 .p-inputtext:-webkit-autofill,
@@ -50,15 +59,15 @@ body::before {
 }
 
 .p-inputtext[data-autocompleted] {
-  background-color: rgba(18, 18, 18, 0.85);
+  background-color: var(--dark-background);
 }
 
 .p-button {
   justify-content: center;
   align-items: center;
-  background: rgb(114, 16, 0);
+  background: var(--button-red);
   border-radius: 2px;
-  border-color: rgb(220, 220, 220);
+  border-color: white;
   padding-block: 5px;
   text-transform: uppercase;
 }
@@ -69,7 +78,7 @@ body::before {
 }
 
 .p-button:focus {
-  border-color: rgb(114, 16, 0);
+  border-color: var(--button-red);
   box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
 }
 
@@ -90,7 +99,7 @@ body::before {
 
 .p-slider .p-slider-handle {
   border: 1px solid #fff;
-  background: rgb(114, 16, 0);
+  background: var(--button-red);
   box-shadow: none;
   opacity: 0;
   border-radius: 0;
@@ -99,7 +108,7 @@ body::before {
 }
 
 .p-slider .p-slider-handle:hover {
-  background: rgb(114, 16, 0);
+  background: var(--button-red);
 }
 
 .p-slider .p-slider-handle:focus {
@@ -108,17 +117,18 @@ body::before {
 }
 
 .p-slider .p-slider-range {
-  background: rgb(114, 16, 0);
+  background: var(--button-red);
 }
 
 .p-dropdown {
-  border-color: rgb(114, 16, 0);
+  border-color: var(--button-red);
   border-radius: 2px;
+  background: none;
   color: #fff;
 }
 
 .p-dropdown-label {
-  background: rgb(18, 18, 18);
+  background: var(--dark-background);
   border-radius: 0;
 }
 
@@ -131,7 +141,7 @@ body::before {
 }
 
 .p-dropdown:hover :is(.p-dropdown-label, .p-dropdown-trigger) {
-  background: rgb(25, 25, 25);
+  background: var(--dark-background-light);
   transition:
     background-color 0.2s,
     color 0.2s,
@@ -140,7 +150,7 @@ body::before {
 }
 
 .p-dropdown-trigger {
-  background: rgb(18, 18, 18);
+  background: var(--dark-background);
   border-radius: 0;
 }
 
@@ -157,7 +167,7 @@ body::before {
 }
 
 .p-dropdown-panel {
-  background: rgb(18, 18, 18);
+  background: var(--dark-background);
   border-radius: 0;
   border: 1px solid #fff;
 }
@@ -171,7 +181,7 @@ body::before {
 }
 
 .p-dropdown-item.p-highlight {
-  background: rgb(18, 18, 18);
+  background: var(--dark-background);
 }
 
 .p-dropdown-item:not(.p-disabled) {
@@ -183,10 +193,69 @@ body::before {
 }
 
 .p-dropdown-item:not(.p-disabled):hover {
-  background: rgb(82, 14, 0);
+  background: var(--button-red-dark);
   transition:
     background-color 0.2s,
     color 0.2s,
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+.p-carousel .p-carousel-indicator {
+  position: relative;
+  left: 5px;
+}
+
+.p-carousel .p-carousel-indicator .p-link {
+  background: var(--dark-background);
+  border: 1px solid var(--button-red);
+  border-radius: 0;
+}
+
+.p-carousel .p-carousel-indicator.p-highlight .p-link {
+  background: var(--button-red);
+  border-radius: 0;
+}
+
+.p-carousel .p-carousel-indicator .p-link:hover {
+  background: var(--button-red-light);
+}
+
+.p-carousel :is(.p-carousel-prev, .p-carousel-next).p-disabled {
+  visibility: hidden;
+}
+
+.p-carousel-next,
+.p-carousel-prev {
+  border-radius: 0;
+  color: #fff;
+}
+
+.p-carousel-next:hover,
+.p-carousel-prev:hover {
+  background: var(--button-red);
+}
+
+.p-inputswitch.p-focus .p-inputswitch-slider {
+  box-shadow: none;
+}
+
+.p-inputswitch-slider {
+  background: var(--dark-background);
+  border-radius: 0;
+  border: 1px solid var(--button-red);
+}
+
+.p-inputswitch-slider:hover {
+  background: var(--dark-background-light);
+}
+
+.p-inputswitch-slider:before {
+  background: var(--button-red);
+  border-radius: 0;
+  margin-left: -1px;
+}
+
+.p-inputswitch-slider:hover::before {
+  background: var(--button-red-light);
 }
