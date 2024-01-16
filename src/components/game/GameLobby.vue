@@ -4,7 +4,7 @@ import Button from 'primevue/button';
 import Carousel from 'primevue/carousel';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -49,7 +49,9 @@ function startGame() {
 }
 
 async function loadMaps() {
+  console.log('this was called');
   const response = await gameService.getMaps();
+  console.log(response);
 
   if (response.type === 'success') {
     maps.value = response.data;
@@ -68,8 +70,7 @@ function setMap(page: number) {
   const maps = fourSwarmMap.value ? fourSwarmMaps.value : twoSwarmMaps.value;
   gameData.value.map = maps[page].id;
 }
-
-onMounted(loadMaps);
+await loadMaps();
 </script>
 
 <template>

@@ -19,11 +19,12 @@ type SwarmScore = {
   scores: number[];
 };
 
-export function useReplayViewer(routeQuery: LocationQuery) {
+export async function useReplayViewer(routeQuery: LocationQuery) {
   const frames = ref<BattleGrid[]>([]);
   const frameIndex = ref(0);
   const timer = ref<number | null>(null);
   const scoreboard = ref<SwarmScore[]>([]);
+  await getReplay(Number(routeQuery.m), (routeQuery.s as string).split(',').map(Number));
 
   const showPause = computed(() => {
     return timer.value != null;
@@ -42,9 +43,6 @@ export function useReplayViewer(routeQuery: LocationQuery) {
     () => routeQuery,
     () => {
       getReplay(Number(routeQuery.m), (routeQuery.s as string).split(',').map(Number));
-    },
-    {
-      immediate: true,
     },
   );
 

@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import LoadingSpinner from '@/components/base/LoadingSpinner.vue';
 import GameLobby from '@/components/game/GameLobby.vue';
 </script>
 
 <template>
-  <div>
+  <Suspense>
+    <template #fallback>
+      <LoadingSpinner />
+    </template>
     <GameLobby />
-  </div>
+  </Suspense>
 </template>
 
 <style scoped></style>
