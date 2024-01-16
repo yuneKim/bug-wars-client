@@ -11,6 +11,12 @@ export const scriptService = {
       },
     });
   },
+  getAllNamesOfValidScripts() {
+    return makeRequest(() => axios.get('/scripts/all'), {
+      successStatuses: [200],
+      errorStatuses: {},
+    });
+  },
   getAllScripts() {
     return makeRequest(() => axios.get('/scripts'), {
       successStatuses: [200],
@@ -52,7 +58,7 @@ export const scriptService = {
     return makeRequest(() => axios.delete(`/scripts/${id}`), {
       successStatuses: [204],
       errorStatuses: {
-        403: 'You do not have permission to delete this script.'
+        403: 'You do not have permission to delete this script.',
       },
     });
   },

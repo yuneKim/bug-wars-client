@@ -1,76 +1,22 @@
 <script setup lang="ts">
-import { gameService } from '@/services/gameService';
+import { useGameLobby } from '@/composables/useGameLobby';
 import Button from 'primevue/button';
 import Carousel from 'primevue/carousel';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
-
-type Map = {
-  id: number;
-  name: string;
-  swarms: number;
-  previewImgUrl: string;
-};
-
-const fourSwarmMap = ref(false);
-const maps = ref<Map[]>([]);
-
-const twoSwarmMaps = computed(() => maps.value.filter((map) => map.swarms === 2));
-const fourSwarmMaps = computed(() => maps.value.filter((map) => map.swarms === 4));
-
-const options = [
-  { name: 'Pizza Rizza', value: '1' },
-  { name: 'Strawberry Sizzle', value: '2' },
-];
-
-const currentMap = ref<number>(0);
-const currentMapName = computed(() => {
-  const maps = fourSwarmMap.value ? fourSwarmMaps.value : twoSwarmMaps.value;
-  return maps[currentMap.value].name;
-});
-
-const gameData = ref({
-  map: 1,
-  swarms: ['1', '1', '1', '1'],
-});
-
-function startGame() {
-  router.push({
-    name: 'game',
-    query: {
-      m: gameData.value.map,
-      s: gameData.value.swarms.slice(0, fourSwarmMap.value ? 4 : 2).join(','),
-    },
-  });
-}
-
-async function loadMaps() {
-  console.log('this was called');
-  const response = await gameService.getMaps();
-  console.log(response);
-
-  if (response.type === 'success') {
-    maps.value = response.data;
-    setMap(0);
-  } else {
-    console.error(response.error);
-  }
-}
-
-function handleSelector() {
-  setMap(0);
-}
-
-function setMap(page: number) {
-  currentMap.value = page;
-  const maps = fourSwarmMap.value ? fourSwarmMaps.value : twoSwarmMaps.value;
-  gameData.value.map = maps[page].id;
-}
-await loadMaps();
+const {
+  maps,
+  scripts,
+  gameData,
+  currentMap,
+  currentMapName,
+  fourSwarmMapSelected,
+  handleSelector,
+  carouselValue,
+  setMap,
+  startGame,
+} = await useGameLobby();
 </script>
 
 <template>
@@ -81,12 +27,12 @@ await loadMaps();
       <div class="map-name-wrapper">
         <h3 class="map-name">{{ maps.length > 0 ? currentMapName : '' }}</h3>
         <div class="sams-idea">
-          <div :class="{ dimmed: fourSwarmMap }">
+          <div :class="{ dimmed: fourSwarmMapSelected }">
             <img src="@/assets/img/bug-red.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-blue.png" alt="sam" width="20px" height="20px" />
           </div>
-          <InputSwitch v-model="fourSwarmMap" @input="handleSelector" />
-          <div :class="{ dimmed: !fourSwarmMap }">
+          <InputSwitch v-model="fourSwarmMapSelected" @input="handleSelector" />
+          <div :class="{ dimmed: !fourSwarmMapSelected }">
             <img src="@/assets/img/bug-red.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-blue.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-green.png" alt="sam" width="20px" height="20px" />
@@ -100,7 +46,7 @@ await loadMaps();
           :num-visible="1"
           :num-scroll="1"
           :page="currentMap"
-          :value="fourSwarmMap ? fourSwarmMaps : twoSwarmMaps"
+          :value="carouselValue"
           @update:page="setMap"
         >
           <template #item="slotProps">
@@ -114,16 +60,16 @@ await loadMaps();
         <div
           v-for="n in 4"
           :key="n"
-          :class="{ 'swarm-group': true, 'disabled-swarm-group': n > 2 && !fourSwarmMap }"
+          :class="{ 'swarm-group': true, 'disabled-swarm-group': n > 2 && !fourSwarmMapSelected }"
         >
           <label :for="`swarm${n}`">{{ `SWARM ${n}:` }}</label>
           <Dropdown
             :id="`swarm${n}`"
-            :options="options"
+            :options="scripts"
             optionLabel="name"
-            optionValue="value"
+            optionValue="id"
             v-model="gameData.swarms[n - 1]"
-            :disabled="n > 2 && !fourSwarmMap"
+            :disabled="n > 2 && !fourSwarmMapSelected"
             data-test="swarm-select"
           >
           </Dropdown>

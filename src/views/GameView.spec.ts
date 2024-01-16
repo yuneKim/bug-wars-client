@@ -18,7 +18,6 @@ describe('GameView.vue', () => {
     });
     await flushPromises();
 
-    console.log(wrapper.html());
     expect(wrapper.findComponent(TheGame).exists()).toBe(true);
   });
 });
