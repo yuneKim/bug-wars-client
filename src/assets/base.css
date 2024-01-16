@@ -221,6 +221,10 @@ body::before {
   background: var(--button-red-light);
 }
 
+.p-carousel :is(.p-carousel-prev, .p-carousel-next).p-disabled {
+  visibility: hidden;
+}
+
 .p-carousel-next,
 .p-carousel-prev {
   border-radius: 0;

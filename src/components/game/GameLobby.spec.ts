@@ -1,4 +1,5 @@
 import { gameService } from '@/services/gameService';
+import { scriptService } from '@/services/scriptService';
 import type { ErrorResponse } from '@/utils/makeRequest';
 import { flushPromises, mount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
@@ -7,6 +8,7 @@ import GameLobby from './GameLobby.vue';
 
 const mockPush = vi.fn();
 
+vi.mock('@/services/scriptService');
 vi.mock('@/services/gameService');
 vi.mock('vue-router', () => ({
   useRouter: vi.fn(() => ({
@@ -22,6 +24,7 @@ describe('GameLobby.vue', () => {
       error: 'A message',
     };
     vi.mocked(gameService.getMaps).mockResolvedValue(mockErrorResponse);
+    vi.mocked(scriptService.getAllNamesOfValidScripts).mockResolvedValue(mockErrorResponse);
 
     const TestComponent = defineComponent({
       components: { GameLobby },
