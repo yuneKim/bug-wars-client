@@ -11,35 +11,35 @@ import Button from 'primevue/button';
 
         <div class="card-container">
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/yune.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/yune.jpg" alt="Yune Kim's profile picture">
                 <h3>Yune Kim - Tech Lead</h3>
                 <a href="https://www.linkedin.com/in/yunekimdev/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/yuneKim" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/christopher.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/christopher.jpg" alt="Christopher Bandurski's profile picture">
                 <h3>Christopher Bandurski</h3>
                 <a href="https://www.linkedin.com/in/christopherbandurski/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/Ferrington" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/keaton.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/keaton.jpg" alt="Keaton Kido's profile picture">
                 <h3>Keaton Kido</h3>
                 <a href="https://www.linkedin.com/in/keatonkido/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/kido8013" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/anon.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/maher2.jpg" alt="Maher Nassri's profile picture">
                 <h3>Maher Nassri</h3>
                 <a href="https://www.linkedin.com/in/maher-nassri-7292166/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/mahernassri" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/chris.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/chris.jpg" alt="Chris Ratsabout's profile picture">
                 <h3>Chris Ratsabout</h3>
                 <a href="https://www.linkedin.com/in/christopherratsabout/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
@@ -47,7 +47,7 @@ import Button from 'primevue/button';
                         label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/alissa.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/alissa.jpg" alt="Alissa Reynolds's profile picture">
                 <h3>Alissa Reynolds</h3>
                 <a href="https://www.linkedin.com/in/alissa-reynolds-957810291/" target="_blank"><Button
                         icon="pi pi-linkedin" label="LinkedIn" /></a>
@@ -55,21 +55,21 @@ import Button from 'primevue/button';
                         label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/anon.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/kirk.jpg" alt="Kirk Reynolds's profile picture">
                 <h3>Kirk Reynolds</h3>
                 <a href="https://www.linkedin.com/in/kirk-reynolds-78baa9a1/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/km6805" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/clint.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/clint.jpg" alt="Clint Simmons's profile picture">
                 <h3>Clint Simmons</h3>
                 <a href="https://www.linkedin.com/in/clintasimmons/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
                 <a href="https://github.com/simmca" target="_blank"><Button icon="pi pi-github" label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/sam.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/sam.jpg" alt="Samantha Stinchcomb's profile picture">
                 <h3>Samantha Stinchcomb</h3>
                 <a href="https://www.linkedin.com/in/samantha-stinchcomb/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
@@ -77,7 +77,7 @@ import Button from 'primevue/button';
                         label="GitHub" /></a>
             </div>
             <div class="card">
-                <img class="portrait" src="@/assets/portraits/stephanie.jpg" alt="anon">
+                <img class="portrait" src="@/assets/portraits/stephanie.jpg" alt="Stephanie Strano's profile picture">
                 <h3>Stephanie Strano</h3>
                 <a href="https://www.linkedin.com/in/stephanie-strano/" target="_blank"><Button icon="pi pi-linkedin"
                         label="LinkedIn" /></a>
