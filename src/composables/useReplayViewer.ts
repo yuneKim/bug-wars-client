@@ -41,17 +41,17 @@ export function useReplayViewer(routeQuery: LocationQuery) {
   watch(
     () => routeQuery,
     () => {
-      getReplay(routeQuery.m as string, (routeQuery.s as string).split(',').map(Number));
+      getReplay(Number(routeQuery.m), (routeQuery.s as string).split(',').map(Number));
     },
     {
       immediate: true,
     },
   );
 
-  async function getReplay(mapName: string, scriptIds: number[]) {
+  async function getReplay(mapId: number, scriptIds: number[]) {
     const gameDto = {
       scriptIds,
-      mapName,
+      mapId,
     };
     const response = await gameService.getReplay(gameDto);
 

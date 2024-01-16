@@ -33,5 +33,5 @@ export type Script = {
 
 export type PlayGameDto = {
   scriptIds: number[];
-  mapName: string;
+  mapId: number;
 };

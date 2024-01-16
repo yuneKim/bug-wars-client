@@ -4,18 +4,8 @@ import Button from 'primevue/button';
 import Carousel from 'primevue/carousel';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
-export type GameData = {
-  map: string;
-  swarms: string[];
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const emit = defineEmits<{
-  startGame: [gameData: GameData];
-}>();
 
 const router = useRouter();
 
@@ -29,26 +19,31 @@ type Map = {
 const fourSwarmMap = ref(false);
 const maps = ref<Map[]>([]);
 
+const twoSwarmMaps = computed(() => maps.value.filter((map) => map.swarms === 2));
+const fourSwarmMaps = computed(() => maps.value.filter((map) => map.swarms === 4));
+
 const options = [
   { name: 'Pizza Rizza', value: '1' },
   { name: 'Strawberry Sizzle', value: '2' },
 ];
 
 const currentMap = ref<number>(0);
+const currentMapName = computed(() => {
+  const maps = fourSwarmMap.value ? fourSwarmMaps.value : twoSwarmMaps.value;
+  return maps[currentMap.value].name;
+});
 
 const gameData = ref({
-  map: 'ns_faceoff.txt',
-  swarms: ['1', '1'],
+  map: 1,
+  swarms: ['1', '1', '1', '1'],
 });
 
 function startGame() {
-  console.log('gameData', gameData.value);
-
   router.push({
     name: 'game',
     query: {
       m: gameData.value.map,
-      s: gameData.value.swarms.join(','),
+      s: gameData.value.swarms.slice(0, fourSwarmMap.value ? 4 : 2).join(','),
     },
   });
 }
@@ -58,15 +53,20 @@ async function loadMaps() {
 
   if (response.type === 'success') {
     maps.value = response.data;
-    // gameData.value.map = maps.value[0].id;
-    console.log(maps.value);
+    setMap(0);
   } else {
     console.error(response.error);
   }
 }
 
+function handleSelector() {
+  setMap(0);
+}
+
 function setMap(page: number) {
   currentMap.value = page;
+  const maps = fourSwarmMap.value ? fourSwarmMaps.value : twoSwarmMaps.value;
+  gameData.value.map = maps[page].id;
 }
 
 onMounted(loadMaps);
@@ -78,14 +78,14 @@ onMounted(loadMaps);
       <div class="header-wrapper"></div>
       <h1 class="header">GAME LOBBY</h1>
       <div class="map-name-wrapper">
-        <h3 class="map-name">{{ maps[currentMap].name }}</h3>
+        <h3 class="map-name">{{ maps.length > 0 ? currentMapName : '' }}</h3>
         <div class="sams-idea">
-          <div>
+          <div :class="{ dimmed: fourSwarmMap }">
             <img src="@/assets/img/bug-red.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-blue.png" alt="sam" width="20px" height="20px" />
           </div>
-          <InputSwitch v-model="fourSwarmMap" />
-          <div>
+          <InputSwitch v-model="fourSwarmMap" @input="handleSelector" />
+          <div :class="{ dimmed: !fourSwarmMap }">
             <img src="@/assets/img/bug-red.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-blue.png" alt="sam" width="20px" height="20px" />
             <img src="@/assets/img/bug-green.png" alt="sam" width="20px" height="20px" />
@@ -98,7 +98,8 @@ onMounted(loadMaps);
           class="map-carousel"
           :num-visible="1"
           :num-scroll="1"
-          :value="maps"
+          :page="currentMap"
+          :value="fourSwarmMap ? fourSwarmMaps : twoSwarmMaps"
           @update:page="setMap"
         >
           <template #item="slotProps">
@@ -109,7 +110,11 @@ onMounted(loadMaps);
         </Carousel>
       </div>
       <div class="swarm-selection-wrapper">
-        <div v-for="n in 4" :key="n" class="swarm-group">
+        <div
+          v-for="n in 4"
+          :key="n"
+          :class="{ 'swarm-group': true, 'disabled-swarm-group': n > 2 && !fourSwarmMap }"
+        >
           <label :for="`swarm${n}`">{{ `SWARM ${n}:` }}</label>
           <Dropdown
             :id="`swarm${n}`"
@@ -117,6 +122,7 @@ onMounted(loadMaps);
             optionLabel="name"
             optionValue="value"
             v-model="gameData.swarms[n - 1]"
+            :disabled="n > 2 && !fourSwarmMap"
             data-test="swarm-select"
           >
           </Dropdown>
@@ -151,9 +157,19 @@ onMounted(loadMaps);
   gap: 10px;
 }
 
-.sams-idea div {
+.sams-idea > div:not(.p-inputswitch) {
   display: flex;
   align-items: center;
+  position: relative;
+  padding: 4px;
+}
+
+.sams-idea img {
+  filter: brightness(0.9);
+}
+
+.dimmed img {
+  filter: brightness(0.4);
 }
 
 .game-lobby-container {
@@ -189,7 +205,7 @@ onMounted(loadMaps);
 }
 
 .map-carousel {
-  max-width: 500px;
+  width: 500px;
 }
 
 :deep(.p-carousel-item) {
@@ -198,7 +214,8 @@ onMounted(loadMaps);
 }
 
 .map-preview {
-  max-width: 400px;
+  width: 400px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,5 +239,9 @@ onMounted(loadMaps);
 .btn-wrapper {
   margin-top: 30px;
   text-align: center;
+}
+
+.disabled-swarm-group {
+  filter: brightness(60%);
 }
 </style>

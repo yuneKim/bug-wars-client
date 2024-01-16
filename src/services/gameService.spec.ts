@@ -10,7 +10,7 @@ describe('gameService', () => {
   it('makes a POST request to get a replay', async () => {
     const playGameDto = {
       scriptIds: [1, 2],
-      mapName: 'map',
+      mapId: 1,
     };
 
     const mockSuccessResponse: SuccessResponse = {
