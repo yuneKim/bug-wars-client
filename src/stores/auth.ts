@@ -15,7 +15,6 @@ export const useAuthStore = defineStore('auth', () => {
     roles: [],
   };
   const user = ref<User>(emptyUser);
-  loadUserFromLocalStorage();
   const authError = ref('');
   const postLoginDestination = ref<RouteRecordName>('');
 
@@ -111,5 +110,6 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     attemptToRefreshToken,
     setPostLoginDestination,
+    loadUserFromLocalStorage,
   };
 });
