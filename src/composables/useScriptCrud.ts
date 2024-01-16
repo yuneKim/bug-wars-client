@@ -1,16 +1,17 @@
 import { scriptService } from '@/services/scriptService';
 import type { Script, ScriptDto } from '@/types';
 import { ref, watch, type Ref } from 'vue';
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 type Props = {
   editorText: Ref<string>;
-  route: RouteLocationNormalizedLoaded;
   setText: Function;
   setOutput: Function;
 };
 
-export function useScriptCrud({ editorText, route, setText, setOutput }: Props) {
+export function useScriptCrud({ editorText, setText, setOutput }: Props) {
+  const route = useRoute();
+
   const script = ref<Script>({
     id: -1,
     name: '',
@@ -35,13 +36,13 @@ export function useScriptCrud({ editorText, route, setText, setOutput }: Props) 
     const scriptId = Number(idString);
     if (isNaN(scriptId)) return;
     const response = await scriptService.getScriptById(scriptId);
-
+    console.log(response);
     if (response.type === 'success') {
       script.value = response.data;
       setText(script.value.raw);
       setOutput(response.data.bytecode);
     } else {
-      console.error('Uh oh');
+      errorMessage.value = response.error;
     }
   }
 

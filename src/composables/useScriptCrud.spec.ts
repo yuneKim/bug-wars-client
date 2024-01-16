@@ -1,32 +1,36 @@
 import { scriptService } from '@/services/scriptService';
-import type { SuccessResponse } from '@/utils/makeRequest';
+import type { ErrorResponse, SuccessResponse } from '@/utils/makeRequest';
 import { flushPromises } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useScriptCrud } from './useScriptCrud';
 
+type TestRoute = {
+  params: {
+    id: number | string;
+  };
+};
+
+const route: TestRoute = {
+  params: {
+    id: 'a',
+  },
+};
+
+vi.mock('vue-router', () => {
+  return {
+    useRoute: vi.fn(() => route),
+  };
+});
 vi.mock('@/services/scriptService');
 
 describe('useScriptCrud', () => {
   it('validates a script name', () => {
     const editorText = ref('');
-    const route: RouteLocationNormalizedLoaded = {
-      matched: [],
-      fullPath: '',
-      query: {},
-      hash: '',
-      redirectedFrom: undefined,
-      name: undefined,
-      path: '',
-      params: {},
-      meta: {},
-    };
     const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, validateScriptName, errorMessage } = useScriptCrud({
       editorText,
-      route,
       setText,
       setOutput,
     });
@@ -49,22 +53,10 @@ describe('useScriptCrud', () => {
       data: 'A message',
     };
     const editorText = ref('');
-    const route: RouteLocationNormalizedLoaded = {
-      matched: [],
-      fullPath: '',
-      query: {},
-      hash: '',
-      redirectedFrom: undefined,
-      name: undefined,
-      path: '',
-      params: {},
-      meta: {},
-    };
     const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, save, successMessage } = useScriptCrud({
       editorText,
-      route,
       setText,
       setOutput,
     });
@@ -77,5 +69,75 @@ describe('useScriptCrud', () => {
     save();
     await flushPromises();
     expect(successMessage.value).toBe('Saved!');
+  });
+
+  it('gives an error on empty script body', async () => {
+    const editorText = ref('');
+    const setText = vi.fn();
+    const setOutput = vi.fn();
+    const { script, save, errorMessage } = useScriptCrud({
+      editorText,
+      setText,
+      setOutput,
+    });
+
+    script.value.id = -1;
+    script.value.name = 'Oggie Boogie';
+    script.value.raw = '';
+
+    save();
+    await flushPromises();
+    expect(errorMessage.value).toBe('Script body may not be blank.');
+  });
+
+  it('sets an error message when unable to create script', async () => {
+    const mockErrorResponse: ErrorResponse = {
+      type: 'error',
+      status: 500,
+      error: 'unhappy',
+    };
+    const editorText = ref('');
+    const setText = vi.fn();
+    const setOutput = vi.fn();
+    const { script, save, errorMessage } = useScriptCrud({
+      editorText,
+      setText,
+      setOutput,
+    });
+
+    script.value.id = -1;
+    script.value.name = 'Oggie Boogie';
+    script.value.raw = 'hello world';
+
+    vi.mocked(scriptService.createScript).mockResolvedValue(mockErrorResponse);
+    save();
+    await flushPromises();
+    expect(errorMessage.value).toBe(mockErrorResponse.error);
+  });
+
+  it('loads a script successfully', async () => {
+    route.params.id = 1;
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 201,
+      data: 'A message',
+    };
+    const editorText = ref('');
+    const setText = vi.fn();
+    const setOutput = vi.fn();
+
+    vi.mocked(scriptService.getScriptById).mockResolvedValue(mockSuccessResponse);
+    const { script } = useScriptCrud({
+      editorText,
+      setText,
+      setOutput,
+    });
+
+    script.value.id = -1;
+    script.value.name = 'Oggie Boogie';
+    script.value.raw = 'I really hate tests';
+
+    await flushPromises();
+    expect(script.value).toBe(mockSuccessResponse.data);
   });
 });
