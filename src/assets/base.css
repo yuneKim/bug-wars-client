@@ -27,9 +27,13 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('@/assets/base/background.jpg');
+  background-image: url('@/assets/base/background-2000.jpg');
+  background-image: image-set(
+    '@/assets/base/background-2000.jpg' 0.5x,
+    '@/assets/base/background-2900.jpg' 1x
+  );
   background-position: 20% 35%;
-  filter: brightness(50%);
+  filter: brightness(40%);
 }
 
 .p-inputtext {

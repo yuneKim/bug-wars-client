@@ -3,13 +3,11 @@ import { scriptService } from '@/services/scriptService';
 import type { Script } from '@/types';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const scripts = ref<Script[]>([]);
 const showDialog = ref(false);
-
-onMounted(loadScripts);
 
 async function loadScripts() {
   const response = await scriptService.getAllScripts();
@@ -20,6 +18,8 @@ async function loadScripts() {
     console.error('Uh oh');
   }
 }
+
+await loadScripts();
 </script>
 
 <template>

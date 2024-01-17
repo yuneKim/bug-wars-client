@@ -63,9 +63,9 @@ const props = defineProps<{
   display: block;
   position: absolute;
   inset: 0;
-  background-image: url('@/assets/img/blackstone.jpg');
+  background-image: url('@/assets/img/blackstone-optimized.jpg');
   background-position: 20% 35%;
-  filter: brightness(70%);
+  filter: brightness(40%);
   z-index: -1;
 }
 
