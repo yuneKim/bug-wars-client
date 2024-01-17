@@ -25,7 +25,7 @@ const {
       <div class="header-wrapper"></div>
       <h1 class="header">GAME LOBBY</h1>
       <div class="map-name-wrapper">
-        <h3 class="map-name">{{ maps.length > 0 ? currentMapName : '' }}</h3>
+        <h3 class="map-name">{{ currentMapName }}</h3>
         <div class="sams-idea">
           <div :class="{ dimmed: fourSwarmMapSelected }">
             <img src="@/assets/img/bug-red.png" alt="sam" width="20px" height="20px" />
@@ -78,6 +78,15 @@ const {
       <div class="btn-wrapper">
         <Button class="start-game-btn" data-test="start-game" @click="startGame">Start Game</Button>
       </div>
+    </div>
+    <div class="preload-images">
+      <img src="@/assets/img/bug-red.png" alt="red bug" />
+      <img src="@/assets/img/bug-blue.png" alt="blue bug" />
+      <img src="@/assets/img/bug-green.png" alt="green bug" />
+      <img src="@/assets/img/bug-purple.png" alt="purple bug" />
+      <img src="@/assets/img/wall.jpg" alt="wall" />
+      <img src="@/assets/img/food.png" alt="food" />
+      <img src="@/assets/img/blackstone-optimized.jpg" alt="replay viewer background" />
     </div>
   </div>
 </template>
@@ -190,5 +199,9 @@ const {
 
 .disabled-swarm-group {
   filter: brightness(60%);
+}
+
+.preload-images {
+  display: none;
 }
 </style>

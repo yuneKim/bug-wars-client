@@ -144,6 +144,7 @@ const {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
 }
 
 .vcr-controls div {

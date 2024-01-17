@@ -131,7 +131,12 @@ function clearMessages() {
       </div>
       <h2 class="title-header" v-else>
         {{ script?.name }}
-        <Button type="button" icon="pi pi-pencil" label="Edit" @click="editTitle = true"></Button>
+        <Button
+          type="button"
+          icon="pi pi-pencil"
+          label="Edit Name"
+          @click="editTitle = true"
+        ></Button>
       </h2>
     </div>
     <div class="editor-wrapper">

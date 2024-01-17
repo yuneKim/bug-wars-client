@@ -27,7 +27,7 @@ export async function useGameLobby() {
   const fourSwarmMaps = computed(() => maps.value.filter((map) => map.swarms === 4));
   const currentMapName = computed(() => {
     const maps = fourSwarmMapSelected.value ? fourSwarmMaps.value : twoSwarmMaps.value;
-    return maps[currentMap.value].name;
+    return maps[currentMap.value]?.name;
   });
   const carouselValue = computed(() =>
     fourSwarmMapSelected.value ? fourSwarmMaps.value : twoSwarmMaps.value,

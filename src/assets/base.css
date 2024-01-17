@@ -17,10 +17,8 @@
   font-family: Oxanium, Arial, Helvetica, sans-serif;
 }
 
-html,
 body {
   margin: 0;
-  background: black;
 }
 
 body::before {
@@ -83,7 +81,8 @@ body::before {
 
 .p-button:focus {
   border-color: var(--button-red);
-  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+  border: 1px solid white;
+  box-shadow: none;
 }
 
 .p-button:disabled {
