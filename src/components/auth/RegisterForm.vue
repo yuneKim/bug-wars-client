@@ -109,10 +109,11 @@ async function register(registerDto: RegisterDto) {
 
 <style scoped>
 .register-form-container-container {
+  padding-block: 150px;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 .register-header {
   text-align: center;
@@ -120,13 +121,15 @@ async function register(registerDto: RegisterDto) {
 }
 .register-form-container {
   margin: 0 auto;
-  margin-top: -100px;
+  margin-block: auto;
   width: 100%;
   max-width: 400px;
   text-transform: uppercase;
   border: 0.5px solid white;
   background-color: rgba(18, 18, 18, 0.85);
   border-radius: 2px;
+  position: relative;
+  top: -100px;
 }
 
 .register-form {

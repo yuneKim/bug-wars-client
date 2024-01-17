@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
+import { ref } from 'vue';
+
+const logoLoaded = ref(false);
 </script>
 
 <template>
   <div class="landing-container">
     <div class="slightly-smaller-container">
-      <div>
-        <img class="logo" src="@/assets/base/logo.png" />
+      <div class="logo-wrapper">
+        <Transition name="logo">
+          <img
+            v-show="logoLoaded"
+            class="logo"
+            src="@/assets/base/logo.png"
+            @load="logoLoaded = true"
+          />
+        </Transition>
       </div>
 
       <div class="btn-wrapper">
@@ -44,6 +54,10 @@ import Button from 'primevue/button';
   gap: 20px;
 }
 
+.logo-wrapper {
+  height: 370px;
+}
+
 .logo {
   width: 300px;
   position: relative;
@@ -61,5 +75,17 @@ import Button from 'primevue/button';
   color: white;
   position: relative;
   top: 1px;
+}
+
+.logo-enter-from {
+  transform: translateY(-100%);
+}
+
+.logo-enter-active {
+  transition: transform 0.5s;
+}
+
+.logo-enter-to {
+  transform: translateY(0);
 }
 </style>
