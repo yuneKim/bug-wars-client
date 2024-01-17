@@ -126,6 +126,7 @@ const {
   background-color: rgba(18, 18, 18, 0.85);
   border: 1px solid #fff;
   padding: 50px;
+  max-width: 60vh;
 }
 
 .replay-controls {
