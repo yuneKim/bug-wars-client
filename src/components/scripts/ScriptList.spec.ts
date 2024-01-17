@@ -1,7 +1,8 @@
-import { flushPromises, shallowMount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import ScriptList from './ScriptList.vue';
 import { scriptService } from '@/services/scriptService';
+import { flushPromises, mount } from '@vue/test-utils';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { defineComponent } from 'vue';
+import ScriptList from './ScriptList.vue';
 
 vi.mock('@/services/scriptService');
 
@@ -34,7 +35,16 @@ describe('ScriptList.vue', () => {
       data: scripts,
     });
 
-    const wrapper = shallowMount(ScriptList);
+    const TestComponent = defineComponent({
+      components: { ScriptList },
+      template: '<Suspense><ScriptList /></Suspense>',
+    });
+    const wrapper = mount(TestComponent, {
+      shallow: true,
+      global: {
+        stubs: { Suspense: false, ScriptList: false, Button: false },
+      },
+    });
 
     await flushPromises();
     expect(wrapper.findAll('[data-test="script"]').length).toBe(2);
@@ -50,14 +60,21 @@ describe('ScriptList.vue', () => {
         isBytecodeValid: false,
       },
     ];
-
     vi.mocked(scriptService.getAllScripts).mockResolvedValue({
       type: 'success',
       status: 200,
       data: scripts,
     });
-
-    const wrapper = shallowMount(ScriptList);
+    const TestComponent = defineComponent({
+      components: { ScriptList },
+      template: '<Suspense><ScriptList /></Suspense>',
+    });
+    const wrapper = mount(TestComponent, {
+      shallow: true,
+      global: {
+        stubs: { Suspense: false, ScriptList: false, Button: false },
+      },
+    });
 
     await flushPromises();
     await wrapper.find('[data-test="delete-button"]').trigger('click');

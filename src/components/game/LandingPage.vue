@@ -1,27 +1,39 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const logoLoaded = ref(false);
 </script>
 
 <template>
   <div class="landing-container">
     <div class="slightly-smaller-container">
-      <div>
-        <img class="logo" src="@/assets/base/logo.png" />
+      <div class="logo-wrapper">
+        <Transition name="logo">
+          <img
+            v-show="logoLoaded"
+            class="logo"
+            src="@/assets/base/logo.png"
+            @load="logoLoaded = true"
+          />
+        </Transition>
       </div>
-
+      <Button>Test</Button>
       <div class="btn-wrapper">
-        <Button data-test="gameLobby">
-          <RouterLink :to="{ name: 'gameLobby' }">Play Game</RouterLink>
-        </Button>
-        <Button data-test="scriptEditor">
-          <RouterLink :to="{ name: 'scripts' }">Script Editor</RouterLink>
-        </Button>
-        <Button data-test="howToPlay">
-          <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
-        </Button>
-        <Button data-test="credits">
-          <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
-        </Button>
+        <RouterLink :to="{ name: 'gameLobby' }">
+          <Button data-test="gameLobby"> Play Game </Button>
+        </RouterLink>
+        <RouterLink :to="{ name: 'scripts' }">
+          <Button data-test="scriptEditor">Scripts</Button>
+        </RouterLink>
+        <RouterLink :to="{ name: 'howToPlay' }">
+          <Button data-test="howToPlay">How To Play</Button>
+        </RouterLink>
+        <RouterLink :to="{ name: 'credits' }">
+          <Button data-test="credits">Credits</Button>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -31,17 +43,24 @@ import Button from 'primevue/button';
 .landing-container {
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-block: 150px;
 }
 
 .slightly-smaller-container {
-  margin-top: -150px;
+  margin-block: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  position: relative;
+  top: -100px;
+}
+
+.logo-wrapper {
+  height: 370px;
 }
 
 .logo {
@@ -56,10 +75,21 @@ import Button from 'primevue/button';
   gap: 5px;
 }
 
-.btn-wrapper a {
+.btn-wrapper .p-button {
   text-decoration: none;
   color: white;
-  position: relative;
-  top: 1px;
+  width: 100%;
+}
+
+.logo-enter-from {
+  transform: translateY(-100%);
+}
+
+.logo-enter-active {
+  transition: transform 0.5s;
+}
+
+.logo-enter-to {
+  transform: translateY(0);
 }
 </style>
