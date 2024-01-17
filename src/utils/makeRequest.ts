@@ -74,8 +74,6 @@ export async function makeRequest(
       }
     }
 
-    console.log(error.response);
-
     return Promise.resolve({
       type: 'error',
       status: error.response?.status ?? 0,

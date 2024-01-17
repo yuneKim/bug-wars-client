@@ -1,8 +1,8 @@
 import { editorOptions } from '@/config/quill';
 import { highlightScriptErrors } from '@/utils/scriptEditor/highlightScriptErrors';
-import { Delta, Quill } from '@vueup/vue-quill';
+import { Quill } from '@vueup/vue-quill';
 import sanitize from 'sanitize-html';
-import { computed, onMounted, onUnmounted, ref, type Ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch, type Ref } from 'vue';
 import { useIntellisense } from './useIntellisense';
 
 type ErrorTooltip = {
@@ -44,6 +44,10 @@ export function useScriptEditor({ overlayDiv, lineNumberDiv, errorTooltipDiv }: 
     document.removeEventListener('mousemove', displayErrorTooltip);
   });
 
+  watch(editorText, (newVal) => {
+    updateText(newVal);
+  });
+
   function initializeQuill(quillInstance: Quill) {
     quill.value = quillInstance;
 
@@ -63,14 +67,12 @@ export function useScriptEditor({ overlayDiv, lineNumberDiv, errorTooltipDiv }: 
     lineNumberDiv.value.scrollTo(0, (e.target as HTMLElement).scrollTop);
   }
 
-  function updateText(delta: Delta) {
+  function updateText(content: string) {
     caretIndex.value = quill.value.getSelection()?.index ?? 0;
-    if (delta.ops.length === 0 || typeof delta.ops[0].insert !== 'string') return;
-    const content = sanitize(delta.ops[0].insert, {
+    content = sanitize(content, {
       allowedTags: [],
       allowedAttributes: {},
     });
-    editorText.value = content;
     overlayContent.value = content;
 
     clearTimeout(typingTimer.value);
@@ -110,22 +112,15 @@ export function useScriptEditor({ overlayDiv, lineNumberDiv, errorTooltipDiv }: 
     }
   }
 
-  function setText(text: string) {
-    quill.value.setText(text);
-    updateText(new Delta([{ insert: text }]));
-  }
-
   return {
     editorOptions,
     editorText,
     overlayContent,
     errorTooltip,
     lineNumbers,
-    updateText,
     initializeQuill,
     intellisense,
     intellisenseTooltip,
     intellisenseClickHandler,
-    setText,
   };
 }
