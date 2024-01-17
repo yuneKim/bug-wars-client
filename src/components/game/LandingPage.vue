@@ -20,7 +20,6 @@ const logoLoaded = ref(false);
           />
         </Transition>
       </div>
-      <Button>Test</Button>
       <div class="btn-wrapper">
         <RouterLink :to="{ name: 'gameLobby' }">
           <Button data-test="gameLobby"> Play Game </Button>
