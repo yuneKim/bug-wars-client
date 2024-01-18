@@ -63,7 +63,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = -1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = 'I really hate tests';
+    editorText.value = 'I really hate tests';
 
     vi.mocked(scriptService.createScript).mockResolvedValue(mockSuccessResponse);
     save();
@@ -81,7 +81,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = -1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = '';
+    editorText.value = '';
 
     save();
     await flushPromises();
@@ -103,7 +103,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = -1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = 'hello world';
+    editorText.value = 'hello world';
 
     vi.mocked(scriptService.createScript).mockResolvedValue(mockErrorResponse);
     save();
@@ -129,7 +129,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = -1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = 'I really hate tests';
+    editorText.value = 'I really hate tests';
 
     await flushPromises();
     expect(script.value).toStrictEqual(mockSuccessResponse.data);
@@ -150,7 +150,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = 1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = 'I really hate tests';
+    editorText.value = 'I really hate tests';
 
     vi.mocked(scriptService.updateScript).mockResolvedValue(mockSuccessResponse);
     save();
@@ -173,7 +173,7 @@ describe('useScriptCrud', () => {
 
     script.value.id = 1;
     script.value.name = 'Oggie Boogie';
-    script.value.raw = 'I really hate tests';
+    editorText.value = 'I really hate tests';
 
     vi.mocked(scriptService.updateScript).mockResolvedValue(mockErrorResponse);
     save();
