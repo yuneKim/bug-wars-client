@@ -33,7 +33,7 @@ export async function useReplayViewer(routeQuery: LocationQuery) {
   const topBugs = computed(() => {
     return scoreboard.value
       .map((swarm, n) => {
-        return [n, swarm.scores[frameIndex.value]];
+        return [n, swarm.scores[frameIndex.value] ?? 0];
       })
       .sort((a, b) => b[1] - a[1])
       .map((a) => a[0]);
