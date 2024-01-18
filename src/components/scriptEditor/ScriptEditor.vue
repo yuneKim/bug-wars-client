@@ -8,9 +8,6 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
 
 const lineNumberDiv = ref<HTMLElement | null>(null);
 const overlayDiv = ref<HTMLElement | null>(null);
@@ -36,7 +33,6 @@ const { output, setOutput, compileScript } = useCompiler();
 const { script, editTitle, errorMessage, successMessage, validateScriptName, clearMessages, save } =
   useScriptCrud({
     editorText,
-    route,
     setText,
     setOutput,
   });
