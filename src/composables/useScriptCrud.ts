@@ -59,7 +59,7 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
   }
 
   function validateScriptBody() {
-    if (script.value.raw.length === 0) {
+    if (editorText.value.length === 0) {
       errorMessage.value = 'Script body may not be blank.';
       return false;
     }
