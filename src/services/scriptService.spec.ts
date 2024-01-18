@@ -36,6 +36,30 @@ describe('authService', () => {
     expect(registerResponse).toStrictEqual(mockSuccessResponse);
   });
 
+  it('makes a GET request to get names of all valid scripts', async () => {
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 200,
+      data: 'A message',
+    };
+
+    vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
+      func();
+      return Promise.resolve(mockSuccessResponse);
+    });
+
+    const mockResponse = [35, 0];
+
+    vi.mocked(axios.get).mockResolvedValue({
+      data: mockResponse,
+    });
+
+    const registerResponse = await scriptService.getAllNamesOfValidScripts();
+
+    expect(axios.get).toHaveBeenCalledWith(expect.any(String));
+    expect(registerResponse).toStrictEqual(mockSuccessResponse);
+  });
+
   it('makes a GET request to get all scripts', async () => {
     const mockSuccessResponse: SuccessResponse = {
       type: 'success',

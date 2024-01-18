@@ -154,7 +154,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { frames } = useReplayViewer(locationQuery);
+    const { frames } = await useReplayViewer(locationQuery);
 
     await flushPromises();
 
@@ -173,7 +173,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { topBugs } = useReplayViewer(locationQuery);
+    const { topBugs } = await useReplayViewer(locationQuery);
 
     await flushPromises();
 
@@ -192,7 +192,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { play, frameIndex } = useReplayViewer(locationQuery);
+    const { play, frameIndex } = await useReplayViewer(locationQuery);
 
     await flushPromises();
 
@@ -214,7 +214,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { play, pause, showPause, frameIndex } = useReplayViewer(locationQuery);
+    const { play, pause, showPause, frameIndex } = await useReplayViewer(locationQuery);
 
     await flushPromises();
 
@@ -239,7 +239,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { rewind, frameIndex } = useReplayViewer(locationQuery);
+    const { rewind, frameIndex } = await useReplayViewer(locationQuery);
     await flushPromises();
 
     frameIndex.value = 2;
@@ -262,7 +262,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { nextFrame, frameIndex } = useReplayViewer(locationQuery);
+    const { nextFrame, frameIndex } = await useReplayViewer(locationQuery);
     await flushPromises();
 
     expect(frameIndex.value).toBe(0);
@@ -284,7 +284,7 @@ describe('useReplayViewer', () => {
     };
     vi.mocked(gameService.getReplay).mockResolvedValue(mockResponse);
 
-    const { prevFrame, frameIndex } = useReplayViewer(locationQuery);
+    const { prevFrame, frameIndex } = await useReplayViewer(locationQuery);
     await flushPromises();
 
     frameIndex.value = 2;

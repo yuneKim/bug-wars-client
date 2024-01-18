@@ -5,11 +5,10 @@ import { useRoute } from 'vue-router';
 
 type Props = {
   editorText: Ref<string>;
-  setText: Function;
   setOutput: Function;
 };
 
-export function useScriptCrud({ editorText, setText, setOutput }: Props) {
+export function useScriptCrud({ editorText, setOutput }: Props) {
   const route = useRoute();
 
   const script = ref<Script>({
@@ -24,8 +23,6 @@ export function useScriptCrud({ editorText, setText, setOutput }: Props) {
   const errorMessage = ref('');
   const successMessage = ref('');
 
-  watch(editorText, (text) => (script.value.raw = text));
-
   watch(
     () => route.params.id,
     (id) => loadScript(id),
@@ -36,10 +33,9 @@ export function useScriptCrud({ editorText, setText, setOutput }: Props) {
     const scriptId = Number(idString);
     if (isNaN(scriptId)) return;
     const response = await scriptService.getScriptById(scriptId);
-    console.log(response);
     if (response.type === 'success') {
       script.value = response.data;
-      setText(script.value.raw);
+      editorText.value = script.value.raw;
       setOutput(response.data.bytecode);
     } else {
       errorMessage.value = response.error;
@@ -96,6 +92,7 @@ export function useScriptCrud({ editorText, setText, setOutput }: Props) {
     };
 
     const response = await scriptService.updateScript(script.value.id, scriptDto);
+    console.log(response);
     if (response.type === 'success') {
       script.value.id = response.data.id;
       successMessage.value = 'Saved!';

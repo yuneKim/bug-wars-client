@@ -150,7 +150,7 @@ function extractTokens(line: string) {
   let prevPosition = -1;
   return tokens.map((value) => {
     const position = line.indexOf(value, prevPosition + 1);
-    prevPosition = position;
+    prevPosition = position + value.length;
     return { value, position };
   });
 }

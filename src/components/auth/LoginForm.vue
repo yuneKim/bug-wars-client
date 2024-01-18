@@ -84,18 +84,21 @@ function clearError() {
 .login-wrapper-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
+  padding-block: 150px;
 }
 
 .login-wrapper {
   margin: 0 auto;
-  margin-top: -100px;
+  margin-block: auto;
   width: 100%;
   max-width: 400px;
   text-transform: uppercase;
   border: 0.5px solid white;
   border-radius: 2px;
+  position: relative;
+  top: -100px;
 }
 
 .login-form {
