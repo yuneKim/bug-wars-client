@@ -107,72 +107,6 @@ describe('Auth Store', () => {
     expect(authError.value).toBe('Username and Password cannot be blank.');
   });
 
-  // it('should handle errors: 401 response status', async () => {
-  //   const loginDto: LoginDto = {
-  //     username: 'some_user',
-  //     password: 'some_password',
-  //   };
-
-  //   // const mockResponse: AxiosResponse<any, any> = {
-  //   //   status: 401,
-  //   //   data: undefined,
-  //   //   statusText: '',
-  //   //   headers: {},
-  //   //   config: {} as any,
-  //   // };
-
-  //   // const error = new AxiosError();
-  //   // error.response = mockResponse;
-
-  //   const mockResponse: ErrorResponse = {
-  //     status: 400,
-  //     type: 'error',
-  //     error: 'Username and Password cannot be blank.',
-  //   };
-
-  //   const { login } = useAuthStore();
-  //   const { user, authError } = storeToRefs(useAuthStore());
-
-  //   vi.mocked(authService.login).mockRejectedValue(error);
-
-  //   await login(loginDto);
-
-  //   expect(authService.login).toHaveBeenCalledOnce();
-  //   expect(user.value).toStrictEqual(emptyUser);
-  //   expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
-  //   expect(authError.value).toBe('Your login attempt failed. Please try again.');
-  // });
-
-  // it('should handle errors: server errors', async () => {
-  //   const loginDto: LoginDto = {
-  //     username: 'some_user',
-  //     password: 'some_password',
-  //   };
-
-  //   const mockResponse: AxiosResponse<any, any> = {
-  //     status: 500,
-  //     data: undefined,
-  //     statusText: '',
-  //     headers: {},
-  //     config: {} as any,
-  //   };
-
-  //   const error = new AxiosError();
-  //   error.response = mockResponse;
-
-  //   const { login } = useAuthStore();
-  //   const { user, authError } = storeToRefs(useAuthStore());
-
-  //   vi.mocked(authService.login).mockRejectedValue(error);
-
-  //   await login(loginDto);
-
-  //   expect(authService.login).toHaveBeenCalledOnce();
-  //   expect(user.value).toStrictEqual(emptyUser);
-  //   expect(JSON.parse(localStorage.getItem('user') ?? '{}')).toStrictEqual({});
-  //   expect(authError.value).toBe('Something went wrong on our end. Try again later.');
-  // });
-
   it('should logout a user and redirect to login', async () => {
     const { logout } = useAuthStore();
     const { user } = storeToRefs(useAuthStore());
@@ -209,9 +143,10 @@ describe('Auth Store', () => {
 
     localStorage.setItem('user', JSON.stringify(mockUser));
 
+    const { loadUserFromLocalStorage } = useAuthStore();
     const { user } = storeToRefs(useAuthStore());
 
-    await flushPromises();
+    await loadUserFromLocalStorage();
 
     expect(user.value).toEqual(mockUser);
   });
@@ -233,9 +168,10 @@ describe('Auth Store', () => {
 
     localStorage.setItem('user', JSON.stringify(mockUser));
 
+    const { loadUserFromLocalStorage } = useAuthStore();
     const { user } = storeToRefs(useAuthStore());
 
-    await flushPromises();
+    await loadUserFromLocalStorage();
 
     expect(user.value).toEqual(emptyUser);
   });
@@ -253,9 +189,10 @@ describe('Auth Store', () => {
 
     localStorage.setItem('user', '{"username": "some_user", "roles": ["ROLE_USER"], }');
 
+    const { loadUserFromLocalStorage } = useAuthStore();
     const { user } = storeToRefs(useAuthStore());
 
-    await flushPromises();
+    await loadUserFromLocalStorage();
 
     expect(user.value).toEqual(emptyUser);
   });
@@ -338,5 +275,25 @@ describe('Auth Store', () => {
     const response = await attemptToRefreshToken(config);
 
     expect(response).toBe('logout successful');
+  });
+
+  it('should handle an error while retrieving user from localstorage', async () => {
+    const mockUser: User = {
+      username: 'some_user',
+      roles: ['ROLE_USER'],
+    };
+
+    const error = new Error();
+
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    vi.mocked(authService.refreshToken).mockRejectedValue(error);
+
+    localStorage.setItem('user', JSON.stringify(mockUser));
+
+    const { loadUserFromLocalStorage } = useAuthStore();
+
+    await loadUserFromLocalStorage();
+
+    expect(consoleMock).toHaveBeenCalledOnce();
   });
 });

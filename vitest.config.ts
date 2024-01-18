@@ -28,6 +28,7 @@ export default mergeConfig(
           statements: 80,
         },
       },
+      setupFiles: ['./vitest.setup.ts'],
     },
   }),
 );

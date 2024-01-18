@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BattleGrid } from '@/utils/replayUnsquasher';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 
 const bugImgs: Record<number, string> = {
   0: new URL('@/assets/img/bug-red.png', import.meta.url).href,
@@ -11,24 +12,33 @@ const bugImgs: Record<number, string> = {
 const props = defineProps<{
   frame: BattleGrid;
 }>();
+
+const battlefield = ref<HTMLDivElement>();
+
+watch(() => battlefield, resizeHandler);
+
+onMounted(() => window.addEventListener('resize', resizeHandler));
+onUnmounted(() => window.removeEventListener('resize', resizeHandler));
+
+function resizeHandler() {
+  if (battlefield.value) {
+    const width = battlefield.value.offsetWidth;
+    battlefield.value.setAttribute('style', `height:${width}px`);
+  }
+}
 </script>
 
 <template>
   <div class="container">
-    <div v-if="frame" class="battlefield">
-      <div class="row" v-for="(row, y) in props.frame" :key="y">
+    <div ref="battlefield" v-if="frame" class="battlefield">
+      <template v-for="(row, y) in props.frame" :key="y">
         <div :class="`cell ${cell.type}`" v-for="(cell, x) in row" :key="x">
           <div
             v-if="cell.type === 'bug'"
             :class="`bug swarm-${cell.swarm + 1}`"
             :title="`${x}, ${y}`"
           >
-            <img
-              class="bug-img"
-              :class="`face-${cell.direction}`"
-              :src="bugImgs[cell.swarm]"
-              width="20"
-            />
+            <img class="bug-img" :class="`face-${cell.direction}`" :src="bugImgs[cell.swarm]" />
           </div>
           <div class="food-cell" v-if="cell.type === 'food'">
             <img class="food-img" src="@/assets/img/food.png" />
@@ -38,7 +48,7 @@ const props = defineProps<{
           </div>
           <div v-if="cell.type === 'empty'"></div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -51,10 +61,9 @@ const props = defineProps<{
 }
 
 .battlefield {
-  padding: 1px;
-  /* background: #545454; toggle grid lines */
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(v-bind('props.frame[0].length'), 1fr);
+  grid-template-rows: repeat(v-bind('props.frame.length'), 1fr);
   position: relative;
 }
 
@@ -63,10 +72,15 @@ const props = defineProps<{
   display: block;
   position: absolute;
   inset: 0;
-  background-image: url('@/assets/img/blackstone.jpg');
+  background-image: url('@/assets/img/blackstone-optimized.jpg');
   background-position: 20% 35%;
-  filter: brightness(70%);
+  filter: brightness(40%);
   z-index: -1;
+}
+
+img {
+  display: block;
+  width: 100%;
 }
 
 .row {
@@ -74,8 +88,6 @@ const props = defineProps<{
 }
 
 .cell {
-  width: 20px;
-  height: 20px;
 }
 
 .wall {

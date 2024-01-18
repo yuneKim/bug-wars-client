@@ -3,7 +3,7 @@ import { scriptService } from '@/services/scriptService';
 import type { Script } from '@/types';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const scripts = ref<Script[]>([]);
@@ -44,6 +44,8 @@ async function deleteScript() {
 function clearError() {
   errorMessage.value = '';
 }
+
+await loadScripts();
 </script>
 
 <template>

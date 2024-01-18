@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/auth';
 import LandingPageView from '@/views/LandingPageView.vue';
 import { storeToRefs } from 'pinia';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { START_LOCATION, createRouter, createWebHashHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -61,10 +61,18 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to) => {
-  const { setPostLoginDestination } = useAuthStore();
+router.beforeEach(async (to, from) => {
+  const { setPostLoginDestination, loadUserFromLocalStorage } = useAuthStore();
   const { user } = storeToRefs(useAuthStore());
   const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
+
+  if (from === START_LOCATION) {
+    if (requiresAuth) {
+      await loadUserFromLocalStorage();
+    } else {
+      loadUserFromLocalStorage();
+    }
+  }
 
   if (requiresAuth && !user.value.roles.includes('ROLE_USER')) {
     setPostLoginDestination(to.name != null && to.name !== 'login' ? to.name : 'home');

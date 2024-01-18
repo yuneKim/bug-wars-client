@@ -11,6 +11,12 @@ export const scriptService = {
       },
     });
   },
+  getAllNamesOfValidScripts() {
+    return makeRequest(() => axios.get('/scripts/all'), {
+      successStatuses: [200],
+      errorStatuses: {},
+    });
+  },
   getAllScripts() {
     return makeRequest(() => axios.get('/scripts'), {
       successStatuses: [200],

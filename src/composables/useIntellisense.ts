@@ -1,7 +1,7 @@
 import { ACTIONS, CONTROLS, SCRIPT_EDITOR_OFFSET } from '@/config/constants';
 import { getLabels } from '@/utils/scriptEditor/getLabels';
 import type { Delta, Quill } from '@vueup/vue-quill';
-import { onMounted, onUnmounted, ref, watch, type Ref } from 'vue';
+import { onMounted, onUnmounted, ref, type Ref } from 'vue';
 
 type IntellisenseOption = {
   type: 'label' | 'action' | 'control';

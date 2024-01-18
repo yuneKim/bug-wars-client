@@ -22,12 +22,10 @@ const {
   overlayContent,
   errorTooltip,
   lineNumbers,
-  updateText,
   initializeQuill,
   intellisense,
   intellisenseTooltip,
   intellisenseClickHandler,
-  setText,
 } = useScriptEditor({
   lineNumberDiv,
   overlayDiv,
@@ -64,7 +62,12 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
       </div>
       <h2 class="title-header" v-else>
         {{ script?.name }}
-        <Button type="button" icon="pi pi-pencil" label="Edit" @click="editTitle = true"></Button>
+        <Button
+          type="button"
+          icon="pi pi-pencil"
+          label="Edit Name"
+          @click="editTitle = true"
+        ></Button>
       </h2>
     </div>
     <div class="editor-wrapper">
@@ -74,8 +77,9 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
       <QuillEditor
         ref="testRef"
         :options="editorOptions"
+        v-model:content="editorText"
+        contentType="text"
         @textChange="intellisense"
-        @update:content="updateText"
         @ready="initializeQuill"
         @input="clearMessages"
       />
