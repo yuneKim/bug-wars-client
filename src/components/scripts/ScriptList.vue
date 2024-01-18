@@ -11,8 +11,6 @@ const showDialog = ref(false);
 const deleteId = ref(0);
 const errorMessage = ref('');
 
-onMounted(loadScripts);
-
 async function loadScripts() {
   const response = await scriptService.getAllScripts();
 

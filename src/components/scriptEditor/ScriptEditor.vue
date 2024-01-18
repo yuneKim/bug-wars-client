@@ -33,7 +33,6 @@ const { output, setOutput, compileScript } = useCompiler();
 const { script, editTitle, errorMessage, successMessage, validateScriptName, clearMessages, save } =
   useScriptCrud({
     editorText,
-    setText,
     setOutput,
   });
 </script>

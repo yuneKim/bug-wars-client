@@ -1,7 +1,7 @@
 import { scriptService } from '@/services/scriptService';
 import type { ErrorResponse, SuccessResponse } from '@/utils/makeRequest';
 import { flushPromises } from '@vue/test-utils';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
 import { useScriptCrud } from './useScriptCrud';
 
@@ -25,13 +25,15 @@ vi.mock('vue-router', () => {
 vi.mock('@/services/scriptService');
 
 describe('useScriptCrud', () => {
+  afterAll(() => {
+    vi.resetAllMocks();
+  });
+
   it('validates a script name', () => {
     const editorText = ref('');
-    const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, validateScriptName, errorMessage } = useScriptCrud({
       editorText,
-      setText,
       setOutput,
     });
 
@@ -50,14 +52,12 @@ describe('useScriptCrud', () => {
     const mockSuccessResponse: SuccessResponse = {
       type: 'success',
       status: 201,
-      data: 'A message',
+      data: { id: 1 },
     };
     const editorText = ref('');
-    const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, save, successMessage } = useScriptCrud({
       editorText,
-      setText,
       setOutput,
     });
 
@@ -73,11 +73,9 @@ describe('useScriptCrud', () => {
 
   it('gives an error on empty script body', async () => {
     const editorText = ref('');
-    const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, save, errorMessage } = useScriptCrud({
       editorText,
-      setText,
       setOutput,
     });
 
@@ -97,11 +95,9 @@ describe('useScriptCrud', () => {
       error: 'unhappy',
     };
     const editorText = ref('');
-    const setText = vi.fn();
     const setOutput = vi.fn();
     const { script, save, errorMessage } = useScriptCrud({
       editorText,
-      setText,
       setOutput,
     });
 
@@ -120,16 +116,14 @@ describe('useScriptCrud', () => {
     const mockSuccessResponse: SuccessResponse = {
       type: 'success',
       status: 201,
-      data: 'A message',
+      data: { id: 1 },
     };
     const editorText = ref('');
-    const setText = vi.fn();
     const setOutput = vi.fn();
 
     vi.mocked(scriptService.getScriptById).mockResolvedValue(mockSuccessResponse);
     const { script } = useScriptCrud({
       editorText,
-      setText,
       setOutput,
     });
 
@@ -138,6 +132,69 @@ describe('useScriptCrud', () => {
     script.value.raw = 'I really hate tests';
 
     await flushPromises();
-    expect(script.value).toBe(mockSuccessResponse.data);
+    expect(script.value).toStrictEqual(mockSuccessResponse.data);
+  });
+
+  it('updates a script', async () => {
+    const mockSuccessResponse: SuccessResponse = {
+      type: 'success',
+      status: 200,
+      data: { id: 1 },
+    };
+    const editorText = ref('');
+    const setOutput = vi.fn();
+    const { script, save, successMessage } = useScriptCrud({
+      editorText,
+      setOutput,
+    });
+
+    script.value.id = 1;
+    script.value.name = 'Oggie Boogie';
+    script.value.raw = 'I really hate tests';
+
+    vi.mocked(scriptService.updateScript).mockResolvedValue(mockSuccessResponse);
+    save();
+    await flushPromises();
+    expect(successMessage.value).toBe('Saved!');
+  });
+
+  it('sets an error when fails to update script', async () => {
+    const mockErrorResponse: ErrorResponse = {
+      type: 'error',
+      status: 500,
+      error: 'error',
+    };
+    const editorText = ref('');
+    const setOutput = vi.fn();
+    const { script, save, errorMessage } = useScriptCrud({
+      editorText,
+      setOutput,
+    });
+
+    script.value.id = 1;
+    script.value.name = 'Oggie Boogie';
+    script.value.raw = 'I really hate tests';
+
+    vi.mocked(scriptService.updateScript).mockResolvedValue(mockErrorResponse);
+    save();
+    await flushPromises();
+    expect(errorMessage.value).toBe(mockErrorResponse.error);
+  });
+
+  it('clears messages', async () => {
+    const editorText = ref('');
+    const setOutput = vi.fn();
+    const { successMessage, errorMessage, clearMessages } = useScriptCrud({
+      editorText,
+      setOutput,
+    });
+
+    successMessage.value = 'success';
+    errorMessage.value = 'uh oh';
+    expect(successMessage.value).toBe('success');
+    expect(errorMessage.value).toBe('uh oh');
+    clearMessages();
+    expect(successMessage.value).toBe('');
+    expect(errorMessage.value).toBe('');
   });
 });
