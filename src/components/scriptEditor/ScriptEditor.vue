@@ -81,7 +81,7 @@ function validateScriptName() {
 }
 
 function validateScriptBody() {
-  if (script.value.raw.length === 0) {
+  if (editorText.value.length === 0) {
     errorMessage.value = 'Script body may not be blank.';
     return false;
   }
@@ -93,7 +93,7 @@ async function createScript() {
 
   const scriptDto: ScriptDto = {
     name: script.value.name,
-    raw: script.value.raw,
+    raw: editorText.value,
   };
 
   const response = await scriptService.createScript(scriptDto);
@@ -152,7 +152,6 @@ function clearMessages() {
         @ready="initializeQuill"
         @input="clearMessages"
       />
-      >
       <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
     </div>
     <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
