@@ -150,6 +150,11 @@ describe('authService', () => {
       data: 'A message',
     };
 
+    const scriptDto: ScriptDto = {
+      name: 'Razzle Dazzle',
+      raw: ':START \n :END',
+    };
+
     vi.mocked(makeRequest).mockImplementation(async (func: Function) => {
       func();
       return Promise.resolve(mockSuccessResponse);
@@ -161,9 +166,9 @@ describe('authService', () => {
       data: mockResponse,
     });
 
-    const registerResponse = await scriptService.updateScript(1);
+    const registerResponse = await scriptService.updateScript(1, scriptDto);
 
-    expect(axios.put).toHaveBeenCalledWith(expect.any(String));
+    expect(axios.put).toHaveBeenCalledWith(expect.any(String), scriptDto);
     expect(registerResponse).toStrictEqual(mockSuccessResponse);
   });
 

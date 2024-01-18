@@ -8,6 +8,8 @@ import { RouterLink } from 'vue-router';
 
 const scripts = ref<Script[]>([]);
 const showDialog = ref(false);
+const deleteId = ref(0);
+const errorMessage = ref('');
 
 async function loadScripts() {
   const response = await scriptService.getAllScripts();
@@ -15,8 +17,30 @@ async function loadScripts() {
   if (response.type === 'success') {
     scripts.value = response.data;
   } else {
-    console.error('Uh oh');
+    errorMessage.value = response.error;
   }
+}
+
+function openModal(id: number) {
+  clearError();
+  showDialog.value = true;
+  deleteId.value = id;
+}
+
+async function deleteScript() {
+  clearError();
+  const response = await scriptService.deleteScriptById(deleteId.value);
+
+  if (response.type === 'success') {
+    loadScripts();
+  } else {
+    errorMessage.value = response.error;
+  }
+  showDialog.value = false;
+}
+
+function clearError() {
+  errorMessage.value = '';
 }
 
 await loadScripts();
@@ -33,19 +57,32 @@ await loadScripts();
           }}</RouterLink>
           <Button
             type="button"
-            @click="showDialog = true"
+            @click="openModal(script.id)"
             data-test="delete-button"
             icon="pi pi-trash"
+            class="trash"
           ></Button>
         </li>
       </ul>
-      <Dialog v-model:visible="showDialog" modal header="test header" data-test="dialog"
-        ><p>dummy text</p></Dialog
+      <Dialog
+        v-model:visible="showDialog"
+        modal
+        dismissable-mask
+        header="Are you sure?"
+        data-test="dialog"
+        class="delete-modal"
+      >
+        <Button type="button" @click="deleteScript()" data-test="real-delete-button"
+          >Delete</Button
+        ></Dialog
       >
       <Divider class="divider" />
       <Button class="create-script-btn">
         <RouterLink :to="{ name: 'scriptEditor' }">Create Script</RouterLink>
       </Button>
+      <p class="error-message">
+        {{ errorMessage }}
+      </p>
     </div>
   </div>
 </template>
@@ -63,6 +100,8 @@ await loadScripts();
   border-radius: 2px;
   margin-top: 50px;
   padding: 50px;
+  max-width: 500px;
+  width: 100%;
 }
 
 .littler-container a {
@@ -107,5 +146,8 @@ await loadScripts();
 .create-script-btn a {
   position: relative;
   top: 1px;
+}
+.error-message {
+  color: red;
 }
 </style>

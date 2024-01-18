@@ -262,3 +262,28 @@ body::before {
 .p-inputswitch-slider:hover::before {
   background: var(--button-red-light);
 }
+
+.p-dialog {
+  background-color: black;
+  border-radius: 2px;
+  border: 1px solid #fff;
+}
+
+.p-dialog-header,
+.p-dialog-content {
+  background: rgb(18, 18, 18);
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.p-dialog-header-close {
+  color: #fff;
+  border-radius: 0;
+  margin-left: 20px;
+  position: relative;
+  top: -2px;
+}
+
+.p-dialog-header-close:hover {
+  background-color: rgb(114, 16, 0);
+}
