@@ -75,7 +75,7 @@ export function useScriptCrud({ editorText, setText, setOutput }: Props) {
 
     const scriptDto: ScriptDto = {
       name: script.value.name,
-      raw: script.value.raw,
+      raw: editorText.value,
     };
 
     const response = await scriptService.createScript(scriptDto);
@@ -92,7 +92,7 @@ export function useScriptCrud({ editorText, setText, setOutput }: Props) {
 
     const scriptDto: ScriptDto = {
       name: script.value.name,
-      raw: script.value.raw,
+      raw: editorText.value,
     };
 
     const response = await scriptService.updateScript(script.value.id, scriptDto);
