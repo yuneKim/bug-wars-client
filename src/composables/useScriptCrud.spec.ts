@@ -197,4 +197,28 @@ describe('useScriptCrud', () => {
     expect(successMessage.value).toBe('');
     expect(errorMessage.value).toBe('');
   });
+
+  it('loads a script successfully', async () => {
+    route.params.id = 1;
+    const mockErrorResponse: ErrorResponse = {
+      type: 'error',
+      status: 500,
+      error: 'error',
+    };
+    const editorText = ref('');
+    const setOutput = vi.fn();
+
+    vi.mocked(scriptService.getScriptById).mockResolvedValue(mockErrorResponse);
+    const { script, errorMessage } = useScriptCrud({
+      editorText,
+      setOutput,
+    });
+
+    script.value.id = -1;
+    script.value.name = '';
+    editorText.value = '';
+
+    await flushPromises();
+    expect(errorMessage.value).toStrictEqual(mockErrorResponse.error);
+  });
 });

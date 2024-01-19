@@ -1,47 +1,10 @@
 <script setup lang="ts">
-import { scriptService } from '@/services/scriptService';
-import type { Script } from '@/types';
+import { useScriptList } from '@/composables/useScriptList';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const scripts = ref<Script[]>([]);
-const showDialog = ref(false);
-const deleteId = ref(0);
-const errorMessage = ref('');
-
-async function loadScripts() {
-  const response = await scriptService.getAllScripts();
-
-  if (response.type === 'success') {
-    scripts.value = response.data;
-  } else {
-    errorMessage.value = response.error;
-  }
-}
-
-function openModal(id: number) {
-  clearError();
-  showDialog.value = true;
-  deleteId.value = id;
-}
-
-async function deleteScript() {
-  clearError();
-  const response = await scriptService.deleteScriptById(deleteId.value);
-
-  if (response.type === 'success') {
-    loadScripts();
-  } else {
-    errorMessage.value = response.error;
-  }
-  showDialog.value = false;
-}
-
-function clearError() {
-  errorMessage.value = '';
-}
+const { scripts, showDialog, errorMessage, loadScripts, openModal, deleteScript } = useScriptList();
 
 await loadScripts();
 </script>

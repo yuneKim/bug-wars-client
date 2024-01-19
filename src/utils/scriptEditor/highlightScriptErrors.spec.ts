@@ -71,7 +71,6 @@ describe('highlightScriptErrors', () => {
     const input = 'this s\n';
     const output =
       '<span class="script-editor-underline-error" title="This is not a valid action or control.\nValid actions are: noop, mov, rotr, rotl, att, eat.\nValid controls are: ifEnemy, ifAlly, ifFood, ifEmpty, ifWall, goto.">this</span> <span class="script-editor-underline-error" title="This is not a valid action or control.\nValid actions are: noop, mov, rotr, rotl, att, eat.\nValid controls are: ifEnemy, ifAlly, ifFood, ifEmpty, ifWall, goto.">s</span>\n';
-    console.log(highlightScriptErrors(input));
     expect(highlightScriptErrors(input)).toBe(output);
   });
 });
