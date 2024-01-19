@@ -9,7 +9,6 @@ export function useCompiler() {
 
   async function compileScript(code: string) {
     // replace all nbsp with spaces
-    code = code.replace(/\u00a0/g, ' ');
     compileError.value = '';
 
     const response = await scriptService.parse({ code });
