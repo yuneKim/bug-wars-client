@@ -92,7 +92,6 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
     };
 
     const response = await scriptService.updateScript(script.value.id, scriptDto);
-    console.log(response);
     if (response.type === 'success') {
       script.value.id = response.data.id;
       successMessage.value = 'Saved!';

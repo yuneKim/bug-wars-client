@@ -80,4 +80,26 @@ describe('ScriptList.vue', () => {
     await wrapper.find('[data-test="delete-button"]').trigger('click');
     expect(wrapper.find('[data-test="dialog"]').attributes('visible')).toBe('true');
   });
+
+  it('sets an error message when scripts cannot load', async () => {
+    vi.mocked(scriptService.getAllScripts).mockResolvedValue({
+      type: 'error',
+      status: 500,
+      error: 'bad message',
+    });
+
+    const TestComponent = defineComponent({
+      components: { ScriptList },
+      template: '<Suspense><ScriptList /></Suspense>',
+    });
+    const wrapper = mount(TestComponent, {
+      shallow: true,
+      global: {
+        stubs: { Suspense: false, ScriptList: false, Button: false },
+      },
+    });
+
+    await flushPromises();
+    expect(wrapper.find('.error-message').text()).toBe('bad message');
+  });
 });
