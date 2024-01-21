@@ -47,4 +47,10 @@ import TopNav from '@/components/base/TopNav.vue';
   color: rgb(255, 34, 0);
   transition: ease-in-out 0.2s;
 }
+
+@media(max-width:480px){
+  .footer-nav {
+    display: none;
+  }
+}
 </style>
