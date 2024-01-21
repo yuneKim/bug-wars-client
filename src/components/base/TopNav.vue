@@ -3,10 +3,12 @@ import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { RouterLink } from 'vue-router';
 import Button from 'primevue/button';
+import { ref } from 'vue';
 
 
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
+const isVisible = ref(false);
 </script>
 
 <template>
@@ -18,7 +20,7 @@ const { logout } = useAuthStore();
         </RouterLink>
       </div>
 
-      <div class="nav-links">
+      <div class="nav-links" v-if="isVisible === true">
         <RouterLink :to="{ name: 'home' }" class="home-link">Home</RouterLink>
         <RouterLink :to="{ name: 'gameLobby' }">Play</RouterLink>
         <RouterLink :to="{ name: 'scripts' }">Scripts</RouterLink>
@@ -28,10 +30,10 @@ const { logout } = useAuthStore();
         <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
         
       </div>
+
       <span class="hamburger-btn">
-        <Button icon="pi pi-bars" style="background-color: black"/>
+        <Button @click="isVisible = !isVisible" icon="pi pi-bars" style="background-color: black"/>
       </span>
-      
     </nav>
   </header>
 </template>
@@ -94,10 +96,10 @@ nav a:hover {
 }
 
 @media(max-width:480px){
-  .nav-links {
+  /* .nav-links {
   position:fixed;
   left: -100%;
-}
+} */
 
 .hamburger-btn {
   display: inline-block;
