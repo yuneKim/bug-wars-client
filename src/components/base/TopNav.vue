@@ -96,10 +96,26 @@ nav a:hover {
 }
 
 @media(max-width:480px){
-  /* .nav-links {
-  position:fixed;
-  left: -100%;
-} */
+  .extra-mobile-link {
+  display: inline;
+}
+
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgba(18, 18, 18, 0.85);
+    z-index: 10;
+    width: 100%;
+}
+
+.nav-links a {
+  padding: 10px;
+}
 
 .hamburger-btn {
   display: inline-block;
