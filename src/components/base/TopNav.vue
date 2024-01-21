@@ -2,6 +2,8 @@
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { RouterLink } from 'vue-router';
+import Button from 'primevue/button';
+
 
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
@@ -24,7 +26,12 @@ const { logout } = useAuthStore();
         <RouterLink class="extra-mobile-link" :to="{ name: 'credits' }">Credits</RouterLink>
         <a class="logout" href="" v-if="user.username" @click.prevent="logout(true)">Logout</a>
         <RouterLink class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
+        
       </div>
+      <span class="hamburger-btn">
+        <Button icon="pi pi-bars" style="background-color: black"/>
+      </span>
+      
     </nav>
   </header>
 </template>
@@ -76,6 +83,12 @@ nav a:hover {
   padding: 0 1rem;
 }
 
+.hamburger-btn {
+  display: none;
+}
+
+
+
 .extra-mobile-link {
   display: none;
 }
@@ -84,6 +97,11 @@ nav a:hover {
   .nav-links {
   position:fixed;
   left: -100%;
+}
+
+.hamburger-btn {
+  display: inline-block;
+  margin-right: 10px; 
 }
 
 
