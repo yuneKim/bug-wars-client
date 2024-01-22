@@ -11,19 +11,19 @@ const { logout } = useAuthStore();
 
 const mobileNavLinksStyle = ref({
   left: '-100%'
-})
+});
+
+let hamburgerIsVisible = ref(true);
 
 const showMobileNavLinks = () => {
-mobileNavLinksStyle.value = {
-    left: '0%'
-  }
-}
+  hamburgerIsVisible.value = false;
+  mobileNavLinksStyle.value = {left: '0%'};
+};
 
 const hideMobileNavLinks = () => {
-mobileNavLinksStyle.value = {
-    left: '-100%'
-  }
-}
+  hamburgerIsVisible.value = true;
+  mobileNavLinksStyle.value = {left: '-100%'};
+};
 
 </script>
 
@@ -48,7 +48,8 @@ mobileNavLinksStyle.value = {
       </div>
 
       <span class="hamburger-btn">
-        <Button @click="showMobileNavLinks" icon="pi pi-bars" style="background-color: black"/>
+        <Button v-if="hamburgerIsVisible" @click="showMobileNavLinks" icon="pi pi-bars" style="background-color: black"/>
+        <Button v-if="!hamburgerIsVisible" @click="hideMobileNavLinks" icon="pi pi-times" style="background-color: black"/>
       </span>
     </nav>
   </header>
