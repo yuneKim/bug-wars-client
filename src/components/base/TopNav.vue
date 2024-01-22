@@ -42,7 +42,7 @@ const hideMobileNavLinks = () => {
         <RouterLink @click="hideMobileNavLinks" :to="{ name: 'scripts' }">Scripts</RouterLink>
         <RouterLink @click="hideMobileNavLinks" class="extra-mobile-link" :to="{ name: 'howToPlay' }">How to Play</RouterLink>
         <RouterLink @click="hideMobileNavLinks" class="extra-mobile-link" :to="{ name: 'credits' }">Credits</RouterLink>
-        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true)">Logout</a>
+        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true), hideMobileNavLinks()">Logout</a>
         <RouterLink @click="hideMobileNavLinks" class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
         
       </div>
