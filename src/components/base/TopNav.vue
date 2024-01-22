@@ -9,18 +9,7 @@ import { ref } from 'vue';
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 
-
-
 let hamburgerIsVisible = ref(true);
-
-const hideMobileNavLinks = () => {
-  hamburgerIsVisible.value = true;
-};
-
-const toggleHamburger = () => {
-  hamburgerIsVisible.value = !hamburgerIsVisible.value;
-}
-
 </script>
 
 <template>
@@ -33,19 +22,19 @@ const toggleHamburger = () => {
       </div>
 
       <div class="nav-links" :style="{ left: hamburgerIsVisible ? '-100%' : '0'}">
-        <RouterLink @click="hideMobileNavLinks" :to="{ name: 'home' }" class="home-link">Home</RouterLink>
-        <RouterLink @click="hideMobileNavLinks" :to="{ name: 'gameLobby' }">Play</RouterLink>
-        <RouterLink @click="hideMobileNavLinks" :to="{ name: 'scripts' }">Scripts</RouterLink>
-        <RouterLink @click="hideMobileNavLinks" class="extra-mobile-link" :to="{ name: 'howToPlay' }">How to Play</RouterLink>
-        <RouterLink @click="hideMobileNavLinks" class="extra-mobile-link" :to="{ name: 'credits' }">Credits</RouterLink>
-        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true), hideMobileNavLinks()">Logout</a>
-        <RouterLink @click="hideMobileNavLinks" class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
+        <RouterLink @click="hamburgerIsVisible = true" :to="{ name: 'home' }" class="home-link">Home</RouterLink>
+        <RouterLink @click="hamburgerIsVisible = true" :to="{ name: 'gameLobby' }">Play</RouterLink>
+        <RouterLink @click="hamburgerIsVisible = true" :to="{ name: 'scripts' }">Scripts</RouterLink>
+        <RouterLink @click="hamburgerIsVisible = true" class="extra-mobile-link" :to="{ name: 'howToPlay' }">How to Play</RouterLink>
+        <RouterLink @click="hamburgerIsVisible = true" class="extra-mobile-link" :to="{ name: 'credits' }">Credits</RouterLink>
+        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true), hamburgerIsVisible = true">Logout</a>
+        <RouterLink @click="hamburgerIsVisible = true" class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
         
       </div>
 
-      <span class="hamburger-btn">
-        <Button v-if="hamburgerIsVisible" @click="toggleHamburger" icon="pi pi-bars" style="background-color: black"/>
-        <Button v-if="!hamburgerIsVisible" @click="toggleHamburger" icon="pi pi-times" style="background-color: black"/>
+      <span class="nav-btn">
+        <Button class="hamburger-btn" v-if="hamburgerIsVisible" @click="hamburgerIsVisible = false" icon="pi pi-bars" style="background-color: black"/>
+        <Button class="x-btn" v-if="!hamburgerIsVisible" @click="hamburgerIsVisible = true" icon="pi pi-times" style="background-color: black"/>
       </span>
     </nav>
   </header>
@@ -98,7 +87,7 @@ nav a:hover {
   padding: 0 1rem;
 }
 
-.hamburger-btn {
+.nav-btn {
   display: none;
 }
 
@@ -128,7 +117,7 @@ nav a:hover {
   padding: 10px;
 }
 
-.hamburger-btn {
+.nav-btn {
   display: inline-block;
   margin-right: 10px; 
 }
