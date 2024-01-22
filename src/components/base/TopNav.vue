@@ -106,8 +106,6 @@ nav a:hover {
   display: none;
 }
 
-
-
 .extra-mobile-link {
   display: none;
 }
@@ -138,8 +136,5 @@ nav a:hover {
   display: inline-block;
   margin-right: 10px; 
 }
-
-
-
 }
 </style>
