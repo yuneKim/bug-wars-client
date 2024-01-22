@@ -8,7 +8,17 @@ import { ref } from 'vue';
 
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
-const isVisible = ref(false);
+
+const mobileNavLinksStyle = ref({
+  left: '-100%'
+})
+
+const showMobileNavLinks = () => {
+mobileNavLinksStyle.value = {
+    left: '0%'
+  }
+}
+
 </script>
 
 <template>
@@ -20,7 +30,7 @@ const isVisible = ref(false);
         </RouterLink>
       </div>
 
-      <div class="nav-links" v-if="isVisible === true">
+      <div class="nav-links" :style="mobileNavLinksStyle">
         <RouterLink :to="{ name: 'home' }" class="home-link">Home</RouterLink>
         <RouterLink :to="{ name: 'gameLobby' }">Play</RouterLink>
         <RouterLink :to="{ name: 'scripts' }">Scripts</RouterLink>
@@ -32,7 +42,7 @@ const isVisible = ref(false);
       </div>
 
       <span class="hamburger-btn">
-        <Button @click="isVisible = !isVisible" icon="pi pi-bars" style="background-color: black"/>
+        <Button @click="showMobileNavLinks" icon="pi pi-bars" style="background-color: black"/>
       </span>
     </nav>
   </header>
@@ -96,21 +106,21 @@ nav a:hover {
 }
 
 @media(max-width:480px){
-  .extra-mobile-link {
+.extra-mobile-link {
   display: inline;
 }
 
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: rgba(18, 18, 18, 0.85);
-    z-index: 10;
-    width: 100%;
+.nav-links {
+  position: fixed;
+  top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(18, 18, 18, 0.85);
+  z-index: 10;
+  width: 100%;
 }
 
 .nav-links a {
