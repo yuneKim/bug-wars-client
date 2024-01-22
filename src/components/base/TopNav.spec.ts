@@ -70,4 +70,10 @@ describe('TopNav.vue', () => {
 
     expect(wrapper.find('.logout').exists()).toBe(true);
   });
+
+  it('shows nav links when hamburger is clicked', () => {
+    const wrapper = shallowMount(TopNav);
+
+    expect(wrapper.find('.nav-links').element.)
+  })
 });

@@ -48,7 +48,7 @@ import TopNav from '@/components/base/TopNav.vue';
   transition: ease-in-out 0.2s;
 }
 
-@media(max-width:480px){
+@media(max-width:768px){
   .footer-nav {
     display: none;
   }

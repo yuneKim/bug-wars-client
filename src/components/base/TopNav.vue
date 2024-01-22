@@ -9,21 +9,17 @@ import { ref } from 'vue';
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 
-const mobileNavLinksStyle = ref({
-  left: '-100%'
-});
+
 
 let hamburgerIsVisible = ref(true);
 
-const showMobileNavLinks = () => {
-  hamburgerIsVisible.value = false;
-  mobileNavLinksStyle.value = {left: '0%'};
-};
-
 const hideMobileNavLinks = () => {
   hamburgerIsVisible.value = true;
-  mobileNavLinksStyle.value = {left: '-100%'};
 };
+
+const toggleHamburger = () => {
+  hamburgerIsVisible.value = !hamburgerIsVisible.value;
+}
 
 </script>
 
@@ -36,7 +32,7 @@ const hideMobileNavLinks = () => {
         </RouterLink>
       </div>
 
-      <div class="nav-links" :style="mobileNavLinksStyle">
+      <div class="nav-links" :style="{ left: hamburgerIsVisible ? '-100%' : '0'}">
         <RouterLink @click="hideMobileNavLinks" :to="{ name: 'home' }" class="home-link">Home</RouterLink>
         <RouterLink @click="hideMobileNavLinks" :to="{ name: 'gameLobby' }">Play</RouterLink>
         <RouterLink @click="hideMobileNavLinks" :to="{ name: 'scripts' }">Scripts</RouterLink>
@@ -48,8 +44,8 @@ const hideMobileNavLinks = () => {
       </div>
 
       <span class="hamburger-btn">
-        <Button v-if="hamburgerIsVisible" @click="showMobileNavLinks" icon="pi pi-bars" style="background-color: black"/>
-        <Button v-if="!hamburgerIsVisible" @click="hideMobileNavLinks" icon="pi pi-times" style="background-color: black"/>
+        <Button v-if="hamburgerIsVisible" @click="toggleHamburger" icon="pi pi-bars" style="background-color: black"/>
+        <Button v-if="!hamburgerIsVisible" @click="toggleHamburger" icon="pi pi-times" style="background-color: black"/>
       </span>
     </nav>
   </header>
@@ -110,7 +106,7 @@ nav a:hover {
   display: none;
 }
 
-@media(max-width:480px){
+@media(max-width:768px){
 .extra-mobile-link {
   display: inline;
 }
