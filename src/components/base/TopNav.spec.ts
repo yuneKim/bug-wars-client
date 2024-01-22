@@ -70,4 +70,24 @@ describe('TopNav.vue', () => {
 
     expect(wrapper.find('.logout').exists()).toBe(true);
   });
+
+  it("shows nav links when hamburger button is clicked", async () => {
+    const wrapper = shallowMount(TopNav, {
+      attachTo: document.body
+    })
+
+    await wrapper.find('[data-test="hamburger-button"]').trigger('click');
+    expect(wrapper.find('[data-test="nav-links"]').isVisible()).toBe(true);
+  });
+
+  it("hides nav links when x button is clicked", async () => {
+    const wrapper = shallowMount(TopNav, {
+      attachTo: document.body
+    })
+    await wrapper.find('[data-test="hamburger-button"]').trigger('click');
+    expect(wrapper.find('[data-test="nav-links"]').isVisible()).toBe(true);
+    expect(wrapper.find('[data-test="x-button"]').isVisible()).toBe(true);
+    await wrapper.find('[data-test="x-button"]').trigger('click');
+    expect(wrapper.find('[data-test="nav-links"]').isVisible()).toBe(true);
+  });
 });
