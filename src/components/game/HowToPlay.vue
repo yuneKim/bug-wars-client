@@ -4,6 +4,7 @@ import Divider from 'primevue/divider';
 const sampleScript = `:START
     ifEnemy ATTACK # a comment
     ifWall TURN_RIGHT
+    mov
     goto START
 
 :ATTACK
