@@ -54,6 +54,9 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
     if (script.value.name.length === 0) {
       errorMessage.value = 'Script name may not be blank.';
       return false;
+    }else if (script.value.name.length > 20) {
+      errorMessage.value = 'Script name must be 20 characters or fewer.';
+      return false;
     }
     return true;
   }
