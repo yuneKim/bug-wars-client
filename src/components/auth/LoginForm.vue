@@ -57,14 +57,15 @@ function clearError() {
             v-model="loginDto.username"
           />
         </div>
-        <div>
-          <label class="form-group" for="password">Password</label>
+        <div class="form-group">
+          <label for="password">Password</label>
           <Password
             v-model="loginDto.password" 
             toggleMask
             size="small"
             type="password"
             id="password"
+            class="password-input"
             @input="clearError"/>
         </div>
         <div class="form-group">
@@ -141,6 +142,11 @@ function clearError() {
 .divider {
   margin-top: 15px;
   margin-bottom: 0px;
+}
+
+.password-input,
+.password-input :deep(input) {
+  width: 100%;
 }
 
 </style>
