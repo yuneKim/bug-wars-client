@@ -81,7 +81,7 @@ const sampleComment = `# comments will not be executed
           <img src="@/assets/img/bug-green-lg.png" alt="Bug" />
         </div>
         <Divider />
-        <div class="content">
+        <div class="content food-content">
           <img src="@/assets/img/food-large.png" alt="Food (pizza)" />
           <p>
             This is <strong>FOOD</strong>. When a bug dies, it drops food. Food might also be
@@ -304,6 +304,11 @@ const sampleComment = `# comments will not be executed
 
   .content p {
     margin-block: 0;
+  }
+
+  .battleground-content,
+  .food-content {
+    flex-direction: column;
   }
 }
 
