@@ -224,9 +224,5 @@ import Button from 'primevue/button';
     height: auto;
     object-fit: contain;
   }
-
-  .logo-container .team-doomity-logo {
-    width: 200px;
-  }
 }
 </style>
