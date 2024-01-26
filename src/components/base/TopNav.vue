@@ -36,10 +36,18 @@ const hideNavLinks = () => {
         <RouterLink @click="hideNavLinks" :to="{ name: 'home' }" class="home-link">Home</RouterLink>
         <RouterLink @click="hideNavLinks" :to="{ name: 'gameLobby' }">Play</RouterLink>
         <RouterLink @click="hideNavLinks" :to="{ name: 'scripts' }">Scripts</RouterLink>
-        <RouterLink @click="hideNavLinks" class="extra-mobile-link" :to="{ name: 'howToPlay' }">How to Play</RouterLink>
-        <RouterLink @click="hideNavLinks" class="extra-mobile-link" :to="{ name: 'credits' }">Credits</RouterLink>
-        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true), hideNavLinks()">Logout</a>
-        <RouterLink @click="hideNavLinks" class="login" v-else :to="{ name: 'login' }">Login</RouterLink>
+        <RouterLink @click="hideNavLinks" class="extra-mobile-link" :to="{ name: 'howToPlay' }"
+          >How to Play</RouterLink
+        >
+        <RouterLink @click="hideNavLinks" class="extra-mobile-link" :to="{ name: 'credits' }"
+          >Credits</RouterLink
+        >
+        <a class="logout" href="" v-if="user.username" @click.prevent="logout(true), hideNavLinks()"
+          >Logout</a
+        >
+        <RouterLink @click="hideNavLinks" class="login" v-else :to="{ name: 'login' }"
+          >Login</RouterLink
+        >
         <RouterLink v-if="user.username" @click="hideNavLinks" :to="{ name: 'profile' }">Profile</RouterLink>
         <!--Added Profile button if user is logged in-->
         <RouterLink v-if="user.username" :to="{ name: 'profilesettings' }" class="profile-settings-link">
