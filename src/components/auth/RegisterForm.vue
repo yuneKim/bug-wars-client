@@ -74,11 +74,11 @@ async function register(registerDto: RegisterDto) {
         <div class="form-group">
           <label for="password">Password</label>
           <Password
+            toggleMask
             type="password"
             name="password"
             id="password"
             v-model="formData.password"
-            toggleMask
             class="password-input"
             required
           />
@@ -86,11 +86,11 @@ async function register(registerDto: RegisterDto) {
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
           <Password
+            toggleMask
             type="password"
             name="confirm-password"
             id="confirm-password"
             v-model="formData.confirmPassword"
-            toggleMask
             class="password-input"
             required
           />
