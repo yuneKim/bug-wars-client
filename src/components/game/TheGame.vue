@@ -164,4 +164,28 @@ const {
 .slider {
   width: 100%;
 }
+
+@media screen and (max-width: 600px) {
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto 1fr;
+    margin-inline: 10px;
+  }
+
+  .scoreboard {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  .replay-viewer-grid-cell {
+    max-width: 100%;
+  }
+
+  .vcr-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 </style>
