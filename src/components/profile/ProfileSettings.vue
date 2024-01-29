@@ -31,7 +31,8 @@ function updateProfile() {
 
 <template>
     <div class="profile-settings-container">
-      <h1 class="settings-header">Profile Settings</h1>
+      <div class="profile-settings-details">
+      <h1 class="profile-settings-header">Profile Settings</h1>
   
       <div class="form-group">
         <label class="label" for="username">Username:</label>
@@ -59,11 +60,12 @@ function updateProfile() {
       </div>
   
       <div class="form-group">
-        <button class="update-profile-btn" @click="updateProfile">Save Changes</button>
+        <button class="update-profile-btn" @click="updateProfile">SAVE CHANGES</button>
       </div>
   
       <div v-if="authError.length > 0" class="error-message">{{ authError }}</div>
     </div>
+  </div>
   </template>
 
 <style scoped>
@@ -104,21 +106,35 @@ function updateProfile() {
 input {
   padding: 5px;
   border: 1px solid #ccc;
+  background-color: rgba(18, 18, 18, 0.85);
+  color: #fff;
   border-radius: 4px;
 }
 
 .update-profile-btn {
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #721000;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
+.update-profile-btn:hover {
+  transition: ease-in-out 0.2s;
+  background-color: #560c00;
+}
+
 .profile-settings-header {
   text-align: center;
   color: #fff;
+}
+
+@media screen and (max-width: 600px){
+  .profile-settings-container {
+    display: grid;
+
+  }
 }
 
 </style>
