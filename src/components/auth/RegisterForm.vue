@@ -6,6 +6,7 @@ import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Password from 'primevue/password';
 
 const router = useRouter();
 const authError = ref('');
@@ -66,26 +67,31 @@ async function register(registerDto: RegisterDto) {
             name="username"
             id="username"
             v-model="formData.username"
+            maxlength="30"
             required
           />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <InputText
+          <Password
+            toggleMask
             type="password"
             name="password"
             id="password"
             v-model="formData.password"
+            class="password-input"
             required
           />
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
-          <InputText
+          <Password
+            toggleMask
             type="password"
             name="confirm-password"
             id="confirm-password"
             v-model="formData.confirmPassword"
+            class="password-input"
             required
           />
         </div>
@@ -166,4 +172,10 @@ async function register(registerDto: RegisterDto) {
   margin-top: 15px;
   margin-bottom: 0px;
 }
+
+.password-input,
+.password-input :deep(input) {
+  width: 100%;
+}
+
 </style>

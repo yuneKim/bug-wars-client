@@ -6,6 +6,7 @@ import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
 import { computed, ref } from 'vue';
+import Password from 'primevue/password';
 
 const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
@@ -58,13 +59,14 @@ function clearError() {
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <InputText
+          <Password
+            v-model="loginDto.password" 
+            toggleMask
             size="small"
             type="password"
             id="password"
-            @input="clearError"
-            v-model="loginDto.password"
-          />
+            class="password-input"
+            @input="clearError"/>
         </div>
         <div class="form-group">
           <p v-if="displayError.length > 0" class="login-error">{{ displayError }}</p>
@@ -141,4 +143,10 @@ function clearError() {
   margin-top: 15px;
   margin-bottom: 0px;
 }
+
+.password-input,
+.password-input :deep(input) {
+  width: 100%;
+}
+
 </style>
