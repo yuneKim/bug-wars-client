@@ -42,7 +42,7 @@ const hideNavLinks = () => {
         <RouterLink v-if="user.username" :to="{ name: 'profilesettings' }" class="profile-settings-link">
         <i class="pi pi-cog" style="font-size: 1.5rem;"></i>
         <!--Added profile settings button if user is logged. Button is a cogwheel-->
-</RouterLink>
+        </RouterLink>
       </div>
 
       <span class="nav-btn">
