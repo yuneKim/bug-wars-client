@@ -66,6 +66,7 @@ function clearError() {
             type="password"
             id="password"
             class="password-input"
+            :feedback="false"
             @input="clearError"/>
         </div>
         <div class="form-group">
