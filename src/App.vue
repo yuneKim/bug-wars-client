@@ -10,6 +10,7 @@ import TopNav from '@/components/base/TopNav.vue';
     </div>
     <footer>
       <nav class="footer-nav">
+        <RouterLink :to="{ name: 'demo' }">Demo</RouterLink>
         <RouterLink :to="{ name: 'howToPlay' }">How to Play</RouterLink>
         <RouterLink :to="{ name: 'credits' }">Credits</RouterLink>
       </nav>
@@ -48,7 +49,7 @@ import TopNav from '@/components/base/TopNav.vue';
   transition: ease-in-out 0.2s;
 }
 
-@media(max-width:768px){
+@media (max-width: 768px) {
   .footer-nav {
     display: none;
   }
