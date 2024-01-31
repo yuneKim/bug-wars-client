@@ -70,6 +70,12 @@ const router = createRouter({
       component: () => import ('@/views/ProfileSettingsView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/email-verification/:username/:emailToken',
+      name: 'emailVerification',
+      component: () => import('@/views/EmailVerificationView.vue'),
+      meta: { requiresAuth: false },
+    },
   ],
 });
 

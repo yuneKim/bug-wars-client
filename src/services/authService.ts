@@ -48,4 +48,9 @@ export const authService = {
       refreshToken: token,
     });
   },
+  verifyEmail(username:string, token:string) {
+    return axios.post(`/auth/verify/${username}/${token}`, {
+      
+    });
+  }
 };
