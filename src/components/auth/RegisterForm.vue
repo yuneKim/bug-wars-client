@@ -7,6 +7,13 @@ import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Password from 'primevue/password';
+import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from 'obscenity';
+
+const matcher = new RegExpMatcher({
+  ...englishDataset.build(),
+  ...englishRecommendedTransformers,
+});
+
 
 const router = useRouter();
 const authError = ref('');
@@ -26,6 +33,10 @@ const formData = ref<FormData>({
 });
 
 function handleSubmit() {
+  if (matcher.hasMatch(formData.value.username)) {
+	 authError.value = 'The username created contains profanities.';
+   return;
+  }
   if (formData.value.username.length < 3) {
     authError.value = 'Username must be at least 3 characters long.';
     return;
