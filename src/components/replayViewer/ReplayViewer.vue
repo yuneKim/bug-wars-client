@@ -87,9 +87,6 @@ img {
   display: flex;
 }
 
-.cell {
-}
-
 .wall {
   background: #545454;
 }
