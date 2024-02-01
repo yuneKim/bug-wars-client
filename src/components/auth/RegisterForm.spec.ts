@@ -139,6 +139,13 @@ describe('RegisterForm.vue', () => {
     const passwordInput = passwordComponent.find('input');
     const confirmPasswordInput = confirmPasswordComponent.find('input');
 
+    await usernameInput.setValue('fuck');
+    await passwordInput.setValue('testths');
+    await wrapper.find('form').trigger('submit');
+    expect(wrapper.find('.error-message').text()).toBe(
+      'The username created contains profanities.',
+    );
+
     await usernameInput.setValue('Yo');
     await wrapper.find('form').trigger('submit');
     expect(wrapper.find('.error-message').text()).toBe(

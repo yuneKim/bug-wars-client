@@ -46,6 +46,11 @@ describe('useScriptCrud', () => {
     expect(isValid).toBeFalsy();
 
     expect(errorMessage.value).toBe('Script name may not be blank.');
+
+    script.value.name = 'fucking strawberries';
+    isValid = validateScriptName();
+    expect(isValid).toBeFalsy();
+    expect(errorMessage.value).toBe('Script name may not contain inappropriate language.');
   });
 
   it('creates a script', async () => {
