@@ -64,6 +64,10 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
       errorMessage.value = 'Script name must be 20 characters or fewer.';
       return false;
     }
+    if (matcher.hasMatch(script.value.name)) {
+      errorMessage.value = 'Script name may not contain inappropriate language.';
+      return false;
+    }
     return true;
   }
 
