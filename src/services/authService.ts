@@ -8,7 +8,7 @@ export const authService = {
     return makeRequest(() => axios.post('/auth/register', registerDto), {
       successStatuses: [201],
       errorStatuses: {
-        400: 'All fields are required.',
+        400: 'Inappropriate language.',
         409: (response) => response.data.message,
       },
     });
