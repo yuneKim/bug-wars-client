@@ -25,11 +25,9 @@ import Divider from 'primevue/divider';
         <h3>SERVER-SIDE TECHNOLOGIES AND TOOLS</h3>
         <div class="content">
           <p>
-            Our server was created in Java, using Lombok to help keep our code concise and precise.
-            We incorporated JPA to achieve object relational mapping to our PostgreSQL database. Our
-            plugins are provided through Apache Maven and our dependencies through Spring Boot, and
-            our communication with the front end is consistent with REST API standards. Our security
-            features are incorporated using Spring Security. Additionally, we have maintained 80%+
+            Our REST server was created with Java Spring Boot using Apache Maven as our build tool.
+            We use Spring Data JPA to connect to a PostgreSQL database. Spring Security ensures only
+            authorized users can access protected information. Additionally, we have maintained 80%+
             code coverage in every stage of the project through the use of JUnit and Mockito.
           </p>
         </div>
@@ -37,25 +35,20 @@ import Divider from 'primevue/divider';
         <h3>CLIENT-SIDE TECHNOLOGIES AND TOOLS</h3>
         <div class="content">
           <p>
-            Our client is built in a Node.js environment, featuring TypeScript. We have utilized the
-            Vue.js composition API to create a single-page application, incorporating Pinia to
-            handle state management. We use Axios to communicate with our server. We have also
-            consistently maintained 80%+ code coverage using Vite’s Vitest in our client.
+            Our client is built with Vue.js and TypeScript. We use Pinia for global state and Axios
+            to make server requests. We have also consistently maintained 80%+ code coverage using
+            Vitest.
           </p>
         </div>
         <Divider />
         <h3>DEVELOPMENT OPERATIONS</h3>
         <div class="content">
           <p>
-            To ensure that our application will run regardless of the particular environment our
-            developers are using, Bug Wars is containerized using Docker. Bug Wars was created in a
-            CI/CD pipeline. CI/CD stands for continuous integration & continuous development. This
-            means exactly what it sounds like! We work in small subsections of code called stories,
-            that are broken in even smaller parts called tasks. Once a developer or team of
-            developers completes a story in their local branch, they then make a pull request. Their
-            pull request is both checked by another member of our team and also triggers automatic
-            builds to check that test coverage is complete and the new code is compatible with the
-            existing codebase. After those steps, it’s moved to delivery and deployed to production.
+            We've set up a continuous integration/continuous delivery (CI/CD) pipeline using GitHub
+            Actions. Whenever a pull request is made, our pipeline ensures that the project builds
+            and has sufficient test coverage. Once the pull request is approved and merged, the
+            project is automatically deployed. The front end deploys to GitHub Pages, and the back
+            end is containerized using Docker and deploys to Render.
           </p>
         </div>
         <Divider />
