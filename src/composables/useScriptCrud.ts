@@ -16,7 +16,7 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
     name: '',
     raw: '',
     bytecode: '',
-    isBytecodeValid: false,
+    bytecodeValid: false,
   });
 
   const editTitle = ref(!route.params.id);

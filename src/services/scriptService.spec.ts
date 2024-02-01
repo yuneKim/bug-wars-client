@@ -95,7 +95,7 @@ describe('authService', () => {
       name: 'Razzle Dazzle',
       raw: ':START \n :END',
       bytecode: '35 0',
-      isBytecodeValid: true,
+      bytecodeValid: true,
     };
 
     const mockSuccessResponse: SuccessResponse = {
