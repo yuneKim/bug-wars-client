@@ -39,61 +39,66 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
 
 <template>
   <main class="script-editing-window">
-    <h1 class="header">Script Editor</h1>
-    <div class="title-editor-wrapper">
-      <div class="edit-title-wrapper" v-if="editTitle">
-        <InputText
-          type="text"
-          placeholder="Name your script!"
-          v-model="script.name"
+    <form @submit.prevent="save">
+      <h1 class="header">Script Editor</h1>
+      <div class="title-editor-wrapper">
+        <div class="edit-title-wrapper" v-if="editTitle">
+          <InputText
+            type="text"
+            placeholder="Name your script!"
+            maxLength="20"
+            v-model="script.name"
+            @input="clearMessages"
+          />
+
+          <Button
+            type="button"
+            @click="validateScriptName() ? (editTitle = false) : null"
+            icon="pi pi-check-square"
+            label="Confirm"
+          />
+
+        </div>
+        <h2 class="title-header" v-else>
+          {{ script?.name }}
+          <Button
+            type="button"
+            icon="pi pi-pencil"
+            label="Edit Name"
+            @click="editTitle = true"
+          ></Button>
+        </h2>
+      </div>
+      <div class="editor-wrapper">
+        <div ref="lineNumberDiv" class="line-numbers">
+          <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
+        </div>
+        <QuillEditor
+          ref="testRef"
+          :options="editorOptions"
+          v-model:content="editorText"
+          contentType="text"
+          @textChange="intellisense"
+          @ready="initializeQuill"
           @input="clearMessages"
         />
+        <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
+      </div>
+      <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+      <div class="button-wrapper">
         <Button
+          class="compile-button"
           type="button"
-          @click="validateScriptName() ? (editTitle = false) : null"
-          icon="pi pi-check-square"
-          label="Confirm"
+          icon="pi pi-wrench"
+          label="Compile"
+          @click="compileScript(editorText)"
         />
+        <span class="success-message" v-if="successMessage"> {{ successMessage }}</span>
+        <Button type="submit" icon="pi pi-save" label="Save"/>
       </div>
-      <h2 class="title-header" v-else>
-        {{ script?.name }}
-        <Button
-          type="button"
-          icon="pi pi-pencil"
-          label="Edit Name"
-          @click="editTitle = true"
-        ></Button>
-      </h2>
-    </div>
-    <div class="editor-wrapper">
-      <div ref="lineNumberDiv" class="line-numbers">
-        <div class="line-number" v-for="n of lineNumbers" :key="n">{{ n }}</div>
-      </div>
-      <QuillEditor
-        ref="testRef"
-        :options="editorOptions"
-        v-model:content="editorText"
-        contentType="text"
-        @textChange="intellisense"
-        @ready="initializeQuill"
-        @input="clearMessages"
-      />
-      <div ref="overlayDiv" class="editor-overlay" v-html="overlayContent"></div>
-    </div>
-    <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
-    <div class="button-wrapper">
-      <Button
-        class="compile-button"
-        type="button"
-        icon="pi pi-wrench"
-        label="Compile"
-        @click="compileScript(editorText)"
-      />
-      <span class="success-message" v-if="successMessage"> {{ successMessage }}</span>
-      <Button type="button" icon="pi pi-save" label="Save" @click="save" />
-    </div>
-    <h3 class="output-title">OUTPUT:</h3>
-    <div class="output-text">{{ output }}</div>
+      <h3 class="output-title">OUTPUT:</h3>
+      <div class="output-text">{{ output }}</div>
+    </form>
   </main>
   <Teleport to="body">
     <div

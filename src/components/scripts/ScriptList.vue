@@ -3,6 +3,7 @@ import { useScriptList } from '@/composables/useScriptList';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import { RouterLink } from 'vue-router';
+import 'primeicons/primeicons.css';
 
 const { scripts, showDialog, errorMessage, loadScripts, openModal, deleteScript } = useScriptList();
 
@@ -15,9 +16,25 @@ await loadScripts();
       <h1 class="header">Your Scripts</h1>
       <ul class="list-container">
         <li v-for="script in scripts" :key="script.id" class="list-item" data-test="script">
-          <RouterLink :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
-            script.name
-          }}</RouterLink>
+          <!-- validation check marks -->
+          <div class="script-container">
+            <span
+              v-if="script.bytecodeValid"
+              class="pi pi-check"
+              style="color: greenyellow"
+              data-test="validation true"
+            ></span>
+            <span
+              v-else
+              class="pi pi-times"
+              style="color: #f00000"
+              data-test="validation false"
+            ></span>
+
+            <RouterLink class="script-name" :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
+              script.name
+            }}</RouterLink>
+          </div>
           <Button
             type="button"
             @click="openModal(script.id)"
@@ -112,5 +129,17 @@ await loadScripts();
 }
 .error-message {
   color: red;
+}
+
+.script-container {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+}
+
+.script-name {
+  position: relative;
+  top: 1px;
 }
 </style>
