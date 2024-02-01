@@ -6,7 +6,7 @@ import Divider from 'primevue/divider';
   <div class="demo-container">
     <div class="card-wrapper">
       <div class="card">
-        <h1>DEMO VIDEO</h1>
+        <h1 class="demo-title">DEMO VIDEO</h1>
         <div class="iframe-container">
           <iframe
             width="560"
@@ -93,6 +93,10 @@ import Divider from 'primevue/divider';
   padding-inline: 10px;
 }
 
+.demo-title {
+  padding-bottom: 30px;
+}
+
 .card {
   background-color: rgba(18, 18, 18, 0.85);
   padding: 50px;
@@ -107,13 +111,13 @@ import Divider from 'primevue/divider';
 
 .card h2 {
   font-size: 2rem;
-  margin-block: 0 30px;
+  margin-block: 0;
   text-align: center;
 }
 
 .card h3 {
   font-size: 1.5rem;
-  margin-block: 70px -30px;
+  margin-block: 20px -30px;
   text-align: center;
 }
 
