@@ -8,6 +8,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Password from 'primevue/password';
 import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from 'obscenity';
+import Message from 'primevue/message';
 
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),

@@ -38,7 +38,6 @@ export const authService = {
   },
   verifyEmail(username:string, token:string) {
     return axios.post(`/auth/verify/${username}/${token}`, {
-      
     });
   }
 };

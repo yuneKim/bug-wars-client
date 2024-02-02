@@ -8,9 +8,9 @@ const username = router.currentRoute.value.params.username;
 
 const response = await authService.verifyEmail(username, token);
 if (response.data){
-    // change the message in the <p> to show that is valid
+    //valid
 } else {
-    // change the message in the <p> to show that it is not valid.
+    //not valid
 }
 </script>
 
