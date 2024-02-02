@@ -82,6 +82,7 @@ async function register(registerDto: RegisterDto) {
             required
           />
         </div>
+        <p id="password-note">Suggested: uppercase, lowercase, numbers, & special characters </p>
         <div class="form-group">
           <label for="password">Password</label>
           <Password
@@ -126,6 +127,9 @@ async function register(registerDto: RegisterDto) {
 </template>
 
 <style scoped>
+#password-note {
+  margin: 0px;
+}
 .register-form-container-container {
   padding-block: 150px;
   height: 100%;
