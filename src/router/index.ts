@@ -59,22 +59,10 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/email-verification/:username/:emailToken',
-      name: 'emailVerification',
-      component: () => import('@/views/EmailVerificationView.vue'),
+      path: '/demo',
+      name: 'demo',
+      component: () => import('@/views/DemoView.vue'),
       meta: { requiresAuth: false },
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import ('@/views/ProfileView.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/profilesettings',
-      name: 'profilesettings',
-      component: () => import ('@/views/ProfileSettingsView.vue'),
-      meta: { requiresAuth: true },
     },
     {
       path: '/email-verification/:username/:emailToken',
@@ -85,13 +73,13 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import ('@/views/ProfileView.vue'),
+      component: () => import('@/views/ProfileView.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/profilesettings',
       name: 'profilesettings',
-      component: () => import ('@/views/ProfileSettingsView.vue'),
+      component: () => import('@/views/ProfileSettingsView.vue'),
       meta: { requiresAuth: true },
     },
   ],
