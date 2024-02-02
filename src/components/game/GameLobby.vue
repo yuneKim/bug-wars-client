@@ -16,6 +16,8 @@ const {
   setMap,
   startGame,
 } = await useGameLobby();
+
+console.log(scripts);
 </script>
 
 <template>
@@ -71,6 +73,21 @@ const {
             :disabled="n > 2 && !fourSwarmMapSelected"
             data-test="swarm-select"
           >
+            <template #value="slotProps">
+              <div v-if="slotProps.value <= scripts.length">
+                <div>{{ scripts.find((script) => script.id === slotProps.value)?.name }}</div>
+                <div class="script-author">
+                  {{ scripts.find((script) => script.id === slotProps.value)?.author }}
+                </div>
+              </div>
+              <div v-else>SELECT A SCRIPT</div>
+            </template>
+            <template #option="slotProps">
+              <div>{{ slotProps.option.name }}</div>
+              <div class="script-author">
+                {{ slotProps.option.author }}
+              </div>
+            </template>
           </Dropdown>
         </div>
       </div>
@@ -188,6 +205,10 @@ const {
   width: auto;
   height: auto;
   object-fit: contain;
+}
+
+.script-author {
+  font-size: 0.8rem;
 }
 
 .swarm-selection-wrapper {
