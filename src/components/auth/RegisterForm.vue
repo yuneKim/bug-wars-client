@@ -104,6 +104,7 @@ async function register(registerDto: RegisterDto) {
             v-model="formData.confirmPassword"
             class="password-input"
             required
+            :feedback="false"
           />
         </div>
         <div class="form-group">
