@@ -1,4 +1,4 @@
-import type { LoginDto, RegisterDto } from '@/types';
+import type { LoginDto, RegisterDto, UserProfileUpdateDto } from '@/types';
 import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
@@ -8,7 +8,7 @@ export const authService = {
     return makeRequest(() => axios.post('/auth/register', registerDto), {
       successStatuses: [201],
       errorStatuses: {
-        400: 'All fields are required.',
+        400: 'Inappropriate language.',
         409: (response) => response.data.message,
       },
     });
@@ -27,6 +27,18 @@ export const authService = {
   logout() {
     axios.post('/auth/logout');
   },
+    /*Updates user profile information*/
+  updateUserProfile(profileUpdateDto: UserProfileUpdateDto) {
+    return makeRequest(() => axios.put('/auth/update-profile', profileUpdateDto), {
+      successStatuses: [200],
+      errorStatuses: {
+        400: 'Invalid request.',
+        401: 'You must be logged in to update your profile.',
+        403: 'You do not have permission to update this profile.',
+        404: 'User not found.',
+      },
+    });
+  },
 
   refreshToken() {
     const token = localStorage.getItem('refreshToken');
@@ -36,4 +48,9 @@ export const authService = {
       refreshToken: token,
     });
   },
+  verifyEmail(username:string, token:string) {
+    return axios.post(`/auth/verify/${username}/${token}`, {
+      
+    });
+  }
 };

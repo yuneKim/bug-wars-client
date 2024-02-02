@@ -320,4 +320,10 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
   font-size: 1.4rem;
   color: rgb(0, 255, 0);
 }
+
+@media screen and (max-width: 600px) {
+  .title-editor-wrapper {
+  flex-direction: column;
+}
+  }
 </style>
