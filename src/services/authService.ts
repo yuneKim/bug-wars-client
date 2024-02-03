@@ -1,4 +1,4 @@
-import type { LoginDto, RegisterDto, UserProfileUpdateDto } from '@/types';
+import type { LoginDto, RegisterDto, UserProfileUpdateDto, UserProfileResponse } from '@/types';
 import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
@@ -37,6 +37,24 @@ export const authService = {
         403: 'You do not have permission to update this profile.',
         404: 'User not found.',
       },
+    });
+  },
+
+  getUserProfile() {
+    return makeRequest(() => axios.get('/auth/user-profile'), {
+      successStatuses: [200],
+      errorStatuses: {
+        401: 'You must be logged in to view your profile.',
+        404: 'User not found.',
+      },
+    })
+    .then((response) => {
+      if (response.type === 'success') {
+        return response.data as UserProfileResponse;
+      } else {
+        console.error('Error response received:', response);
+        throw new Error('Failed to fetch user profile');
+      }
     });
   },
 

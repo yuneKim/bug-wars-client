@@ -47,3 +47,10 @@ export type UserProfileUpdateDto = {
   password?: string;
   profilePicture?: string;
 };
+
+export type UserProfileResponse = {
+  username: string;
+  email: string;
+  profilePicture: string;
+  scriptAmount?: number;
+};

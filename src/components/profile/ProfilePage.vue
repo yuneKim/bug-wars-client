@@ -4,25 +4,27 @@ import type { scriptService } from '@/services/scriptService';
 import { authService } from '@/services/authService';
 import { scriptService } from '@/services/scriptService';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import type { UserProfileResponse } from '@/types/index';
 
 const router = useRouter();
 const authError = ref('');
 
-type User = {
-    username: string;
-    email: string;
-    profilePicture: string;
-    scriptAmount: number;
-};
-
-const user = ref<User>({
-    username: '',
-    email: '',
-    profilePicture: '',
-    scriptAmount: 0,
+const user = ref<UserProfileResponse>({
+  username: '',
+  email: '',
+  profilePicture: '',
+  scriptAmount: 0,
 });
 
+onMounted(async () => {
+  try {
+    const userProfile = await authService.getUserProfile();
+    user.value = userProfile;
+  } catch (error) {
+    authError.value = 'Failed to fetch user profile';
+  }
+});
 </script>
 
 <template>
@@ -44,7 +46,7 @@ const user = ref<User>({
             </div>
             <div class="form-group">
                 <label class="label" for="scriptAmount">Amount of Scripts:</label>
-                <p></p> <!---- Need to add endpoint to retrieve total number of scripts -->
+                <p>{{ user.scriptAmount }}</p>
             </div>
         </div>
     </div>
