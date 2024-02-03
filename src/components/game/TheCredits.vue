@@ -28,7 +28,7 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="bug-wars-client/Yune_Kim_Resume.pdf" download
+        <a href="bug-wars-client/resumes/Yune_Kim_Resume.pdf" download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
@@ -47,7 +47,7 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
 
-        <a href="bug-wars-client/Christopher_Bandurski_Resume.pdf" download>
+        <a href="bug-wars-client/resumes/Christopher_Bandurski_Resume.pdf" download>
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -66,28 +66,6 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="" download>
-          <Button icon="pi pi-paperclip" label="Resume"></Button>
-        </a>
-      </div>
-
-      <div class="card">
-        <img
-          class="portrait"
-          src="@/assets/portraits/maher2.jpg"
-          alt="Maher Nassri's profile picture"
-        />
-        <h3>Maher Nassri</h3>
-        <a href="https://www.linkedin.com/in/maher-nassri-7292166/" target="_blank"
-          ><Button icon="pi pi-linkedin" label="LinkedIn"
-        /></a>
-        <a href="https://github.com/mahernassri" target="_blank"
-          ><Button icon="pi pi-github" label="GitHub"
-        /></a>
-        <!-- need resume -->
-        <a href="" download>
-          <Button icon="pi pi-paperclip" label="Resume"></Button>
-        </a>
       </div>
 
       <div class="card">
@@ -104,9 +82,6 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="" download>
-          <Button icon="pi pi-paperclip" label="Resume"></Button>
-        </a>
       </div>
 
       <div class="card">
@@ -123,9 +98,6 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="" download>
-          <Button icon="pi pi-paperclip" label="Resume"></Button>
-        </a>
       </div>
 
       <div class="card">
@@ -142,9 +114,6 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="" download>
-          <Button icon="pi pi-paperclip" label="Resume"></Button>
-        </a>
       </div>
 
       <div class="card">
@@ -160,8 +129,7 @@ import Button from 'primevue/button';
         <a href="https://github.com/simmca" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <!-- need resume -->
-        <a href="" download>
+        <a href="bug-wars-client/resumes/Clint_Simmons_Resume.pdf" download>
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -179,7 +147,7 @@ import Button from 'primevue/button';
         <a href="https://github.com/ThePudgyPigeon" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="bug-wars-client/Samantha_Stinchcomb_Resume.pdf" download
+        <a href="bug-wars-client/resumes/Samantha_Stinchcomb_Resume.pdf" download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
@@ -197,7 +165,7 @@ import Button from 'primevue/button';
         <a href="https://github.com/stephnicoledev" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="bug-wars-client/Stephanie_Strano_Resume.pdf" download
+        <a href="bug-wars-client/resumes/Stephanie_Strano_Resume.pdf" download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
@@ -240,8 +208,8 @@ import Button from 'primevue/button';
   flex-direction: column;
   color: #fff;
   text-transform: uppercase;
-  border: 0.5px solid rgb(117, 117, 117);
-  background-color: rgba(26, 16, 16, 0.712);
+  border: 0.5px solid white;
+  background-color: rgba(18, 18, 18, 0.85);
   border-radius: 2px;
   padding: 20px;
   gap: 12px;
