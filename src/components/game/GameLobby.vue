@@ -74,7 +74,7 @@ console.log(scripts);
             data-test="swarm-select"
           >
             <template #value="slotProps">
-              <div v-if="slotProps.value <= scripts.length">
+              <div v-if="scripts.some((script) => script.id === slotProps.value)">
                 <div>{{ scripts.find((script) => script.id === slotProps.value)?.name }}</div>
                 <div class="script-author">
                   {{ scripts.find((script) => script.id === slotProps.value)?.author }}
