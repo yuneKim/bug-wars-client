@@ -29,7 +29,7 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="" download><Button icon="pi pi-paperclip" label="Resume" /></a>
+        <a href="bug-wars-client/Yune_Kim_Resume.pdf" download><Button icon="pi pi-paperclip" label="Resume" /></a>
       </div>
 
       <div class="card">
