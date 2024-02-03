@@ -22,16 +22,16 @@ const logoLoaded = ref(false);
       </div>
       <div class="btn-wrapper">
         <RouterLink :to="{ name: 'gameLobby' }">
-          <Button data-test="gameLobby"> Play Game </Button>
+          <Button data-test="gameLobby" class="btn"> Play Game </Button>
         </RouterLink>
         <RouterLink :to="{ name: 'scripts' }">
-          <Button data-test="scriptEditor">Scripts</Button>
+          <Button data-test="scriptEditor" class="btn">Scripts</Button>
         </RouterLink>
         <RouterLink :to="{ name: 'howToPlay' }">
-          <Button data-test="howToPlay">How To Play</Button>
+          <Button data-test="howToPlay" class="btn">How To Play</Button>
         </RouterLink>
         <RouterLink :to="{ name: 'credits' }">
-          <Button data-test="credits">Credits</Button>
+          <Button data-test="credits" class="btn">Credits</Button>
         </RouterLink>
       </div>
     </div>
@@ -90,5 +90,27 @@ const logoLoaded = ref(false);
 
 .logo-enter-to {
   transform: translateY(0);
+}
+
+@media screen and (max-width: 600px) {
+  .landing-container {
+    padding-block: 105px;
+  }
+  .logo-wrapper {
+    max-height: 40dvh;
+  }
+  .logo {
+    max-height: 40dvh;
+    width: auto;
+  }
+  .btn-wrapper {
+    width: 100%;
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+
+  .btn {
+    padding-block: 15px;
+  }
 }
 </style>

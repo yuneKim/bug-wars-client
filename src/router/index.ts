@@ -58,6 +58,12 @@ const router = createRouter({
       component: () => import('@/views/ScriptListView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/demo',
+      name: 'demo',
+      component: () => import('@/views/DemoView.vue'),
+      meta: { requiresAuth: false },
+    },
   ],
 });
 

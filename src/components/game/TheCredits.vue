@@ -21,7 +21,6 @@ import Button from 'primevue/button';
       <div class="card">
         <img class="portrait" src="@/assets/portraits/yune.jpg" alt="Yune Kim's profile picture" />
         <h3>Yune Kim - Tech Lead</h3>
-
         <a href="https://www.linkedin.com/in/yunekimdev/" target="_blank"
           ><Button icon="pi pi-linkedin" label="LinkedIn"
         /></a>
@@ -29,7 +28,9 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="bug-wars-client/Yune_Kim_Resume.pdf" download><Button icon="pi pi-paperclip" label="Resume" /></a>
+        <a href="bug-wars-client/Yune_Kim_Resume.pdf" download
+          ><Button icon="pi pi-paperclip" label="Resume"
+        /></a>
       </div>
 
       <div class="card">
@@ -257,8 +258,23 @@ import Button from 'primevue/button';
 }
 
 Button {
-    width: 142px;
-    height: 31px;
-    border-color: rgb(117, 117, 117);
+  width: 142px;
+  height: 31px;
+  border-color: rgb(117, 117, 117);
+}
+@media screen and (max-width: 600px) {
+  .logo-container {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .logo-container img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
 }
 </style>

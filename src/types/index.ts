@@ -34,6 +34,7 @@ export type Script = {
 export type ScriptName = {
   id: number;
   name: string;
+  author: string;
 };
 
 export type PlayGameDto = {

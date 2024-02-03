@@ -11,11 +11,13 @@ import type { LocationQuery } from 'vue-router';
 
 type Swarm = {
   name: string;
+  author: string;
   bytecode: number[];
 };
 
 type SwarmScore = {
   name: string;
+  author: string;
   scores: number[];
 };
 
@@ -78,6 +80,7 @@ export async function useReplayViewer(routeQuery: LocationQuery) {
     for (let i = 0; i < swarms.length; i++) {
       scoreboard.value[i] = {
         name: swarms[i].name,
+        author: swarms[i].author,
         scores: [],
       };
     }

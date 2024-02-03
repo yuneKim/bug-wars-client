@@ -64,10 +64,12 @@ describe('useGameLobby', () => {
       {
         name: 'Script 1',
         id: 1,
+        author: 'Author 1',
       },
       {
         name: 'Script 2',
         id: 2,
+        author: 'Author 2',
       },
     ];
 
