@@ -59,20 +59,6 @@ import Button from 'primevue/button';
       <div class="card">
         <img
           class="portrait"
-          src="@/assets/portraits/maher2.jpg"
-          alt="Maher Nassri's profile picture"
-        />
-        <h3>Maher Nassri</h3>
-        <a href="https://www.linkedin.com/in/maher-nassri-7292166/" target="_blank"
-          ><Button icon="pi pi-linkedin" label="LinkedIn"
-        /></a>
-        <a href="https://github.com/mahernassri" target="_blank"
-          ><Button icon="pi pi-github" label="GitHub"
-        /></a>
-      </div>
-      <div class="card">
-        <img
-          class="portrait"
           src="@/assets/portraits/chris.jpg"
           alt="Chris Ratsabout's profile picture"
         />
