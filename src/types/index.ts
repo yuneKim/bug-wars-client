@@ -42,6 +42,13 @@ export type PlayGameDto = {
   mapId: number;
 };
 
+export type UserProfileUpdateDto = {
+  username?: string;
+  email?: string;
+  password?: string;
+  profilePicture?: string;
+};
+
 export type UserProfileResponse = {
   username: string;
   email: string;
