@@ -1,19 +1,15 @@
-
-import type { scriptService } from '@/services/scriptService';
 <script setup lang="ts">
 import { authService } from '@/services/authService';
-import { scriptService } from '@/services/scriptService';
-import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import type { UserProfileResponse } from '@/types/index';
+import defaultProfilePicture from '@/assets/profile-images/profile-default.png';
 
-const router = useRouter();
 const authError = ref('');
 
 const user = ref<UserProfileResponse>({
   username: '',
   email: '',
-  profilePicture: '',
+  profilePicture: defaultProfilePicture,
   scriptAmount: 0,
 });
 
@@ -28,28 +24,29 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="profile-page-container">
-        <div class="profile-details">
-            <h1 class="profile-header">User Profile</h1>
+  <div class="profile-page-container">
+    <div class="profile-details">
+      <h1 class="profile-header">User Profile</h1>
 
-            <div class="form-group">
-                <label class="label" for="username">Username:</label>
-                <p>{{  user.username  }}</p>
-            </div>
-            <div class="form-group">
-                <label class="label" for="email">Email:</label>
-                <p>{{  user.email }}</p>
-            </div>
-            <div class="form-group">
-                <label class="label" for="profile-picture">Profile Picture</label>
-                <img :src="user.profilePicture" alt="Profile Picture" />
-            </div>
-            <div class="form-group">
-                <label class="label" for="scriptAmount">Amount of Scripts:</label>
-                <p>{{ user.scriptAmount }}</p>
-            </div>
-        </div>
+      <div class="form-group">
+        <label class="label" for="username">Username:</label>
+        <p>{{ user.username }}</p>
+      </div>
+      <div class="form-group">
+        <label class="label" for="email">Email:</label>
+        <p>{{ user.email }}</p>
+      </div>
+      <div class="form-group">
+        <label class="label" for="profile-picture">Profile Picture</label>
+        <img v-if="user.profilePicture !== null" :src="user.profilePicture" alt="Profile Picture" />
+        <img v-else :src="defaultProfilePicture" alt="Default Profile Picture" />
+      </div>
+      <div class="form-group">
+        <label class="label" for="scriptAmount">Amount of Scripts:</label>
+        <p>{{ user.scriptAmount }}</p>
+      </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -71,7 +68,7 @@ onMounted(async () => {
   background-color: rgba(18, 18, 18, 0.85);
   border-radius: 2px;
   position: relative;
-  top: -75px;
+  top: -115px;
 }
 
 .form-group {
@@ -88,9 +85,8 @@ onMounted(async () => {
 }
 
 img {
-  max-width: 100%;
-  height: auto;
   border-radius: 8px;
+  margin: 0 auto;
 }
 
 .profile-header {

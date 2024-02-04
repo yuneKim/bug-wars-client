@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { authService } from '@/services/authService';
-import { useRouter } from 'vue-router';
 
 const editedUser = ref({
   username: '',
@@ -11,7 +10,6 @@ const editedUser = ref({
   profilePicture: '',
 });
 
-const router = useRouter();
 const authError = ref('');
 
 function updateProfile() {
@@ -74,7 +72,7 @@ function updateProfile() {
   justify-content: center;
   align-items: flex-start;
   height: 100%;
-  padding-block: 150px;
+  padding-block: 125px;
 }
 
 .profile-settings-details {
