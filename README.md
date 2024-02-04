@@ -29,3 +29,7 @@ Check out our [contributing guide](.github/CONTRIBUTING.md)!
 [Samantha Stinchcomb](https://github.com/ThePudgyPigeon)
 
 [Stephanie Strano](https://github.com/stephnicoledev)
+
+[Alissa Reynolds](https://github.com/alissareynolds)
+
+[Keaton Kido](https://github.com/kido8013)
