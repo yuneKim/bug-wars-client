@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useScriptList } from '@/composables/useScriptList';
+import 'primeicons/primeicons.css';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import { RouterLink } from 'vue-router';
-import 'primeicons/primeicons.css';
 
 const { scripts, showDialog, errorMessage, loadScripts, openModal, deleteScript } = useScriptList();
 
@@ -31,9 +31,11 @@ await loadScripts();
               data-test="validation false"
             ></span>
 
-            <RouterLink class="script-name" :to="{ name: 'scriptEditor', params: { id: script.id } }">{{
-              script.name
-            }}</RouterLink>
+            <RouterLink
+              class="script-name"
+              :to="{ name: 'scriptEditor', params: { id: script.id } }"
+              >{{ script.name }}</RouterLink
+            >
           </div>
           <Button
             type="button"
@@ -79,6 +81,7 @@ await loadScripts();
   background-color: rgba(18, 18, 18, 0.85);
   border-radius: 2px;
   margin-top: 50px;
+  margin-inline: 10px;
   padding: 50px;
   max-width: 500px;
   width: 100%;
@@ -135,11 +138,16 @@ await loadScripts();
   display: flex;
   gap: 14px;
   align-items: center;
-
 }
 
 .script-name {
   position: relative;
   top: 1px;
+}
+
+@media screen and (max-width: 600px) {
+  .littler-container {
+    padding-inline: 20px;
+  }
 }
 </style>

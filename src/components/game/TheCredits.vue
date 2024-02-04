@@ -27,7 +27,12 @@ import Button from 'primevue/button';
         <a href="https://github.com/yuneKim" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <!-- need resume -->
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Yune_Kim_Resume.pdf" download
+          ><Button icon="pi pi-paperclip" label="Resume"
+        /></a>
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -41,7 +46,12 @@ import Button from 'primevue/button';
         <a href="https://github.com/Ferrington" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Christopher_Bandurski_Resume.pdf" download>
+          <Button icon="pi pi-paperclip" label="Resume"></Button>
+        </a>
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -55,21 +65,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/kido8013" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <!-- need resume -->
       </div>
-      <div class="card">
-        <img
-          class="portrait"
-          src="@/assets/portraits/maher2.jpg"
-          alt="Maher Nassri's profile picture"
-        />
-        <h3>Maher Nassri</h3>
-        <a href="https://www.linkedin.com/in/maher-nassri-7292166/" target="_blank"
-          ><Button icon="pi pi-linkedin" label="LinkedIn"
-        /></a>
-        <a href="https://github.com/mahernassri" target="_blank"
-          ><Button icon="pi pi-github" label="GitHub"
-        /></a>
-      </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -83,7 +81,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/chrisratsabout" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <!-- need resume -->
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -97,7 +97,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/alissareynolds" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <!-- need resume -->
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -111,7 +113,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/km6805" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <!-- need resume -->
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -125,7 +129,11 @@ import Button from 'primevue/button';
         <a href="https://github.com/simmca" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Clint_Simmons_Resume.pdf" download>
+          <Button icon="pi pi-paperclip" label="Resume"></Button>
+        </a>
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -139,7 +147,11 @@ import Button from 'primevue/button';
         <a href="https://github.com/ThePudgyPigeon" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Samantha_Stinchcomb_Resume.pdf" download
+          ><Button icon="pi pi-paperclip" label="Resume"
+        /></a>
       </div>
+
       <div class="card">
         <img
           class="portrait"
@@ -152,6 +164,9 @@ import Button from 'primevue/button';
         /></a>
         <a href="https://github.com/stephnicoledev" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
+        /></a>
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Stephanie_Strano_Resume.pdf" download
+          ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
     </div>
@@ -197,7 +212,7 @@ import Button from 'primevue/button';
   background-color: rgba(18, 18, 18, 0.85);
   border-radius: 2px;
   padding: 20px;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -210,6 +225,11 @@ import Button from 'primevue/button';
   border-radius: 2px;
 }
 
+Button {
+  width: 142px;
+  height: 31px;
+  border-color: rgb(117, 117, 117);
+}
 @media screen and (max-width: 600px) {
   .logo-container {
     flex-direction: column;

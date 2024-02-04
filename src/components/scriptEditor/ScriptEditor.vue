@@ -57,7 +57,6 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
             icon="pi pi-check-square"
             label="Confirm"
           />
-
         </div>
         <h2 class="title-header" v-else>
           {{ script?.name }}
@@ -94,7 +93,7 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
           @click="compileScript(editorText)"
         />
         <span class="success-message" v-if="successMessage"> {{ successMessage }}</span>
-        <Button type="submit" icon="pi pi-save" label="Save"/>
+        <Button type="submit" icon="pi pi-save" label="Save" />
       </div>
       <h3 class="output-title">OUTPUT:</h3>
       <div class="output-text">{{ output }}</div>
@@ -129,8 +128,8 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
 
 <style scoped>
 .script-editing-window {
-  width: 100%;
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   margin-block: 50px;
   background-color: rgba(18, 18, 18, 0.85);
@@ -322,8 +321,35 @@ const { script, editTitle, errorMessage, successMessage, validateScriptName, cle
 }
 
 @media screen and (max-width: 600px) {
-  .title-editor-wrapper {
-  flex-direction: column;
-}
+  .script-editing-window {
+    margin-inline: 10px;
+    padding-inline: 20px;
+    width: auto;
   }
+
+  .title-editor-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    margin-block: 20px;
+  }
+
+  .edit-title-wrapper {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .title-header {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .success-message {
+    position: relative;
+    top: 40px;
+  }
+
+  .output-title {
+    margin-top: 60px;
+  }
+}
 </style>

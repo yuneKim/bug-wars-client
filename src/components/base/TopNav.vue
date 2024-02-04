@@ -5,7 +5,6 @@ import Button from 'primevue/button';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-
 const { user } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 
@@ -28,6 +27,7 @@ const hideNavLinks = () => {
           <h1 class="main-title">Bug Wars</h1>
         </RouterLink>
       </div>
+
       <div
         class="nav-links"
         :style="{ left: hamburgerIsVisible ? '-100%' : '0' }"
@@ -65,7 +65,6 @@ const hideNavLinks = () => {
           icon="pi pi-times"
           style="background-color: black"
         />
-
       </span>
     </nav>
   </header>
@@ -130,23 +129,7 @@ nav a:hover {
   .extra-mobile-link {
     display: inline;
   }
-@media (max-width: 768px) {
-  .extra-mobile-link {
-    display: inline;
-  }
 
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: rgba(18, 18, 18, 0.85);
-    z-index: 10;
-    width: 100%;
-  }
   .nav-links {
     position: fixed;
     top: 64px;
@@ -163,18 +146,10 @@ nav a:hover {
   .nav-links a {
     padding: 10px;
   }
-  .nav-links a {
-    padding: 10px;
-  }
 
   .nav-btn {
     display: inline-block;
     margin-right: 10px;
   }
-  .nav-btn {
-    display: inline-block;
-    margin-right: 10px;
-  }
-}
 }
 </style>

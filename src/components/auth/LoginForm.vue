@@ -5,8 +5,8 @@ import { storeToRefs } from 'pinia';
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
-import { computed, ref } from 'vue';
 import Password from 'primevue/password';
+import { computed, ref } from 'vue';
 
 const { login, clearAuthError } = useAuthStore();
 const { authError } = storeToRefs(useAuthStore());
@@ -60,14 +60,15 @@ function clearError() {
         <div class="form-group">
           <label for="password">Password</label>
           <Password
-            v-model="loginDto.password" 
+            v-model="loginDto.password"
             toggleMask
             size="small"
             type="password"
             id="password"
             class="password-input"
             :feedback="false"
-            @input="clearError"/>
+            @input="clearError"
+          />
         </div>
         <div class="form-group">
           <p v-if="displayError.length > 0" class="login-error">{{ displayError }}</p>
@@ -102,6 +103,7 @@ function clearError() {
   border-radius: 2px;
   position: relative;
   top: -100px;
+  margin-inline: 10px;
 }
 
 .login-form {
@@ -149,5 +151,4 @@ function clearError() {
 .password-input :deep(input) {
   width: 100%;
 }
-
 </style>
