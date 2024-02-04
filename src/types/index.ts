@@ -52,5 +52,5 @@ export type UserProfileResponse = {
   username: string;
   email: string;
   profilePicture: string;
-  scriptAmount?: number;
+  scriptAmount: number;
 };
