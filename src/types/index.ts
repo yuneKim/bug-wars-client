@@ -34,16 +34,10 @@ export type Script = {
 export type ScriptName = {
   id: number;
   name: string;
+  author: string;
 };
 
 export type PlayGameDto = {
   scriptIds: number[];
   mapId: number;
-};
-
-export type UserProfileUpdateDto = {
-  username?: string;
-  email?: string;
-  password?: string;
-  profilePicture?: string;
 };

@@ -287,3 +287,12 @@ body::before {
 .p-dialog-header-close:hover {
   background-color: rgb(114, 16, 0);
 }
+
+.p-password-panel {
+  border-radius: 2px;
+  background-color: rgb(63, 63, 63);
+}
+
+.p-password-info {
+  color: white;
+}
