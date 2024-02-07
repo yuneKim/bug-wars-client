@@ -27,7 +27,6 @@ import Button from 'primevue/button';
         <a href="https://github.com/yuneKim" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <!-- need resume -->
         <a href="https://yunekim.github.io/bug-wars-client/resumes/Yune_Kim_Resume.pdf" download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
@@ -65,7 +64,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/kido8013" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <!-- need resume -->
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Keaton_Kido_Resume.pdf" download>
+          <Button icon="pi pi-paperclip" label="Resume"></Button>
+        </a>
       </div>
 
       <div class="card">
@@ -97,7 +98,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/alissareynolds" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <!-- need resume -->
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Alissa_Reynolds_Resume.pdf" download>
+          <Button icon="pi pi-paperclip" label="Resume"></Button>
+        </a>
       </div>
 
       <div class="card">
@@ -114,6 +117,9 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
+        <a href="https://yunekim.github.io/bug-wars-client/resumes/Kirk_Reynolds_Resume.pdf" download>
+          <Button icon="pi pi-paperclip" label="Resume"></Button>
+        </a>
       </div>
 
       <div class="card">
