@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { authService } from '@/services/authService';
+import Dropdown from 'primevue/dropdown';
 
 const editedUser = ref({
   username: '',
@@ -11,6 +12,17 @@ const editedUser = ref({
 });
 
 const authError = ref('');
+
+profilePictures: [
+  {url: "@/assets/profile-images/profile-default.png", id: "0"},
+  {url: "@/assets/profile-images/profile-image1.png", id: "1"},
+  {url: "@/assets/profile-images/profile-image2.png", id: "2"},
+  {url: "@/assets/profile-images/profile-image3.png", id: "3"},
+  {url: "@/assets/profile-images/profile-image4.png", id: "4"},
+  {url: "@/assets/profile-images/profile-image5.png", id: "5"},
+  {url: "@/assets/profile-images/profile-image6.png", id: "6"},
+  {url: "@/assets/profile-images/profile-image7.png", id: "7"},
+]
 
 function updateProfile() {
   if (editedUser.value.newPassword !== editedUser.value.confirmPassword) {
@@ -33,17 +45,17 @@ function updateProfile() {
       <h1 class="profile-settings-header">Profile Settings</h1>
   
       <div class="form-group">
-        <label class="label" for="username">Username:</label>
+        <label class="label" for="username">Change Username:</label>
         <input v-model="editedUser.username" type="text" />
       </div>
   
       <div class="form-group">
-        <label class="label" for="email">Email:</label>
+        <label class="label" for="email">Change Email:</label>
         <input v-model="editedUser.email" type="email" />
       </div>
   
       <div class="form-group">
-        <label class="label" for="new-password">New Password:</label>
+        <label class="label" for="new-password">Change Password:</label>
         <input v-model="editedUser.newPassword" type="password" />
       </div>
   
@@ -51,11 +63,19 @@ function updateProfile() {
         <label class="label" for="confirm-password">Confirm Password:</label>
         <input v-model="editedUser.confirmPassword" type="password" />
       </div>
-  
+
       <div class="form-group">
-        <label class="label" for="profile-picture">Profile Picture URL:</label>
-        <input v-model="editedUser.profilePicture" type="text" />
-      </div>
+      <label class="label" for="profile-picture">Change Profile Picture:</label>
+      <Dropdown
+            id="profile-image-dropdown"
+            :options="profilePictures"
+            optionLabel="url"
+            optionValue="id"
+            v-model="editedUser.profilePicture"
+          >
+          </Dropdown>
+        </div>
+  
   
       <div class="form-group">
         <button class="update-profile-btn" @click="updateProfile">SAVE CHANGES</button>
