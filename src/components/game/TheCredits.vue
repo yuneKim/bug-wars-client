@@ -46,7 +46,10 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
 
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Christopher_Bandurski_Resume.pdf" download>
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Christopher_Bandurski_Resume.pdf"
+          download
+        >
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -98,7 +101,10 @@ import Button from 'primevue/button';
         <a href="https://github.com/alissareynolds" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Alissa_Reynolds_Resume.pdf" download>
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Alissa_Reynolds_Resume.pdf"
+          download
+        >
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -117,7 +123,10 @@ import Button from 'primevue/button';
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
         <!-- need resume -->
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Kirk_Reynolds_Resume.pdf" download>
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Kirk_Reynolds_Resume.pdf"
+          download
+        >
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -135,7 +144,10 @@ import Button from 'primevue/button';
         <a href="https://github.com/simmca" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Clint_Simmons_Resume.pdf" download>
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Clint_Simmons_Resume.pdf"
+          download
+        >
           <Button icon="pi pi-paperclip" label="Resume"></Button>
         </a>
       </div>
@@ -153,7 +165,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/ThePudgyPigeon" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Samantha_Stinchcomb_Resume.pdf" download
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Samantha_Stinchcomb_Resume.pdf"
+          download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
@@ -171,7 +185,9 @@ import Button from 'primevue/button';
         <a href="https://github.com/stephnicoledev" target="_blank"
           ><Button icon="pi pi-github" label="GitHub"
         /></a>
-        <a href="https://yunekim.github.io/bug-wars-client/resumes/Stephanie_Strano_Resume.pdf" download
+        <a
+          href="https://yunekim.github.io/bug-wars-client/resumes/Stephanie_Strano_Resume.pdf"
+          download
           ><Button icon="pi pi-paperclip" label="Resume"
         /></a>
       </div>
