@@ -5,11 +5,12 @@ import type { UserProfileResponse } from '@/types/index';
 import defaultProfilePicture from '@/assets/profile-images/profile-default.png';
 
 const authError = ref('');
+const profilePicture = ref('');
 
 const user = ref<UserProfileResponse>({
   username: '',
   email: '',
-  profilePicture: defaultProfilePicture,
+  profilePicture: '',
   scriptAmount: 0,
 });
 
@@ -21,6 +22,10 @@ onMounted(async () => {
     authError.value = 'Failed to fetch user profile';
   }
 });
+
+authService.getUserProfile().then(user => {
+  profilePicture.value = user.profilePicture;
+});
 </script>
 
 <template>
@@ -29,20 +34,20 @@ onMounted(async () => {
       <h1 class="profile-header">User Profile</h1>
 
       <div class="form-group">
-        <label class="label" for="username">Username:</label>
+        <label class="label" id="username" for="username">Username:</label>
         <p>{{ user.username }}</p>
       </div>
       <div class="form-group">
-        <label class="label" for="email">Email:</label>
+        <label class="label" id="email" for="email">Email:</label>
         <p>{{ user.email }}</p>
       </div>
       <div class="form-group">
-        <label class="label" for="profile-picture">Profile Picture</label>
-        <img v-if="user.profilePicture !== null" :src="user.profilePicture" alt="Profile Picture" />
+        <label class="label" id="profile-pictue" for="profile-picture">Profile Picture</label>
+        <img v-if="profilePicture !== null" :src="profilePicture" alt="Profile Picture" />
         <img v-else :src="defaultProfilePicture" alt="Default Profile Picture" />
       </div>
       <div class="form-group">
-        <label class="label" for="scriptAmount">Amount of Scripts:</label>
+        <label class="label" id="scriptAmount" for="scriptAmount">Amount of Scripts:</label>
         <p>{{ user.scriptAmount }}</p>
       </div>
     </div>

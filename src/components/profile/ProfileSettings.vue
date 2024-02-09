@@ -3,20 +3,33 @@ import { ref } from 'vue';
 import { authService } from '@/services/authService';
 
 const editedUser = ref({
-  username: '',
+  username: 'test',
   email: '',
-  newPassword: '',
-  confirmPassword: '',
+  newPassword: '******',
+  confirmPassword: '******', 
   profilePicture: '',
 });
 
+
 const authError = ref('');
+const profilePicture = ref('');
+
+const profileImages = ref([
+  { name: 'Image 1', url: '@/assets/profile-images/profile-image1.png' },
+  { name: 'Image 2', url: '@/assets/profile-images/profile-image2.png' },
+  { name: 'Image 3', url: '@/assets/profile-images/profile-image3.png' },
+  { name: 'Image 4', url: '@/assets/profile-images/profile-image4.png' },
+  { name: 'Image 5', url: '@/assets/profile-images/profile-image5.png' },
+  { name: 'Image 6', url: '@/assets/profile-images/profile-image6.png' },
+  { name: 'Image 7', url: '@/assets/profile-images/profile-image7.png' },
+])
 
 function updateProfile() {
   if (editedUser.value.newPassword !== editedUser.value.confirmPassword) {
     authError.value = 'Password and Confirm Password do not match.';
     return;
   }
+
   authService.updateUserProfile(editedUser.value)
     .then(() => {
       authError.value = 'Profile updated successfully.';
@@ -25,6 +38,11 @@ function updateProfile() {
       authError.value = error.response ? error.response.data.message : 'An error occurred.';
     });
 }
+
+authService.getUserProfile().then(user => {
+  profilePicture.value = user.profilePicture;
+});
+
 </script>
 
 <template>
@@ -34,27 +52,29 @@ function updateProfile() {
   
       <div class="form-group">
         <label class="label" for="username">Username:</label>
-        <input v-model="editedUser.username" type="text" />
+        <input v-model="editedUser.username" type="text" id="username" name="username"/>
       </div>
   
       <div class="form-group">
         <label class="label" for="email">Email:</label>
-        <input v-model="editedUser.email" type="email" />
+        <input v-model="editedUser.email" type="email" id="email" name="email"/>
       </div>
   
       <div class="form-group">
         <label class="label" for="new-password">New Password:</label>
-        <input v-model="editedUser.newPassword" type="password" />
+        <input v-model="editedUser.newPassword" type="password" id="new-password" name="new-password"/>
       </div>
   
       <div class="form-group">
         <label class="label" for="confirm-password">Confirm Password:</label>
-        <input v-model="editedUser.confirmPassword" type="password" />
+        <input v-model="editedUser.confirmPassword" type="password" id="confirm-password" name="confirm-password"/>
       </div>
   
       <div class="form-group">
-        <label class="label" for="profile-picture">Profile Picture URL:</label>
-        <input v-model="editedUser.profilePicture" type="text" />
+        <label class="label" for="profile-picture">Profile Picture:</label>
+        <select v-model="editedUser.profilePicture" id="profile-picture" name="profile-picture">
+          <option v-for="(image, index) in profileImages" :key="index" :value="image.url">{{ image.name }}</option>
+        </select>
       </div>
   
       <div class="form-group">

@@ -43,10 +43,11 @@ export type PlayGameDto = {
 };
 
 export type UserProfileUpdateDto = {
-  username?: string;
-  email?: string;
-  password?: string;
-  profilePicture?: string;
+  username: string;
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+  profilePicture: string;
 };
 
 export type UserProfileResponse = {
