@@ -36,7 +36,12 @@ const formData = ref<FormData>({
 function showToast() {
       toast.info('A verification link has been sent to your email', {
         autoClose: false,
-        position: "top-center"
+        position: "top-center",
+        toastStyle: {
+          color: "white",
+          background: "rgba(18, 18, 18, 0.85)",
+          border: "2px solid white"
+        }
       })
     }
 
