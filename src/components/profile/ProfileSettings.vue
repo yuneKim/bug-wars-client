@@ -2,6 +2,14 @@
 import { ref } from 'vue';
 import { authService } from '@/services/authService';
 import Dropdown from 'primevue/dropdown';
+import defaultProfilePicture from '@/assets/profile-images/profile-default.png';
+import profileImage1 from '@/assets/profile-images/profile-image1.png';
+import profileImage2 from '@/assets/profile-images/profile-image2.png';
+import profileImage3 from '@/assets/profile-images/profile-image3.png';
+import profileImage4 from '@/assets/profile-images/profile-image4.png';
+import profileImage5 from '@/assets/profile-images/profile-image5.png';
+import profileImage6 from '@/assets/profile-images/profile-image6.png';
+import profileImage7 from '@/assets/profile-images/profile-image7.png';
 
 const editedUser = ref({
   username: 'test',
@@ -14,16 +22,16 @@ const editedUser = ref({
 
 const authError = ref('');
 
-profilePictures: [
-  {url: "@/assets/profile-images/profile-default.png", id: "0"},
-  {url: "@/assets/profile-images/profile-image1.png", id: "1"},
-  {url: "@/assets/profile-images/profile-image2.png", id: "2"},
-  {url: "@/assets/profile-images/profile-image3.png", id: "3"},
-  {url: "@/assets/profile-images/profile-image4.png", id: "4"},
-  {url: "@/assets/profile-images/profile-image5.png", id: "5"},
-  {url: "@/assets/profile-images/profile-image6.png", id: "6"},
-  {url: "@/assets/profile-images/profile-image7.png", id: "7"},
-]
+const profilePictures = [
+{ url: defaultProfilePicture, id: "0" },
+  { url: profileImage1, id: "1" },
+  { url: profileImage2, id: "2" },
+  { url: profileImage3, id: "3" },
+  { url: profileImage4, id: "4" },
+  { url: profileImage5, id: "5" },
+  { url: profileImage6, id: "6" },
+  { url: profileImage7, id: "7" },
+];
 
 function updateProfile() {
   if (editedUser.value.newPassword !== editedUser.value.confirmPassword) {
@@ -41,7 +49,9 @@ function updateProfile() {
 }
 
 authService.getUserProfile().then(user => {
-  profilePicture.value = user.profilePicture;
+  editedUser.value.username = user.username;
+  editedUser.value.email = user.email;
+  editedUser.value.profilePicture = user.profilePicture;
 });
 
 </script>
@@ -77,7 +87,7 @@ authService.getUserProfile().then(user => {
             id="profile-image-dropdown"
             :options="profilePictures"
             optionLabel="url"
-            optionValue="id"
+            optionValue="url"
             v-model="editedUser.profilePicture"
           >
           </Dropdown>

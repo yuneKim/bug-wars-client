@@ -7,7 +7,7 @@ import defaultProfilePicture from '@/assets/profile-images/profile-default.png';
 const authError = ref('');
 const profilePicture = ref('');
 
-const user = ref<UserProfileResponse>({
+const userProfile = ref<UserProfileResponse>({
   username: '',
   email: '',
   profilePicture: '',
@@ -16,15 +16,30 @@ const user = ref<UserProfileResponse>({
 
 onMounted(async () => {
   try {
-    const userProfile = await authService.getUserProfile();
-    user.value = userProfile;
+    await fetchUserProfile();
   } catch (error) {
     authError.value = 'Failed to fetch user profile';
   }
 });
 
-authService.getUserProfile().then(user => {
-  profilePicture.value = user.profilePicture;
+async function fetchUserProfile() {
+  try {
+    const user = await authService.getUserProfile();
+    userProfile.value = user;
+    updateProfilePicture(user.profilePicture);
+  } catch (error) {
+    authError.value = 'Failed to fetch user profile';
+  }
+}
+
+function updateProfilePicture(pictureUrl: string) {
+  profilePicture.value = pictureUrl || defaultProfilePicture;
+}
+
+// Listen to events emitted by ProfileSettings.vue to update the profile picture
+window.addEventListener('profilePictureUpdated', (event: Event) => {
+  const customEvent = event as CustomEvent<{ profilePicture: string }>;
+  updateProfilePicture(customEvent.detail.profilePicture);
 });
 </script>
 
@@ -35,11 +50,11 @@ authService.getUserProfile().then(user => {
 
       <div class="form-group">
         <label class="label" id="username" for="username">Username:</label>
-        <p>{{ user.username }}</p>
+        <p>{{ userProfile.username }}</p>
       </div>
       <div class="form-group">
         <label class="label" id="email" for="email">Email:</label>
-        <p>{{ user.email }}</p>
+        <p>{{ userProfile.email }}</p>
       </div>
       <div class="form-group">
         <label class="label" id="profile-pictue" for="profile-picture">Profile Picture</label>
@@ -48,7 +63,7 @@ authService.getUserProfile().then(user => {
       </div>
       <div class="form-group">
         <label class="label" id="scriptAmount" for="scriptAmount">Amount of Scripts:</label>
-        <p>{{ user.scriptAmount }}</p>
+        <p>{{ userProfile.scriptAmount }}</p>
       </div>
     </div>
   </div>
