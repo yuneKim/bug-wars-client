@@ -68,7 +68,7 @@ async function register(registerDto: RegisterDto) {
   const response = await authService.register(registerDto);
 
   if (response.type === 'success') {
-    router.push({ name: 'login' });
+    setTimeout(() => router.push({path: 'login'}), 5000)
   } else {
     authError.value = response.error;
   }
