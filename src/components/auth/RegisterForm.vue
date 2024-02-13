@@ -8,6 +8,8 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),
@@ -30,6 +32,13 @@ const formData = ref<FormData>({
   confirmPassword: '',
   email: '',
 });
+
+function showToast() {
+      toast.info('A verification link has been sent to your email', {
+        autoClose: false,
+        position: "top-center"
+      })
+    }
 
 function handleSubmit() {
   if (matcher.hasMatch(formData.value.username)) {
@@ -112,7 +121,7 @@ async function register(registerDto: RegisterDto) {
         </div>
         <div class="form-group">
           <p v-if="authError.length > 0" class="error-message">{{ authError }}</p>
-          <Button class="submit-btn" type="submit">Register</Button>
+          <Button @click="$event => showToast()" class="submit-btn" type="submit">Register</Button>
         </div>
         <Divider class="divider" />
         <div>
