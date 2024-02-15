@@ -43,7 +43,7 @@ export type PlayGameDto = {
 };
 
 export type UserProfileUpdateDto = {
-  username: string;
+  profileName: string;
   email: string;
   newPassword: string;
   confirmPassword: string;
@@ -52,6 +52,7 @@ export type UserProfileUpdateDto = {
 
 export type UserProfileResponse = {
   username: string;
+  profileName: string;
   email: string;
   profilePicture: string;
   scriptAmount: number;

@@ -9,6 +9,7 @@ const profilePicture = ref('');
 
 const userProfile = ref<UserProfileResponse>({
   username: '',
+  profileName: '',
   email: '',
   profilePicture: '',
   scriptAmount: 0,
@@ -36,7 +37,6 @@ function updateProfilePicture(pictureUrl: string) {
   profilePicture.value = pictureUrl || defaultProfilePicture;
 }
 
-// Listen to events emitted by ProfileSettings.vue to update the profile picture
 window.addEventListener('profilePictureUpdated', (event: Event) => {
   const customEvent = event as CustomEvent<{ profilePicture: string }>;
   updateProfilePicture(customEvent.detail.profilePicture);
@@ -51,6 +51,10 @@ window.addEventListener('profilePictureUpdated', (event: Event) => {
       <div class="form-group">
         <label class="label" id="username" for="username">Username:</label>
         <p>{{ userProfile.username }}</p>
+      </div>
+      <div class="form-group">
+        <label class="label" id="profile-name" for="profile-name">Profile Name:</label>
+        <p>{{ userProfile.profileName }}</p>
       </div>
       <div class="form-group">
         <label class="label" id="email" for="email">Email:</label>

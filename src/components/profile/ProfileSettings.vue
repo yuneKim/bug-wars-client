@@ -12,7 +12,7 @@ import profileImage6 from '@/assets/profile-images/profile-image6.png';
 import profileImage7 from '@/assets/profile-images/profile-image7.png';
 
 const editedUser = ref({
-  username: 'test',
+  profileName: '',
   email: '',
   newPassword: '******',
   confirmPassword: '******', 
@@ -33,13 +33,21 @@ const profilePictures = [
   { url: profileImage7, id: "7" },
 ];
 
-function updateProfile() {
+async function updateProfile() {
   if (editedUser.value.newPassword !== editedUser.value.confirmPassword) {
     authError.value = 'Password and Confirm Password do not match.';
     return;
   }
 
-  authService.updateUserProfile(editedUser.value)
+  const profileUpdateDto = {
+    profileName: editedUser.value.profileName,
+    email: editedUser.value.email,
+    newPassword: editedUser.value.newPassword,
+    confirmPassword: editedUser.value.confirmPassword,
+    profilePicture: editedUser.value.profilePicture,
+  };
+
+  authService.updateUserProfile(profileUpdateDto)
     .then(() => {
       authError.value = 'Profile updated successfully.';
     })
@@ -49,7 +57,7 @@ function updateProfile() {
 }
 
 authService.getUserProfile().then(user => {
-  editedUser.value.username = user.username;
+  editedUser.value.profileName = user.profileName;
   editedUser.value.email = user.email;
   editedUser.value.profilePicture = user.profilePicture;
 });
@@ -62,8 +70,8 @@ authService.getUserProfile().then(user => {
       <h1 class="profile-settings-header">Profile Settings</h1>
   
       <div class="form-group">
-        <label class="label" for="username">Change Username:</label>
-        <input v-model="editedUser.username" type="text" />
+        <label class="label" for="profile-name">Change Profile Name:</label>
+        <input v-model="editedUser.profileName" type="text" />
       </div>
   
       <div class="form-group">
