@@ -23,14 +23,14 @@ const editedUser = ref({
 const authError = ref('');
 
 const profilePictures = [
-{ url: defaultProfilePicture, id: "0" },
-  { url: profileImage1, id: "1" },
-  { url: profileImage2, id: "2" },
-  { url: profileImage3, id: "3" },
-  { url: profileImage4, id: "4" },
-  { url: profileImage5, id: "5" },
-  { url: profileImage6, id: "6" },
-  { url: profileImage7, id: "7" },
+  { name: 'Default Profile Picture', url: defaultProfilePicture, id: "0" },
+  { name: 'Profile Image 1', url: profileImage1, id: "1" },
+  { name: 'Profile Image 2', url: profileImage2, id: "2" },
+  { name: 'Profile Image 3', url: profileImage3, id: "3" },
+  { name: 'Profile Image 4', url: profileImage4, id: "4" },
+  { name: 'Profile Image 5', url: profileImage5, id: "5" },
+  { name: 'Profile Image 6', url: profileImage6, id: "6" },
+  { name: 'Profile Image 7', url: profileImage7, id: "7" },
 ];
 
 async function updateProfile() {
@@ -94,7 +94,7 @@ authService.getUserProfile().then(user => {
       <Dropdown
             id="profile-image-dropdown"
             :options="profilePictures"
-            optionLabel="url"
+            optionLabel="name"
             optionValue="url"
             v-model="editedUser.profilePicture"
           >
