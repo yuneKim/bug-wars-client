@@ -70,23 +70,19 @@ authService.getUserProfile().then(user => {
       <h1 class="profile-settings-header">Profile Settings</h1>
   
       <div class="form-group">
-        <label class="label" for="profile-name">Change Profile Name:</label>
-        <input v-model="editedUser.profileName" type="text" />
+        <label class="label" for="profile-name">Change Profile Name: &nbsp <input v-model="editedUser.profileName" type="text" /></label>
       </div>
   
       <div class="form-group">
-        <label class="label" for="email">Change Email:</label>
-        <input v-model="editedUser.email" type="email" />
+        <label class="label" for="email">Change Email: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.email" type="email" /></label>
       </div>
   
       <div class="form-group">
-        <label class="label" for="new-password">Change Password:</label>
-        <input v-model="editedUser.newPassword" type="password" />
+        <label class="label" for="new-password">Change Password: &nbsp &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.newPassword" type="password" /></label>
       </div>
   
       <div class="form-group">
-        <label class="label" for="confirm-password">Confirm Password:</label>
-        <input v-model="editedUser.confirmPassword" type="password" id="confirm-password" name="confirm-password"/>
+        <label class="label" for="confirm-password">Confirm Password: &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.confirmPassword" type="password" id="confirm-password" name="confirm-password"/></label>
       </div>
 
       <div class="form-group">
@@ -117,6 +113,11 @@ authService.getUserProfile().then(user => {
   align-items: flex-start;
   height: 100%;
   padding-block: 125px;
+  color: #fff;
+}
+
+.profile-settings-container a {
+  align-items: end;
 }
 
 .profile-settings-details {
@@ -174,7 +175,8 @@ input {
 
 @media screen and (max-width: 600px){
   .profile-settings-container {
-    display: grid;
+    padding-inline: 10px;
+    margin-block: 50px;
   }
 }
 
