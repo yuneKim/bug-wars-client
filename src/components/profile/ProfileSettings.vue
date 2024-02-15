@@ -140,7 +140,7 @@ authService.getUserProfile().then(user => {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
   padding: 10px;
   color: #fff;
 }

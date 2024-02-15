@@ -49,25 +49,21 @@ window.addEventListener('profilePictureUpdated', (event: Event) => {
       <h1 class="profile-header">User Profile</h1>
 
       <div class="form-group">
-        <label class="label" id="username" for="username">Username:</label>
-        <p>{{ userProfile.username }}</p>
+        <label class="label" id="username" for="username">Username: {{ userProfile.username }} </label>
       </div>
       <div class="form-group">
-        <label class="label" id="profile-name" for="profile-name">Profile Name:</label>
-        <p>{{ userProfile.profileName }}</p>
+        <label class="label" id="profile-name" for="profile-name">Profile Name: {{ userProfile.profileName }}</label>
       </div>
       <div class="form-group">
-        <label class="label" id="email" for="email">Email:</label>
-        <p>{{ userProfile.email }}</p>
+        <label class="label" id="email" for="email">Email: {{ userProfile.email }}</label>
       </div>
       <div class="form-group">
-        <label class="label" id="profile-pictue" for="profile-picture">Profile Picture</label>
+        <label class="label" id="scriptAmount" for="scriptAmount">Script Count: {{ userProfile.scriptAmount }}</label>
+      </div>
+      <div class="form-group">
+        <label class="label" id="profile-picture" for="profile-picture">Profile Picture:</label>
         <img v-if="profilePicture !== null" :src="profilePicture" alt="Profile Picture" />
         <img v-else :src="defaultProfilePicture" alt="Default Profile Picture" />
-      </div>
-      <div class="form-group">
-        <label class="label" id="scriptAmount" for="scriptAmount">Amount of Scripts:</label>
-        <p>{{ userProfile.scriptAmount }}</p>
       </div>
     </div>
   </div>
