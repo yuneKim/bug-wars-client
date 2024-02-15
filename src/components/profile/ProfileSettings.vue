@@ -70,19 +70,23 @@ authService.getUserProfile().then(user => {
       <h1 class="profile-settings-header">Profile Settings</h1>
   
       <div class="form-group">
-        <label class="label" for="profile-name">Change Profile Name: &nbsp <input v-model="editedUser.profileName" type="text" /></label>
+        <label class="label" for="profile-name">Change Profile Name: </label>
+        <input v-model="editedUser.profileName" type="text" />
       </div>
   
       <div class="form-group">
-        <label class="label" for="email">Change Email: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.email" type="email" /></label>
+        <label class="label" for="email">Change Email: </label>
+        <input v-model="editedUser.email" type="email" />
       </div>
   
       <div class="form-group">
-        <label class="label" for="new-password">Change Password: &nbsp &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.newPassword" type="password" /></label>
+        <label class="label" for="new-password">Change Password: </label>
+        <input v-model="editedUser.newPassword" type="password" />
       </div>
   
       <div class="form-group">
-        <label class="label" for="confirm-password">Confirm Password: &nbsp &nbsp &nbsp &nbsp<input v-model="editedUser.confirmPassword" type="password" id="confirm-password" name="confirm-password"/></label>
+        <label class="label" for="confirm-password">Confirm Password: </label>
+        <input v-model="editedUser.confirmPassword" type="password" id="confirm-password" name="confirm-password"/>
       </div>
 
       <div class="form-group">
