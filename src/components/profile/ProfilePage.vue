@@ -113,4 +113,11 @@ img {
   text-align: center;
   color: #fff;
 }
+
+@media screen and (max-width: 600px){
+  .profile-page-container {
+    padding-inline: 10px;
+    margin-block: 50px;
+  }
+}
 </style>
