@@ -36,7 +36,10 @@ const {
         <template v-for="topBug in topBugs" :key="topBug">
           <img :src="bugImgs[topBug]" />
           <span class="score" data-test="score">{{ scoreboard[topBug].scores[frameIndex] }}</span>
-          <span>{{ scoreboard[topBug].name }}</span>
+          <span>
+            <div>{{ scoreboard[topBug].name }}</div>
+            <div class="script-author">{{ scoreboard[topBug].author }}</div>
+          </span>
         </template>
       </div>
       <div class="replay-viewer-grid-cell">
@@ -104,7 +107,8 @@ const {
 
   display: grid;
   grid-template-columns: auto 1.5rem auto;
-  row-gap: 0.5rem;
+  align-items: center;
+  row-gap: 1rem;
   column-gap: 1rem;
   color: #fff;
   background-color: rgba(18, 18, 18, 0.85);
@@ -114,6 +118,10 @@ const {
 
 .score {
   justify-self: right;
+}
+
+.script-author {
+  font-size: 0.8rem;
 }
 
 .leader-star {
@@ -163,5 +171,29 @@ const {
 
 .slider {
   width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto 1fr;
+    margin-inline: 10px;
+  }
+
+  .scoreboard {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  .replay-viewer-grid-cell {
+    max-width: 100%;
+  }
+
+  .vcr-controls {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

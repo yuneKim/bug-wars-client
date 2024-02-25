@@ -1,5 +1,6 @@
 import { scriptService } from '@/services/scriptService';
 import type { Script, ScriptDto } from '@/types';
+import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from 'obscenity';
 import { ref, watch, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -16,7 +17,7 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
     name: '',
     raw: '',
     bytecode: '',
-    isBytecodeValid: false,
+    bytecodeValid: false,
   });
 
   const editTitle = ref(!route.params.id);
@@ -50,9 +51,21 @@ export function useScriptCrud({ editorText, setOutput }: Props) {
     }
   }
 
+  const matcher = new RegExpMatcher({
+    ...englishDataset.build(),
+    ...englishRecommendedTransformers,
+  });
+
   function validateScriptName() {
     if (script.value.name.length === 0) {
       errorMessage.value = 'Script name may not be blank.';
+      return false;
+    }else if (script.value.name.length > 20) {
+      errorMessage.value = 'Script name must be 20 characters or fewer.';
+      return false;
+    }
+    if (matcher.hasMatch(script.value.name)) {
+      errorMessage.value = 'Script name may not contain inappropriate language.';
       return false;
     }
     return true;

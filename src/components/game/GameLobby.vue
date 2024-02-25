@@ -6,7 +6,6 @@ import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
 
 const {
-  maps,
   scripts,
   gameData,
   currentMap,
@@ -17,6 +16,8 @@ const {
   setMap,
   startGame,
 } = await useGameLobby();
+
+console.log(scripts);
 </script>
 
 <template>
@@ -72,6 +73,21 @@ const {
             :disabled="n > 2 && !fourSwarmMapSelected"
             data-test="swarm-select"
           >
+            <template #value="slotProps">
+              <div v-if="scripts.some((script) => script.id === slotProps.value)">
+                <div>{{ scripts.find((script) => script.id === slotProps.value)?.name }}</div>
+                <div class="script-author">
+                  {{ scripts.find((script) => script.id === slotProps.value)?.author }}
+                </div>
+              </div>
+              <div v-else>SELECT A SCRIPT</div>
+            </template>
+            <template #option="slotProps">
+              <div>{{ slotProps.option.name }}</div>
+              <div class="script-author">
+                {{ slotProps.option.author }}
+              </div>
+            </template>
           </Dropdown>
         </div>
       </div>
@@ -140,6 +156,7 @@ const {
   padding: 50px;
   border: 0.5px solid white;
   border-radius: 2px;
+  margin-inline: 10px;
 }
 
 .header {
@@ -161,7 +178,8 @@ const {
 }
 
 .map-carousel {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
 }
 
 :deep(.p-carousel-item) {
@@ -170,12 +188,27 @@ const {
 }
 
 .map-preview {
-  width: 400px;
-  height: 400px;
+  max-width: 400px;
+  max-height: 400px;
+  width: auto;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.map-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.script-author {
+  font-size: 0.8rem;
 }
 
 .swarm-selection-wrapper {
@@ -203,5 +236,17 @@ const {
 
 .preload-images {
   display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .game-lobby-card {
+    padding-inline: 10px;
+    margin-block: 50px;
+  }
+
+  .map-name-wrapper {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
 }
 </style>

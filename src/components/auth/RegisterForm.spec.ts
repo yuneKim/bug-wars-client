@@ -4,6 +4,8 @@ import { mount, shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import RegisterForm from './RegisterForm.vue';
+import Password from 'primevue/password';
+import PrimeVue from 'primevue/config';
 
 vi.mock('@/services/authService');
 vi.mock('vue-router', () => ({
@@ -33,7 +35,16 @@ describe('RegisterForm.vue', () => {
   });
 
   it('calls register on form submit', async () => {
-    const wrapper = mount(RegisterForm);
+    const wrapper = mount(RegisterForm, {
+      global: {
+        components: {
+          Password
+        },
+        plugins: [
+          PrimeVue
+        ]
+      }
+    });
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -49,9 +60,11 @@ describe('RegisterForm.vue', () => {
 
     const usernameInput = wrapper.find('#username');
     await usernameInput.setValue(registerDto.username);
-    const passwordInput = wrapper.find('#password');
+    const passwordComponent = wrapper.find('#password');
+    const passwordInput = passwordComponent.find('input');
     await passwordInput.setValue(registerDto.password);
-    const confirmPasswordInput = wrapper.find('#confirm-password');
+    const confirmPasswordComponent = wrapper.find('#confirm-password');
+    const confirmPasswordInput = confirmPasswordComponent.find('input');
     await confirmPasswordInput.setValue(registerDto.password);
     const emailInput = wrapper.find('#email');
     await emailInput.setValue(registerDto.email);
@@ -66,7 +79,16 @@ describe('RegisterForm.vue', () => {
   });
 
   it('handles errors with message', async () => {
-    const wrapper = mount(RegisterForm);
+    const wrapper = mount(RegisterForm, {
+      global: {
+        components: {
+          Password
+        },
+        plugins: [
+          PrimeVue
+        ]
+      }
+    });
 
     const registerDto: RegisterDto = {
       username: 'some_user',
@@ -82,9 +104,11 @@ describe('RegisterForm.vue', () => {
 
     const usernameInput = wrapper.find('#username');
     await usernameInput.setValue(registerDto.username);
-    const passwordInput = wrapper.find('#password');
+    const passwordComponent = wrapper.find('#password');
+    const passwordInput = passwordComponent.find('input');
     await passwordInput.setValue(registerDto.password);
-    const confirmPasswordInput = wrapper.find('#confirm-password');
+    const confirmPasswordComponent = wrapper.find('#confirm-password');
+    const confirmPasswordInput = confirmPasswordComponent.find('input');
     await confirmPasswordInput.setValue(registerDto.password);
     const emailInput = wrapper.find('#email');
     await emailInput.setValue(registerDto.email);
@@ -97,11 +121,30 @@ describe('RegisterForm.vue', () => {
   });
 
   it('validates data on form submit', async () => {
-    const wrapper = mount(RegisterForm);
+    const wrapper = mount(RegisterForm, {
+      global: {
+        components: {
+          Password
+        },
+        plugins: [
+          PrimeVue
+        ]
+      }
+    });
 
+    
     const usernameInput = wrapper.find('#username');
-    const passwordInput = wrapper.find('#password');
-    const confirmPasswordInput = wrapper.find('#confirm-password');
+    const passwordComponent = wrapper.find('#password');
+    const confirmPasswordComponent = wrapper.find('#confirm-password');
+    const passwordInput = passwordComponent.find('input');
+    const confirmPasswordInput = confirmPasswordComponent.find('input');
+
+    await usernameInput.setValue('fuck');
+    await passwordInput.setValue('testths');
+    await wrapper.find('form').trigger('submit');
+    expect(wrapper.find('.error-message').text()).toBe(
+      'The username created contains profanities.',
+    );
 
     await usernameInput.setValue('Yo');
     await wrapper.find('form').trigger('submit');

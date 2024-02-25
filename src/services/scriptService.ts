@@ -39,7 +39,7 @@ export const scriptService = {
     return makeRequest(() => axios.post('/scripts', scriptDto), {
       successStatuses: [201],
       errorStatuses: {
-        400: 'Name/Script cannot be blank.',
+        400: 'Name/Script is invalid.',
         409: 'Name must be unique.',
       },
     });
@@ -62,4 +62,5 @@ export const scriptService = {
       },
     });
   },
+
 };

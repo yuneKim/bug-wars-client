@@ -28,12 +28,13 @@ export type Script = {
   name: string;
   raw: string;
   bytecode: string;
-  isBytecodeValid: boolean;
+  bytecodeValid: boolean;
 };
 
 export type ScriptName = {
   id: number;
   name: string;
+  author: string;
 };
 
 export type PlayGameDto = {
