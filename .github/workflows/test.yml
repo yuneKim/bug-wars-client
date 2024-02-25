@@ -1,7 +1,7 @@
 name: 'Tests with coverage'
 on:
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   test:
