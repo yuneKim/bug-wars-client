@@ -2,6 +2,7 @@ import type { LoginDto, RegisterDto, UserProfileUpdateDto, UserProfileResponse }
 import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
+import { error } from 'node:console';
 
 export const authService = {
   register(registerDto: RegisterDto) {
@@ -53,7 +54,7 @@ export const authService = {
         return response.data as UserProfileResponse;
       } else {
         console.error('Error response received:', response);
-        throw new Error('Failed to fetch user profile');
+        throw error;
       }
     });
   },
