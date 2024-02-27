@@ -55,6 +55,10 @@ export const authService = {
         console.error('Error response received:', response);
         throw new Error('Failed to fetch user profile');
       }
+    })
+    .catch((error) => {
+      console.error('Error occurred while fetching user profile:', error);
+      throw error; 
     });
   },
 
