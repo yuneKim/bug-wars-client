@@ -7,6 +7,7 @@ const token = router.currentRoute.value.params.emailToken;
 const username = router.currentRoute.value.params.username;
 
 const response = await authService.verifyEmail(username, token);
+
 if (response.data){
     //valid
 } else {

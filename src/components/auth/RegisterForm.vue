@@ -59,7 +59,7 @@ async function register(registerDto: RegisterDto) {
   const response = await authService.register(registerDto);
 
   if (response.type === 'success') {
-    router.push({ name: 'login' });
+    router.push({path: 'login'})
   } else {
     authError.value = response.error;
   }
@@ -125,9 +125,6 @@ async function register(registerDto: RegisterDto) {
 </template>
 
 <style scoped>
-#password-note {
-  margin: 0px;
-}
 .register-form-container-container {
   padding-block: 150px;
   height: 100%;
