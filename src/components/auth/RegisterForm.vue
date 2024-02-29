@@ -14,7 +14,7 @@ import { useToast } from "primevue/usetoast";
 const toast = useToast();
 
 const show = () => {
-    toast.add({ severity: 'success', summary: 'Email Info', detail: 'An verification link has been sent to your email.'});
+    toast.add({ severity: 'success', summary: 'Verification Email', detail: 'A verification link has been sent to your email.'});
 };
 
 const matcher = new RegExpMatcher({
@@ -120,7 +120,7 @@ async function register(registerDto: RegisterDto) {
         </div>
         <div class="form-group">
           <p v-if="authError.length > 0" class="error-message">{{ authError }}</p>
-          <Toast />
+          <Toast position="top-center" class="toast" />
           <Button label="Show" @click="show()" class="submit-btn" type="submit">Register</Button>
         </div>
         <Divider class="divider" />
@@ -134,6 +134,9 @@ async function register(registerDto: RegisterDto) {
 </template>
 
 <style scoped>
+.toast {
+  background-color: red;
+}
 .register-form-container-container {
   padding-block: 150px;
   height: 100%;

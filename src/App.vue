@@ -6,7 +6,7 @@ import Toast from 'primevue/toast';
 <template>
   <div class="container">
     <TopNav />
-    <Toast />
+    <Toast position="top-center" />
     <div class="router-view-container">
       <RouterView />
     </div>
