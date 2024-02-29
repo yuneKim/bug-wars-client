@@ -39,18 +39,6 @@ const formData = ref<FormData>({
   email: '',
 });
 
-function showToast() {
-      toast.info('A verification link has been sent to your email', {
-        autoClose: false,
-        position: "top-center",
-        toastStyle: {
-          color: "white",
-          background: "rgba(18, 18, 18, 0.85)",
-          border: "2px solid white"
-        }
-      })
-    }
-
 function handleSubmit() {
   if (matcher.hasMatch(formData.value.username)) {
     authError.value = 'The username created contains profanities.';
