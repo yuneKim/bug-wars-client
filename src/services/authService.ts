@@ -1,4 +1,4 @@
-import type { LoginDto, RegisterDto, UserProfileUpdateDto, UserProfileResponse } from '@/types';
+import type { LoginDto, RegisterDto, UserProfileUpdateDto } from '@/types';
 import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
@@ -47,18 +47,12 @@ export const authService = {
         401: 'You must be logged in to view your profile.',
         404: 'User not found.',
       },
-    })
-    .then((response) => {
-      if (response.type === 'success') {
-        return response.data as UserProfileResponse;
-      } else {
+    }).then((response) => {
+      if (response.type === 'error') {
         console.error('Error response received:', response);
-        throw new Error('Failed to fetch user profile');
+        return {};
       }
-    })
-    .catch((error) => {
-      console.error('Error fetching user profile:', error);
-      throw new Error('Failed to fetch user profile');
+      return response.data;
     });
   },
 
