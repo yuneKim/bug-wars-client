@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import TopNav from '@/components/base/TopNav.vue';
+import Toast from 'primevue/toast';
 </script>
 
 <template>
   <div class="container">
     <TopNav />
+    <Toast />
     <div class="router-view-container">
       <RouterView />
     </div>

@@ -8,6 +8,14 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Toast from 'primevue/toast';
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
+
+const show = () => {
+    toast.add({ severity: 'success', summary: 'Email Info', detail: 'An verification link has been sent to your email.'});
+};
 
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),
@@ -112,7 +120,8 @@ async function register(registerDto: RegisterDto) {
         </div>
         <div class="form-group">
           <p v-if="authError.length > 0" class="error-message">{{ authError }}</p>
-          <Button class="submit-btn" type="submit">Register</Button>
+          <Toast />
+          <Button label="Show" @click="show()" class="submit-btn" type="submit">Register</Button>
         </div>
         <Divider class="divider" />
         <div>
