@@ -6,6 +6,7 @@ import { nextTick } from 'vue';
 import RegisterForm from './RegisterForm.vue';
 import Password from 'primevue/password';
 import PrimeVue from 'primevue/config';
+import { createTestingPinia } from '@pinia/testing';
 
 vi.mock('@/services/authService');
 vi.mock('vue-router', () => ({
