@@ -39,7 +39,6 @@ authService.verifyEmail(username, token).then((response) => {
     font-family: Oxanium, Arial, Helvetica, sans-serif;
     font-size: 1.7rem;
 }
-
 .flex {
     display: flex;
     flex-direction: column;
