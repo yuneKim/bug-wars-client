@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import { authService } from '@/services/authService';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 
-const router = useRouter();
-const token = router.currentRoute.value.params.emailToken;
-const username = router.currentRoute.value.params.username;
+const router = useRoute();
+const token = router.params.emailToken?.toString();
+const username = router.params.username?.toString();
 
 let message = ref('');
 let message2 = ref('');
-let message3 = ref('');
 
-authService.verifyEmail(username[0], token[0]).then((response) => {
+authService.verifyEmail(username, token).then((response) => {
     const isVerified = response.data;
-    console.log(response);
+    console.log('response', response);
     if (isVerified) {
         message.value = 'Your email is verified.';
         message2.value = 'Welcome to Bug Wars!';
     } else {
         message.value = 'You are not verified.';
-        message3.value = 'Verification link is expired.';
 }
 }).catch((error) => {
     message.value = 'You are not verified.';
@@ -32,7 +30,6 @@ authService.verifyEmail(username[0], token[0]).then((response) => {
     <div class="flex">
        <p class="email-message"> {{ message2 }}</p>
        <p class="email-message"> {{ message }}</p>
-       <p class="email-message"> {{ message3 }}</p>
     </div>
 </template>
 
