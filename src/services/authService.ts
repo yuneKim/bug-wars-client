@@ -1,4 +1,4 @@
-import type { LoginDto, RegisterDto } from '@/types';
+import type { LoginDto, RegisterDto, UserProfileUpdateDto } from '@/types';
 import { makeRequest } from '@/utils/makeRequest';
 
 import axios from 'axios';
@@ -26,6 +26,34 @@ export const authService = {
 
   logout() {
     axios.post('/auth/logout');
+  },
+    /*Updates user profile information*/
+  updateUserProfile(profileUpdateDto: UserProfileUpdateDto) {
+    return makeRequest(() => axios.put('/auth/update-profile', profileUpdateDto), {
+      successStatuses: [200],
+      errorStatuses: {
+        400: 'Invalid request.',
+        401: 'You must be logged in to update your profile.',
+        403: 'You do not have permission to update this profile.',
+        404: 'User not found.',
+      },
+    });
+  },
+
+  getUserProfile() {
+    return makeRequest(() => axios.get('/auth/user-profile'), {
+      successStatuses: [200],
+      errorStatuses: {
+        401: 'You must be logged in to view your profile.',
+        404: 'User not found.',
+      },
+    }).then((response) => {
+      if (response.type === 'error') {
+        console.error('Error response received:', response);
+        return {};
+      }
+      return response.data;
+    });
   },
 
   refreshToken() {

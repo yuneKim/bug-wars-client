@@ -41,3 +41,19 @@ export type PlayGameDto = {
   scriptIds: number[];
   mapId: number;
 };
+
+export type UserProfileUpdateDto = {
+  profileName: string;
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+  profilePicture: string;
+};
+
+export type UserProfileResponse = {
+  username: string;
+  profileName: string;
+  email: string;
+  profilePicture: string;
+  scriptAmount: number;
+};
