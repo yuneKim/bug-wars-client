@@ -16,6 +16,8 @@ vi.mock('vue-router', () => ({
 }));
 vi.mock('@/utils/makeRequest');
 
+vi.mock('primevue/usetoast');
+
 describe('RegisterForm.vue', () => {
   afterEach(() => {
     vi.resetAllMocks();

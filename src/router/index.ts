@@ -30,6 +30,12 @@ const router = createRouter({
       component: () => import('@/views/ScriptEditorView.vue'),
     },
     {
+      path: '/email-verification/:username/:emailToken',
+      name: 'emailVerification',
+      component: () => import('@/views/EmailVerificationView.vue'),
+      meta: { requiresAuth: false}
+    },
+    {
       path: '/game-lobby',
       name: 'gameLobby',
       component: () => import('@/views/GameLobbyView.vue'),
@@ -58,6 +64,7 @@ const router = createRouter({
       component: () => import('@/views/ScriptListView.vue'),
       meta: { requiresAuth: true },
     },
+  
     {
       path: '/demo',
       name: 'demo',
